@@ -6,6 +6,7 @@ import { type Variants } from "motion";
 import { NavbarConfig } from "@/types/navbar";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 const NAVBAR_CONFIG: NavbarConfig = {
     logo: <Image src="/images/Logo.svg" alt="Logo" fill />,
@@ -16,6 +17,7 @@ const NAVBAR_CONFIG: NavbarConfig = {
     menu: [
         {
             label: "Suraksha Kavach",
+            href: "suraksha-kavach"
             //   dropdown: [
             //     {
             //       heading: "Account",
@@ -178,12 +180,12 @@ export const Navbar: React.FC = () => {
                             className="relative"
                             onMouseEnter={() => item.dropdown && openDropdown(index)}
                         >
-                            <a
+                            <Link
                                 href={item.href || "#"}
                                 className="text-sm text-white/80 hover:text-white transition"
                             >
                                 {item.label}
-                            </a>
+                            </Link>
 
                             {activeMenuItemIndex === index && isDropdownOpen && (
                                 <motion.div

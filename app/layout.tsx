@@ -3,6 +3,7 @@ import { Syne, Poppins, Geist } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { SiteHeader } from "@/components/site-header";
+import { Footer } from "@/components/footer";
 
 
 const FontSyne = Syne({
@@ -32,11 +33,14 @@ export default function RootLayout({
       lang="en"
       className={cn("h-full", "antialiased", FontSyne.variable, FontPoppins.variable)}
     >
-      <body className="h-full min-h-full flex flex-col font-sans bg-black text-white">
+      <body className="h-full min-h-full flex flex-col font-sans bg-black text-white relative">
         <SiteHeader />
-        <main className="flex-1 w-full relative">
+        <main className="flex-1 w-full relative z-0">
           {children}
         </main>
+        <div className="relative z-30">
+          <Footer />
+        </div>
       </body>
     </html>
   );

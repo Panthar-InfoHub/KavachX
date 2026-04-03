@@ -40,10 +40,10 @@ export function AiEdgeBoxSection() {
       <div className="relative w-full max-w-7xl mx-auto h-[350px] md:h-[500px] flex justify-center items-center mt-10">
         <motion.div 
           style={{ y: backgroundY }}
-          className="absolute inset-0 flex justify-center items-center pointer-events-none z-0"
+          className="absolute inset-0 flex justify-center items-center pointer-events-none z-0 px-4"
         >
-          <span className="text-[12vw] md:text-[200px] font-black uppercase tracking-[0.05em] text-[#e0eaf5]/80 translate-y-[-10%] select-none w-full text-center">
-            LAUNCHING
+          <span className="text-[10vw] md:text-[11vw] font-black text-transparent bg-clip-text bg-linear-to-b from-[#e6e6e6] to-[#ffffff00] leading-none m-0 p-0 text-center translate-y-[-20%] select-none tracking-tight whitespace-nowrap">
+            Launching Soon
           </span>
         </motion.div>
 

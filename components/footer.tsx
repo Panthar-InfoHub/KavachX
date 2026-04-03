@@ -1,19 +1,21 @@
 "use client";
 
+import Link from "next/link";
+
 export function Footer() {
   return (
-    <footer className="w-full bg-black text-white pt-24 pb-8 font-syne relative z-20 flex flex-col justify-between overflow-hidden">
+    <footer className="w-full bg-black text-white pt-16 pb-4 font-syne relative z-20 flex flex-col justify-between overflow-hidden">
       
       {/* Top Links & Info Section */}
-      <div className="max-w-7xl mx-auto w-full px-6 md:px-12 flex flex-col md:flex-row justify-between items-start gap-16 mb-24 z-10">
+      <div className="max-w-8xl mx-auto w-full px-6 md:px-12 flex flex-col md:flex-row justify-between items-start gap-12 mb-12 z-10">
         
         {/* Left Column */}
-        <div className="max-w-sm flex flex-col gap-8">
-          <div>
-            <h3 className="text-[10px] font-bold tracking-[0.2em] mb-1.5 uppercase">ChandAEpt.ltd.</h3>
-            <p className="text-[10px] text-gray-500 tracking-widest uppercase">All Rights Reserved</p>
+        <div className="max-w-sm flex flex-col gap-10">
+          <div className="flex flex-col gap-1">
+            <h3 className="text-base font-bold tracking-[0.2em] uppercase text-white">KAVACHX PVT. LTD.</h3>
+            <p className="text-base text-gray-500 tracking-[0.2em] uppercase">ALL RIGHTS RESERVED</p>
           </div>
-          <p className="text-xs text-gray-400 leading-relaxed max-w-[280px] font-medium font-sans">
+          <p className="text-[15px] text-gray-400 leading-relaxed max-w-[320px] font-sans">
             Empowering your personal safety through intuitive technology and strong security.
           </p>
         </div>
@@ -21,22 +23,22 @@ export function Footer() {
         {/* Right Columns */}
         <div className="flex flex-col sm:flex-row gap-16 md:gap-32 w-full md:w-auto items-start">
           {/* Links */}
-          <div className="flex flex-col gap-4">
-            <h4 className="text-[10px] font-bold tracking-[0.2em] mb-2 uppercase text-gray-500">Visit</h4>
-            <a href="#" className="text-sm text-gray-200 hover:text-white transition-colors font-medium">Suraksha Kavach</a>
-            <a href="#" className="text-sm text-gray-200 hover:text-white transition-colors font-medium">AI Edge Box</a>
-            <a href="#" className="text-sm text-gray-200 hover:text-white transition-colors font-medium">Resources</a>
+          <div className="flex flex-col gap-3 shrink-0">
+            <h4 className="text-base font-bold tracking-[0.2em] mb-3 uppercase text-gray-500">VISIT</h4>
+            <Link href="/suraksha-kavach" className="text-2xl text-white hover:text-gray-300 transition-colors font-semibold tracking-wide">Suraksha Kavach</Link>
+            <Link href="/ai-edge-box" className="text-2xl text-white hover:text-gray-300 transition-colors font-semibold tracking-wide">AI Edge Box</Link>
+            <Link href="/resources" className="text-2xl text-white hover:text-gray-300 transition-colors font-semibold tracking-wide">Resources</Link>
           </div>
 
           {/* Socials */}
-          <div className="flex gap-6 sm:mt-8">
-            <a href="#" className="text-gray-400 hover:text-white transition-colors">
+          <div className="flex gap-6 sm:mt-1">
+            <a href="#" className="text-gray-100 hover:text-white transition-colors">
               <svg className="w-[18px] h-[18px]" fill="currentColor" viewBox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/></svg>
             </a>
-            <a href="#" className="text-gray-400 hover:text-white transition-colors">
+            <a href="#" className="text-gray-100 hover:text-white transition-colors">
               <svg className="w-[18px] h-[18px]" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
             </a>
-            <a href="#" className="text-gray-400 hover:text-white transition-colors">
+            <a href="#" className="text-gray-100 hover:text-white transition-colors">
               <svg className="w-[18px] h-[18px]" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
             </a>
           </div>
@@ -44,8 +46,8 @@ export function Footer() {
       </div>
 
       {/* Massive Bottom Text */}
-      <div className="w-full text-center select-none relative z-0 flex justify-between items-end mt-12 pb-4 px-4 overflow-hidden">
-        <h1 className="text-[13.5vw] font-black text-[#1a1a1a] leading-none m-0 p-0 w-full flex justify-between uppercase">
+      <div className="w-[90%] mx-auto text-center select-none relative z-0 flex justify-between items-end mt-8 pb-1 px-4 overflow-hidden">
+        <h1 className="text-[10vw] font-bold text-transparent bg-clip-text bg-linear-to-b from-[#7a7a7a] to-black leading-none m-0 p-0 w-full flex justify-between uppercase tracking-normal">
           <span>K</span>
           <span>A</span>
           <span>V</span>
