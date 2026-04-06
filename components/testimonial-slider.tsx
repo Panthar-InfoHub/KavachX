@@ -1,48 +1,46 @@
 "use client";
 
 import Image from "next/image";
+import { motion } from "framer-motion";
 
 const TESTIMONIALS = [
   {
     name: "Aham Gupta",
     role: "Graphic Designer",
     quote: "This product makes me feel very safe and secure!",
-    avatar: "/images/testimonial-avatar.png",
+    avatar: "/testimonial/user_1.png",
   },
   {
     name: "Priya Sharma",
     role: "Software Engineer",
     quote: "The SOS feature saved my life during an emergency!",
-    avatar: "/images/testimonial-avatar.png",
+    avatar: "/testimonial/user_1.png",
   },
   {
     name: "Rohan Verma",
     role: "Student",
     quote: "Voice commands make everything so convenient!",
-    avatar: "/images/testimonial-avatar.png",
+    avatar: "/testimonial/user_1.png",
   },
   {
     name: "Anita Desai",
     role: "Teacher",
     quote: "I feel connected and protected at all times.",
-    avatar: "/images/testimonial-avatar.png",
+    avatar: "/testimonial/user_1.png",
   },
   {
     name: "Vikram Singh",
     role: "Business Owner",
     quote: "Crash detection is a game changer for road safety!",
-    avatar: "/images/testimonial-avatar.png",
+    avatar: "/testimonial/user_1.png",
   },
 ];
 
 function TestimonialCard({ name, role, quote, avatar }: typeof TESTIMONIALS[number]) {
   return (
-    <div className="flex items-center gap-4 bg-white/70 backdrop-blur-md border border-white/50 rounded-full px-6 py-4 shadow-sm shrink-0 min-w-[400px]">
-      <p className="text-sm text-gray-700 font-medium leading-snug flex-1 text-center">
-        &ldquo;{quote}&rdquo;
-      </p>
-      <div className="w-px h-10 bg-gray-200 shrink-0"></div>
-      <div className="relative w-14 h-14 rounded-full overflow-hidden border-2 border-white shadow-md shrink-0">
+    <div className="relative flex items-center shrink-0 pl-3 pr-10 py-3 rounded-full border-[1.5px] border-[#7ec4f0] bg-white/20 backdrop-blur-sm w-[540px] h-[130px] gap-5">
+      {/* Avatar — large circle */}
+      <div className="relative w-[95px] h-[95px] rounded-full overflow-hidden border-[3px] border-[#b8ddf5] shadow-md shrink-0 bg-[#e8d5c4]">
         <Image
           src={avatar}
           alt={name}
@@ -50,46 +48,52 @@ function TestimonialCard({ name, role, quote, avatar }: typeof TESTIMONIALS[numb
           className="object-cover"
         />
       </div>
-      <div className="shrink-0">
-        <p className="text-sm font-bold text-gray-900">{name}</p>
-        <p className="text-xs text-gray-500">{role}</p>
+
+      {/* Name & Role */}
+      <div className="shrink-0 min-w-[100px]">
+        <p className="text-[15px] font-bold text-gray-900 leading-tight">{name}</p>
+        <p className="text-xs text-gray-500 mt-0.5">{role}</p>
       </div>
+
+      {/* Vertical Divider */}
+      <div className="w-[2px] h-12 bg-gray-300/60 shrink-0 rounded-full"></div>
+
+      {/* Quote */}
+      <p className="text-sm font-semibold text-gray-800 leading-snug text-center max-w-[200px]">
+        &ldquo;{quote}&rdquo;
+      </p>
     </div>
   );
 }
 
 export function TestimonialSlider() {
-  // Double the array for seamless infinite scroll
   const doubled = [...TESTIMONIALS, ...TESTIMONIALS];
+  const totalWidth = doubled.length * (540 + 24); // card width + gap
 
   return (
-    <section className="w-full bg-linear-to-b from-[#e8f1fc] to-[#dbe9f9] py-16 md:py-20 overflow-hidden">
+    <section className="relative w-full mb-36">
+      <div
+        className="absolute -inset-40 z-0 pointer-events-none bg-[#0D99FF80] blur-[350px]"
+      />
       <div className="relative w-full">
-        {/* Scrolling track */}
-        <div className="flex gap-6 animate-marquee">
+        <motion.div
+          className="flex gap-6"
+          animate={{ x: [0, -(totalWidth / 2)] }}
+          transition={{
+            x: {
+              repeat: Infinity,
+              repeatType: "loop",
+              duration: 25,
+              ease: "linear",
+            },
+          }}
+          whileHover={{ animationPlayState: "paused" }}
+        >
           {doubled.map((t, i) => (
             <TestimonialCard key={`${t.name}-${i}`} {...t} />
           ))}
-        </div>
+        </motion.div>
       </div>
-
-      <style jsx>{`
-        @keyframes marquee {
-          0% {
-            transform: translateX(0);
-          }
-          100% {
-            transform: translateX(-50%);
-          }
-        }
-        .animate-marquee {
-          animation: marquee 30s linear infinite;
-          width: max-content;
-        }
-        .animate-marquee:hover {
-          animation-play-state: paused;
-        }
-      `}</style>
     </section>
   );
 }

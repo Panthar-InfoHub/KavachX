@@ -36,18 +36,18 @@ export function FeaturesBentoGrid() {
                 One-tap or automated real alerts with real time location sharing.
               </p>
             </div>
-            <div className="relative w-full h-[300px] mt-4">
+            <div className="relative w-[90%] mx-auto h-full mt-4">
               <Image
-                src="/images/feature-sos.png"
+                src="/images/mock_2.png"
                 alt="In-App SOS Alert"
                 fill
-                className="object-contain object-bottom"
+                className="object-cover object-top h-full w-full"
               />
             </div>
           </div>
 
           {/* Voice Command — wide dark card, top right */}
-          <div className="md:col-span-8 bg-[#1a1a1a] rounded-3xl p-7 flex flex-col justify-between border border-gray-800 shadow-sm min-h-[220px] overflow-hidden relative">
+          <div className="md:col-span-8 bg-black rounded-3xl p-7 flex flex-col justify-between border border-gray-800 shadow-sm min-h-[220px] overflow-hidden relative">
             <div className="z-10">
               <h3 className="text-xl font-bold mb-2 tracking-tight text-white">
                 Voice Command
@@ -56,50 +56,53 @@ export function FeaturesBentoGrid() {
                 Just say the command to get instant alerts and share your location in real-time!
               </p>
             </div>
-            {/* Placeholder for wave/avatar image */}
-            <div className="absolute top-4 right-6 flex items-center gap-3 z-10">
-              <div className="w-10 h-10 rounded-full bg-gray-600 overflow-hidden relative">
+            {/* Aryan notification badge */}
+            <div className="absolute top-6 right-6 flex items-center gap-3 z-10 bg-white/90 backdrop-blur-sm rounded-full pl-1 pr-4 py-1 shadow-md">
+              <div className="w-9 h-9 rounded-full overflow-hidden relative shrink-0">
                 <Image
-                  src="/images/feature-voice-avatar.png"
-                  alt="User avatar"
+                  src="/feature/aryan_avatar.png"
+                  alt="Aryan avatar"
                   fill
                   className="object-cover"
                 />
               </div>
-              <div className="text-xs text-gray-300">
-                <p className="font-semibold text-white">Aryan</p>
-                <p>Your location is being shared</p>
+              <div className="text-xs">
+                <p className="font-semibold text-gray-900 leading-tight">Aryan</p>
+                <p className="text-gray-500 text-[11px]">Your location is being shared</p>
               </div>
             </div>
-            <div className="absolute bottom-0 right-0 w-[60%] h-[60%] overflow-hidden">
+            {/* Voice wave visualization */}
+            <div className="absolute bottom-0 right-0 w-[65%] h-[55%] overflow-hidden">
               <Image
-                src="/images/feature-voice-wave.png"
+                src="/wave.png"
                 alt="Voice wave visualization"
                 fill
-                className="object-contain object-bottom-right opacity-60"
+                className="object-cover object-center opacity-70"
               />
             </div>
           </div>
 
           {/* Offline Functionality — bottom-left of the right side */}
-          <div className="md:col-span-4 bg-[#d4edda] rounded-3xl p-7 flex flex-col justify-between border border-green-100 shadow-sm min-h-[240px] overflow-hidden">
+          <div className="md:col-span-4 bg-black rounded-3xl p-7 flex flex-col shadow-sm min-h-[240px] overflow-hidden">
             <div>
-              <h3 className="text-xl font-bold mb-2 tracking-tight text-gray-900">
+              <h3 className="text-xl font-bold mb-2 tracking-tight text-white">
                 Offline Functionality
               </h3>
-              <p className="text-sm text-gray-600 leading-relaxed">
+              <p className="text-sm text-gray-300 leading-relaxed">
                 Receive alerts and share your location even when offline.
               </p>
             </div>
-            <div className="flex items-center gap-4 mt-6">
+            {/* Spacer pushes icons to the bottom */}
+            <div className="flex-1" />
+            <div className="flex items-center justify-center gap-6 mt-auto">
               {/* Wifi-off icon */}
-              <svg className="w-10 h-10 text-gray-700" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24">
+              <svg className="w-12 h-12 text-white" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M8.288 15.038a5.25 5.25 0 017.424 0M5.106 11.856c3.807-3.808 9.98-3.808 13.788 0M1.924 8.674c5.565-5.565 14.587-5.565 20.152 0" />
                 <line x1="3" y1="3" x2="21" y2="21" strokeLinecap="round" strokeWidth={2} />
               </svg>
-              <span className="text-gray-400 tracking-[0.3em] text-xs">••••••••••••</span>
+              <span className="text-white/40 tracking-[0.35em] text-sm select-none">••••••••••••</span>
               {/* Device icon */}
-              <svg className="w-10 h-10 text-gray-700" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24">
+              <svg className="w-12 h-12 text-white" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 1.5H8.25A2.25 2.25 0 006 3.75v16.5a2.25 2.25 0 002.25 2.25h7.5A2.25 2.25 0 0018 20.25V3.75a2.25 2.25 0 00-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3" />
               </svg>
             </div>
@@ -115,13 +118,23 @@ export function FeaturesBentoGrid() {
                 Receive timely alerts for driving and accidents.
               </p>
             </div>
-            <div className="relative w-full h-[120px] mt-4">
-              <Image
-                src="/images/feature-drive.png"
-                alt="Drive & Crash Detection"
-                fill
-                className="object-contain object-bottom"
-              />
+            <div className="flex flex-row items-center gap-6" >
+              <div className="relative w-full h-[120px] mt-4">
+                <Image
+                  src="/feature/Maps.png"
+                  alt="Drive & Crash Detection"
+                  fill
+                  className="object-contain object-bottom"
+                />
+              </div>
+              <div className="relative w-full h-[120px] mt-4">
+                <Image
+                  src="/feature/feat_drive.png"
+                  alt="Drive & Crash Detection"
+                  fill
+                  className="object-contain object-bottom"
+                />
+              </div>
             </div>
           </div>
 

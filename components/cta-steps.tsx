@@ -7,19 +7,19 @@ const STEPS = [
     step: 1,
     title: "Log in to the App first",
     description: "Quick access to your account with seamless login features.",
-    image: "/images/step-1.png",
+    image: "/steps/step_1.png",
   },
   {
     step: 2,
     title: "Allow Permissions",
     description: "Enable all app permissions for seamless access to your account.",
-    image: "/images/step-2.png",
+    image: "/steps/step_2.png",
   },
   {
     step: 3,
     title: "All set for an emergency!",
     description: "Ready for anything that comes our way!",
-    image: "/images/step-3.png",
+    image: "/images/mock_2.png",
   },
 ];
 
@@ -41,62 +41,76 @@ export function CtaSteps() {
         <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-8 items-start mb-16">
 
           {/* Step 1 — Left */}
-          <div className="flex flex-col items-center md:items-start">
-            <div className="relative w-full aspect-[3/4] max-w-[280px] bg-gray-50 rounded-2xl border border-gray-100 overflow-hidden mb-6">
-              <span className="absolute top-6 left-6 text-[80px] font-black text-gray-100 leading-none select-none z-0">
+          <div className="flex flex-col-reverse md:flex-col items-center md:items-start">
+            <div className="relative w-full aspect-3/4 max-w-[320px] bg-gray-50 rounded-2xl border border-gray-100 overflow-hidden mb-6">
+              <span className="text-[72px] py-4 flex justify-center font-semibold text-gray-200/70 leading-none select-none z-0">
                 Step 1
               </span>
-              <div className="relative w-full h-full z-10">
-                <Image
-                  src={STEPS[0].image}
-                  alt={STEPS[0].title}
-                  fill
-                  className="object-contain object-bottom"
-                />
+              <div className="flex flex-1 h-full items-end justify-center p-4">
+                <div className="relative w-full h-full">
+                  <Image
+                    src={STEPS[0].image}
+                    alt={STEPS[0].title}
+                    fill
+                    className="object-contain object-bottom"
+                  />
+                </div>
               </div>
             </div>
-            <h3 className="text-lg font-bold tracking-tight mb-1">{STEPS[0].title}</h3>
-            <p className="text-sm text-gray-500 leading-relaxed max-w-[260px]">{STEPS[0].description}</p>
+            <div className="flex flex-col">
+              <h3 className="text-lg font-semibold tracking-tight mb-1">{STEPS[0].title}</h3>
+              <p className="text-sm text-gray-500 leading-relaxed max-w-[260px]">{STEPS[0].description}</p>
+            </div>
           </div>
 
           {/* Step 2 — Center (offset up) */}
           <div className="flex flex-col items-center">
-            <div className="text-right w-full max-w-[280px] mb-4">
-              <h3 className="text-lg font-bold tracking-tight mb-1">{STEPS[1].title}</h3>
+            <div className="text-left w-full max-w-[280px] mb-4">
+              <h3 className="text-lg font-semibold tracking-tight mb-1">{STEPS[1].title}</h3>
               <p className="text-sm text-gray-500 leading-relaxed">{STEPS[1].description}</p>
             </div>
-            <div className="relative w-full aspect-[3/4] max-w-[280px] bg-gray-50 rounded-2xl border border-gray-100 overflow-hidden mb-6">
-              <div className="relative w-full h-full z-10">
-                <Image
-                  src={STEPS[1].image}
-                  alt={STEPS[1].title}
-                  fill
-                  className="object-contain object-center"
-                />
+            <div className="relative w-full aspect-3/4 max-w-[320px] bg-gray-50 rounded-2xl border border-gray-100 overflow-hidden mb-6">
+              <div className="flex flex-col h-full items-end justify-center p-4">
+                <div className="relative w-full h-full">
+                  <Image
+                    src={STEPS[1].image}
+                    alt={STEPS[1].title}
+                    fill
+                    className="object-contain object-center"
+                  />
+
+                  {/* Bottom white fade */}
+                  <div className="absolute w-full h-14 bg-linear-to-t blur-lg from-white to-white z-30 -mb-0 pointer-events-none"></div>
+                </div>
+
+                <span className="text-[72px] py-4 flex justify-center w-full font-semibold text-gray-200/70 leading-none select-none z-0 text-right">
+                  Step 2
+                </span>
               </div>
             </div>
-            <span className="text-[64px] font-black text-gray-100 leading-none select-none">
-              Step 2
-            </span>
           </div>
 
           {/* Step 3 — Right */}
-          <div className="flex flex-col items-center md:items-start">
-            <div className="relative w-full aspect-[3/4] max-w-[280px] bg-gray-50 rounded-2xl border border-gray-100 overflow-hidden mb-6">
-              <span className="absolute top-6 right-6 text-[80px] font-black text-gray-100 leading-none select-none z-0 text-right">
+          <div className="flex flex-col-reverse md:flex-col items-center md:items-start">
+            <div className="relative w-full aspect-3/4 max-w-[320px] bg-gray-50 rounded-2xl border border-gray-100 overflow-hidden mb-6">
+              <span className="text-[72px] py-4 flex justify-center font-semibold text-gray-200/70 leading-none select-none z-0 text-right">
                 Step 3
               </span>
-              <div className="relative w-full h-full z-10">
-                <Image
-                  src={STEPS[2].image}
-                  alt={STEPS[2].title}
-                  fill
-                  className="object-contain object-bottom"
-                />
+              <div className="flex flex-1 h-full items-end justify-center p-4">
+                <div className="relative w-full h-full">
+                  <Image
+                    src={STEPS[2].image}
+                    alt={STEPS[2].title}
+                    fill
+                    className="object-contain object-bottom"
+                  />
+                </div>
               </div>
             </div>
-            <h3 className="text-lg font-bold tracking-tight mb-1">{STEPS[2].title}</h3>
-            <p className="text-sm text-gray-500 leading-relaxed max-w-[260px]">{STEPS[2].description}</p>
+            <div className="flex flex-col">
+              <h3 className="text-lg font-semibold tracking-tight mb-1">{STEPS[2].title}</h3>
+              <p className="text-sm text-gray-500 leading-relaxed max-w-[260px]">{STEPS[2].description}</p>
+            </div>
           </div>
 
         </div>

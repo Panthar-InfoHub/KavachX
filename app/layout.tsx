@@ -19,8 +19,57 @@ const FontPoppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "Kavach X - Intelligent Safety for Everyone",
-  description: "Advanced safety solutions including drive detection, in-app SOS, and AI edge box technology.",
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"),
+  title: {
+    default: "Kavach X | The Ultimate Safety Application",
+    template: "%s | Kavach X",
+  },
+  description: "Kavach X is the ultimate safety platform featuring AI edge box, voice command SOS activation, AI SOS analysis, and Suraksha Kavach. Experience intelligent personal safety.",
+  keywords: [
+    "Kavach X",
+    "AI safety",
+    "safety application",
+    "suraksha kavach",
+    "safety platform",
+    "The Ultimate Safety Application",
+    "sos alert",
+    "ai edge box",
+    "voice command sos activation",
+    "ai sos analysis",
+  ],
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "/",
+    siteName: "Kavach X",
+    title: "Kavach X | The Ultimate Safety Application",
+    description: "Kavach X is the ultimate safety platform featuring AI edge box, voice command SOS activation, AI SOS analysis, and Suraksha Kavach.",
+    images: [
+      {
+        url: "/images/og-default.png", // Recommended to place a default OG image here in public/images
+        width: 1200,
+        height: 630,
+        alt: "Kavach X Safety Application",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Kavach X | The Ultimate Safety Application",
+    description: "Empowering your personal safety through intuitive AI technology and strong security features.",
+    images: ["/images/og-default.png"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
 };
 
 export default function RootLayout({
