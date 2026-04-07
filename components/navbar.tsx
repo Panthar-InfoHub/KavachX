@@ -37,7 +37,7 @@ const NAVBAR_CONFIG: NavbarConfig = {
         },
         {
             label: "AI Edge Box",
-            href: "edge-box"
+            href: "ai-edge-box"
             //   dropdown: [
             //     {
             //       heading: "Team",

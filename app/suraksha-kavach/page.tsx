@@ -3,16 +3,30 @@ import Image from "next/image";
 import { TopNotchFeatures } from "@/components/top-notch-features";
 import { FeaturesBentoGrid } from "@/components/features-bento-grid";
 import { CtaSteps } from "@/components/cta-steps";
-import { TestimonialSlider } from "@/components/testimonial-slider";
+import dynamic from "next/dynamic";
+
+const TestimonialSlider = dynamic(() => import("@/components/testimonial-slider").then(mod => mod.TestimonialSlider), {
+  loading: () => <div className="py-20 w-full animate-pulse bg-gray-50 flex items-center justify-center text-gray-400">Loading Testimonials...</div>,
+});
 import { Metadata } from "next";
 import { SchemaMarkup } from "@/components/seo/schema-markup";
 
 export const metadata: Metadata = {
-  title: "Suraksha Kavach",
-  description: "Advanced drive detection, in-app SOS, and crash alerts to shield your safety. Experience comprehensive mobile protection.",
+  title: "Suraksha Kavach | Safety App with SOS, Crash & Voice Alerts",
+  description: "Suraksha Kavach by Kavach X – India's smartest safety app with offline SOS, crash detection, voice commands & live location sharing. Download now.",
+  keywords: [
+    "suraksha kavach app",
+    "SOS safety app India",
+    "crash detection app",
+    "offline safety app",
+    "voice command SOS",
+    "drive detection app",
+    "emergency location sharing",
+    "women safety app India"
+  ],
   openGraph: {
-    title: "Suraksha Kavach | Kavach X",
-    description: "Advanced drive detection, in-app SOS, and crash alerts to shield your safety.",
+    title: "Suraksha Kavach | Safety App with SOS, Crash & Voice Alerts",
+    description: "Suraksha Kavach by Kavach X – India's smartest safety app with offline SOS, crash detection, voice commands & live location sharing. Download now.",
     url: "/suraksha-kavach",
   },
 };
@@ -20,16 +34,41 @@ export const metadata: Metadata = {
 export default function SurakshaKavachPage() {
   const schema = {
     "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "name": "Suraksha Kavach",
-    "applicationCategory": "SafetyApplication",
-    "operatingSystem": "iOS, Android",
-    "description": "An intelligent safety application providing drive and crash detection, in-app SOS, and AI edge capabilities for personal protection.",
-    "offers": {
-      "@type": "Offer",
-      "price": "0",
-      "priceCurrency": "USD"
-    }
+    "@graph": [
+      {
+        "@type": "SoftwareApplication",
+        "name": "Suraksha Kavach",
+        "applicationCategory": "SafetyApplication",
+        "operatingSystem": "iOS, Android",
+        "description": "An intelligent safety application providing drive and crash detection, in-app SOS, and AI edge capabilities for personal protection.",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is Suraksha Kavach?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Suraksha Kavach is India's smartest safety app by Kavach X, offering comprehensive protection with SOS alerts, crash detection, and real-time location tracking."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Does it work offline?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes, Suraksha Kavach includes offline SOS capabilities to ensure your safety even without an internet connection."
+            }
+          }
+        ]
+      }
+    ]
   };
 
   return (
@@ -69,10 +108,10 @@ export default function SurakshaKavachPage() {
             </div>
 
             {/* Center Phone */}
-            <div className="relative w-40 sm:w-50 md:w-[300px] h-72 sm:h-95 md:h-[600px] shrink-0 self-end z-20">
+            <div className="relative w-40 sm:w-50 md:w-75 h-72 sm:h-95 md:h-150 shrink-0 self-end z-20">
               <Image
                 src="/images/mock_2.png"
-                alt="Main App Interface"
+                alt="Suraksha Kavach SOS alert app screen"
                 fill
                 className="object-contain object-bottom drop-shadow-2xl"
                 priority

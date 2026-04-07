@@ -3,11 +3,23 @@ import { SchemaMarkup } from "@/components/seo/schema-markup";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Home",
-  description: "Kavach X is the ultimate safety platform featuring AI edge box, voice command SOS activation, AI SOS analysis, and Suraksha Kavach.",
+  title: "Kavach X | Smart Personal Safety App & AI Security",
+  description: "Stay safe with Kavach X – India's intelligent safety platform. SOS alerts, real-time location tracking, crash detection & AI Edge Box for home security.",
+  keywords: [
+    "personal safety app India",
+    "SOS alert app",
+    "real-time location tracking",
+    "crash detection app",
+    "AI home security device",
+    "smart safety app",
+    "emergency alert app India",
+    "family safety app",
+    "AI edge box CCTV",
+    "Suraksha Kavach",
+  ],
   openGraph: {
-    title: "Kavach X | Home",
-    description: "Experience the ultimate safety platform with AI root technology, instant SOS alerts, and voice command SOS activation.",
+    title: "Kavach X | Smart Personal Safety App & AI Security",
+    description: "Stay safe with Kavach X – India's intelligent safety platform. SOS alerts, real-time location tracking, crash detection & AI Edge Box for home security.",
     url: "/",
   },
 };

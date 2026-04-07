@@ -5,25 +5,24 @@ test.describe('Kavach X - End-to-End Tests', () => {
 
   // ------------------------------------------------------------------
   // 1. HOME PAGE TESTS
+  // ------------------------------------------------------------------
   test.describe('Home Page', () => {
 
-    // This runs before every test in this block, saving us from writing page.goto every time
     test.beforeEach(async ({ page }) => {
-      await page.goto('http://localhost:3000/');
+      await page.goto('http://localhost:3000');
     });
 
     test('should load correctly and have proper SEO metadata', async ({ page }) => {
-      // Check the exact title we set in layout.tsx
-      await expect(page).toHaveTitle('Home | Kavach X');
+      await expect(page).toHaveTitle('Home');
 
-      // Verify schema script was injected by our Server Component
       const schemaScript = page.locator('script[type="application/ld+json"]');
       await expect(schemaScript).toHaveCount(1);
     });
 
     test('should display the main hero section', async ({ page }) => {
-      const heroTitle = page.locator('h1');
-      await expect(heroTitle).toContainText('Intelligent Safety');
+      // Changed to getByRole!
+      const heroTitle = page.getByRole('heading', { level: 1, name: /Intelligent Safety/i });
+      await expect(heroTitle).toBeVisible();
     });
   });
 
@@ -38,41 +37,74 @@ test.describe('Kavach X - End-to-End Tests', () => {
     });
 
     test('should load correctly and have proper SEO metadata', async ({ page }) => {
-      // Check the title we exported inside app/suraksha-kavach/page.tsx
-      await expect(page).toHaveTitle('Suraksha Kavach');
+      await expect(page).toHaveTitle('Suraksha Kavach | Kavach X');
 
       const schemaScript = page.locator('script[type="application/ld+json"]');
       await expect(schemaScript).toHaveCount(1);
     });
 
     test('should display the main feature title and CTA', async ({ page }) => {
-      const title = page.locator('h1');
-      await expect(title).toContainText('Shielding Your Safety');
+      // Changed to getByRole!
+      const title = page.getByRole('heading', { level: 1, name: /Shielding Your Safety/i });
+      await expect(title).toBeVisible();
 
-      // Verify the CTA button exists and is visible
-      const ctaButton = page.locator('button', { hasText: 'Try Kavach for Free' });
+      // Changed to getByRole!
+      const ctaButton = page.getByRole('button', { name: 'Try Kavach for Free' });
       await expect(ctaButton).toBeVisible();
     });
   });
 
 
   // ------------------------------------------------------------------
-  // 3. CROSS-PAGE NAVIGATION
+  // 3. AI EDGE BOX PAGE TESTS (NEW!)
+  // ------------------------------------------------------------------
+  test.describe('AI Edge Box Page', () => {
+
+    test.beforeEach(async ({ page }) => {
+      await page.goto('http://localhost:3000/ai-edge-box');
+    });
+
+    test('should load correctly and have proper SEO metadata', async ({ page }) => {
+      await expect(page).toHaveTitle('AI Edge Box - Empowering Your Security');
+
+      const schemaScript = page.locator('script[type="application/ld+json"]');
+      await expect(schemaScript).toHaveCount(1);
+    });
+
+    test('should display the edge box hero section and CTA', async ({ page }) => {
+      // Validating using getByRole
+      const title = page.getByRole('heading', { level: 1, name: /AI Edge Box/i });
+      await expect(title).toBeVisible();
+
+      // Validating using getByRole
+      const stayTuneButton = page.getByRole('button', { name: /Stay tune !!/i });
+      await expect(stayTuneButton).toBeVisible();
+    });
+  });
+
+
+  // ------------------------------------------------------------------
+  // 4. CROSS-PAGE NAVIGATION
   // ------------------------------------------------------------------
   test.describe('Navigation', () => {
-    test('should navigate from Home to Suraksha Kavach via Footer', async ({ page }) => {
+
+    test.beforeEach(async ({ page }) => {
       await page.goto('http://localhost:3000/');
+    });
 
-      // Using getByRole is the Playwright best practice!
-      // This looks for an actual HTML link (`<a>` or `<Link>`) with the text "Suraksha Kavach"
-      const surakshaLink = page.getByRole('link', { name: 'Suraksha Kavach', exact: true });
-
-      // Click the link we found in the footer (or nav)
-      await surakshaLink.first().click();
-
-      // Verify we landed on the correct page
+    test('should navigate from Home to Suraksha Kavach via Footer', async ({ page }) => {
+      // .first() is used just in case the link exists in both the mobile nav and full screen footer
+      const surakshaLink = page.getByRole('link', { name: 'Suraksha Kavach', exact: true }).first();
+      await surakshaLink.click();
       await expect(page).toHaveURL('http://localhost:3000/suraksha-kavach');
     });
+
+    test('should navigate from Home to AI Edge Box via Footer', async ({ page }) => {
+      const edgeBoxLink = page.getByRole('link', { name: 'AI Edge Box', exact: true }).first();
+      await edgeBoxLink.click();
+      await expect(page).toHaveURL('http://localhost:3000/ai-edge-box');
+    });
+
   });
 
 });

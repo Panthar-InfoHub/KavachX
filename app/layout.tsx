@@ -21,29 +21,29 @@ const FontPoppins = Poppins({
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"),
   title: {
-    default: "Kavach X | The Ultimate Safety Application",
+    default: "Kavach X | Smart Personal Safety App & AI Security",
     template: "%s | Kavach X",
   },
-  description: "Kavach X is the ultimate safety platform featuring AI edge box, voice command SOS activation, AI SOS analysis, and Suraksha Kavach. Experience intelligent personal safety.",
+  description: "Stay safe with Kavach X – India's intelligent safety platform. SOS alerts, real-time location tracking, crash detection & AI Edge Box for home security.",
   keywords: [
-    "Kavach X",
-    "AI safety",
-    "safety application",
-    "suraksha kavach",
-    "safety platform",
-    "The Ultimate Safety Application",
-    "sos alert",
-    "ai edge box",
-    "voice command sos activation",
-    "ai sos analysis",
+    "personal safety app India",
+    "SOS alert app",
+    "real-time location tracking",
+    "crash detection app",
+    "AI home security device",
+    "smart safety app",
+    "emergency alert app India",
+    "family safety app",
+    "AI edge box CCTV",
+    "Suraksha Kavach",
   ],
   openGraph: {
     type: "website",
     locale: "en_US",
     url: "/",
     siteName: "Kavach X",
-    title: "Kavach X | The Ultimate Safety Application",
-    description: "Kavach X is the ultimate safety platform featuring AI edge box, voice command SOS activation, AI SOS analysis, and Suraksha Kavach.",
+    title: "Kavach X | Smart Personal Safety App & AI Security",
+    description: "Stay safe with Kavach X – India's intelligent safety platform. SOS alerts, real-time location tracking, crash detection & AI Edge Box for home security.",
     images: [
       {
         url: "/images/og-default.png", // Recommended to place a default OG image here in public/images
@@ -55,8 +55,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Kavach X | The Ultimate Safety Application",
-    description: "Empowering your personal safety through intuitive AI technology and strong security features.",
+    title: "Kavach X | Smart Personal Safety App & AI Security",
+    description: "Stay safe with Kavach X – India's intelligent safety platform. SOS alerts, real-time location tracking, crash detection & AI Edge Box for home security.",
     images: ["/images/og-default.png"],
   },
   robots: {

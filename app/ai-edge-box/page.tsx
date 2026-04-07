@@ -4,25 +4,52 @@ import { Metadata } from "next";
 import { SchemaMarkup } from "@/components/seo/schema-markup";
 
 export const metadata: Metadata = {
-  title: "AI Edge Box - Empowering Your Security",
-  description: "We specialize in offering capabilities such as AI-driven edge computing, real-time data processing, and intelligent analytics to boost your operational efficiency.",
+  title: "AI Edge Box | Smart CCTV Security Device by Kavach X",
+  description: "Kavach AI Edge Box – AI-driven edge computing, real-time CCTV analytics & intelligent home security. Monitor your home from anywhere. Coming soon.",
+  keywords: [
+    "AI edge box India",
+    "smart CCTV device",
+    "AI home security India",
+    "edge computing security",
+    "real-time video analytics",
+    "intelligent CCTV",
+    "home surveillance AI",
+    "Kavach X edge box"
+  ],
   openGraph: {
-    title: "AI Edge Box | Kavach X",
-    description: "AI-driven edge computing, real-time data processing, and intelligent analytics to boost your operational efficiency.",
-    url: "/edge-box",
+    title: "AI Edge Box | Smart CCTV Security Device by Kavach X",
+    description: "Kavach AI Edge Box – AI-driven edge computing, real-time CCTV analytics & intelligent home security. Monitor your home from anywhere. Coming soon.",
+    url: "/ai-edge-box",
   },
 };
 
 export default function EdgeBoxPage() {
   const schema = {
     "@context": "https://schema.org",
-    "@type": "Product",
-    "name": "Kavach AI Edge Box",
-    "description": "AI Edge Box for empowering security through AI-driven edge computing, real-time data processing and intelligent analytics.",
-    "brand": {
-      "@type": "Brand",
-      "name": "Kavach X"
-    }
+    "@graph": [
+      {
+        "@type": "Product",
+        "name": "Kavach AI Edge Box",
+        "description": "AI Edge Box for empowering security through AI-driven edge computing, real-time data processing and intelligent analytics.",
+        "brand": {
+          "@type": "Brand",
+          "name": "Kavach X"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "When does AI Edge Box launch?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The Kavach AI Edge Box is launching soon. It will bring AI-driven edge computing and real-time CCTV analytics to your home security setup."
+            }
+          }
+        ]
+      }
+    ]
   };
 
   return (
@@ -57,7 +84,7 @@ export default function EdgeBoxPage() {
           <div className="relative z-10 w-full max-w-md md:max-w-4xl h-[250px] md:h-[400px] flex flex-col items-center justify-center text-center px-8">
             <Image
               src="/images/edgebox.png"
-              alt="Kavach AI Edge Box Launching Soon"
+              alt="Kavach AI Edge Box home security device"
               fill
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 60vw"
               className="object-contain drop-shadow-[0_35px_35px_rgba(0,0,0,0.15)]"

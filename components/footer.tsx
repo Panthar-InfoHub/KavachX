@@ -26,7 +26,7 @@ export function Footer() {
           <div className="flex flex-col gap-3 shrink-0">
             <h4 className="text-base font-bold tracking-[0.2em] mb-3 uppercase text-gray-500">VISIT</h4>
             <Link href="/suraksha-kavach" className="text-2xl text-white hover:text-gray-300 transition-colors font-semibold tracking-wide">Suraksha Kavach</Link>
-            <Link href="/edge-box" className="text-2xl text-white hover:text-gray-300 transition-colors font-semibold tracking-wide">AI Edge Box</Link>
+            <Link href="/ai-edge-box" className="text-2xl text-white hover:text-gray-300 transition-colors font-semibold tracking-wide">AI Edge Box</Link>
             <Link href="/resources" className="text-2xl text-white hover:text-gray-300 transition-colors font-semibold tracking-wide">Resources</Link>
           </div>
 
