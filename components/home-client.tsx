@@ -4,6 +4,8 @@ import { AiEdgeBoxSection } from "@/components/ai-edge-box-section";
 import LenisDiv from "@/components/LenisDiv";
 import { SurakshaKavachSection } from "@/components/suraksha-kavach-section";
 import Testimonial from "@/components/testimonial";
+import Faq from "@/components/faq";
+import CTA from "@/components/cta";
 import { motion, useScroll, useSpring, useTransform } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 
@@ -73,7 +75,7 @@ export default function Home() {
             className="absolute inset-0 bg-black z-1"
           />
 
-          {/* ✅ Hero Content */}
+          {/* Hero Content */}
           <motion.div
             style={{ y: textY, opacity: textOpacity, display: textDisplay }}
             className="relative z-10 container mx-auto px-6 text-center max-w-4xl flex-col items-center justify-center h-full pt-16"
@@ -138,6 +140,8 @@ export default function Home() {
           <SurakshaKavachSection />
           <AiEdgeBoxSection />
           <Testimonial />
+          <Faq />
+          <CTA />
         </div>
       </div>
     </LenisDiv>

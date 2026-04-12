@@ -52,17 +52,10 @@ const NAVBAR_CONFIG: NavbarConfig = {
             label: "Resources",
             dropdown: [
                 {
-                    heading: "Company",
-                    links: [
-                        { text: "About Us", href: "#" },
-                        { text: "Contact Us", href: "#" },
-                    ],
-                },
-                {
                     heading: "Policy",
                     links: [
                         { text: "Privacy Policy", href: "#" },
-                        { text: "Terms of Use", href: "#" },
+                        { text: "Help Center", href: "#" },
                     ],
                 },
             ],

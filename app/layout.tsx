@@ -4,6 +4,7 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import { SiteHeader } from "@/components/site-header";
 import { Footer } from "@/components/footer";
+import { Toaster } from "@/components/ui/sonner";
 
 
 const FontSyne = Syne({
@@ -90,6 +91,7 @@ export default function RootLayout({
         <div className="relative z-30">
           <Footer />
         </div>
+        <Toaster position="top-center" richColors />
       </body>
     </html>
   );
