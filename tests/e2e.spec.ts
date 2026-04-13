@@ -9,11 +9,11 @@ test.describe('Kavach X - End-to-End Tests', () => {
   test.describe('Home Page', () => {
 
     test.beforeEach(async ({ page }) => {
-      await page.goto('http://localhost:3000');
+      await page.goto('/');
     });
 
     test('should load correctly and have proper SEO metadata', async ({ page }) => {
-      await expect(page).toHaveTitle('Home');
+      await expect(page).toHaveTitle('Kavach X | Smart Personal Safety App & AI Security');
 
       const schemaScript = page.locator('script[type="application/ld+json"]');
       await expect(schemaScript).toHaveCount(1);
@@ -33,11 +33,11 @@ test.describe('Kavach X - End-to-End Tests', () => {
   test.describe('Suraksha Kavach Page', () => {
 
     test.beforeEach(async ({ page }) => {
-      await page.goto('http://localhost:3000/suraksha-kavach');
+      await page.goto('/suraksha-kavach');
     });
 
     test('should load correctly and have proper SEO metadata', async ({ page }) => {
-      await expect(page).toHaveTitle('Suraksha Kavach | Kavach X');
+      await expect(page).toHaveTitle('Suraksha Kavach | Safety App with SOS, Crash & Voice Alerts | Kavach X');
 
       const schemaScript = page.locator('script[type="application/ld+json"]');
       await expect(schemaScript).toHaveCount(1);
@@ -61,11 +61,11 @@ test.describe('Kavach X - End-to-End Tests', () => {
   test.describe('AI Edge Box Page', () => {
 
     test.beforeEach(async ({ page }) => {
-      await page.goto('http://localhost:3000/ai-edge-box');
+      await page.goto('/ai-edge-box');
     });
 
     test('should load correctly and have proper SEO metadata', async ({ page }) => {
-      await expect(page).toHaveTitle('AI Edge Box - Empowering Your Security');
+      await expect(page).toHaveTitle('AI Edge Box | Smart CCTV Security Device by Kavach X | Kavach X');
 
       const schemaScript = page.locator('script[type="application/ld+json"]');
       await expect(schemaScript).toHaveCount(1);
@@ -89,20 +89,20 @@ test.describe('Kavach X - End-to-End Tests', () => {
   test.describe('Navigation', () => {
 
     test.beforeEach(async ({ page }) => {
-      await page.goto('http://localhost:3000/');
+      await page.goto('/');
     });
 
     test('should navigate from Home to Suraksha Kavach via Footer', async ({ page }) => {
       // .first() is used just in case the link exists in both the mobile nav and full screen footer
       const surakshaLink = page.getByRole('link', { name: 'Suraksha Kavach', exact: true }).first();
       await surakshaLink.click();
-      await expect(page).toHaveURL('http://localhost:3000/suraksha-kavach');
+      await expect(page).toHaveURL('/suraksha-kavach');
     });
 
     test('should navigate from Home to AI Edge Box via Footer', async ({ page }) => {
       const edgeBoxLink = page.getByRole('link', { name: 'AI Edge Box', exact: true }).first();
       await edgeBoxLink.click();
-      await expect(page).toHaveURL('http://localhost:3000/ai-edge-box');
+      await expect(page).toHaveURL('/ai-edge-box');
     });
 
   });
