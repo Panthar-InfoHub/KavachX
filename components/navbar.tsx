@@ -38,15 +38,10 @@ const NAVBAR_CONFIG: NavbarConfig = {
         {
             label: "AI Edge Box",
             href: "ai-edge-box"
-            //   dropdown: [
-            //     {
-            //       heading: "Team",
-            //       links: [
-            //         { text: "Members", href: "#" },
-            //         { text: "Roles", href: "#" },
-            //       ],
-            //     },
-            //   ],
+        },
+        {
+            label: "Team",
+            href: "team"
         },
         {
             label: "Resources",
@@ -160,7 +155,9 @@ export const Navbar: React.FC = () => {
             <div className="flex items-center justify-between h-16 max-w-7xl  mx-auto px-4">
                 {/* Logo */}
                 <div className="relative max-w-32 h-full w-full flex justify-center items-center">
-                    {config.logo}
+                    <Link href="/">
+                        {config.logo}
+                    </Link>
                 </div>
 
                 {/* Desktop Menu */}
@@ -193,32 +190,32 @@ export const Navbar: React.FC = () => {
 
                 {/* CTA */}
                 <div className="hidden md:flex items-center gap-4">
-                   {
-                    config.cta.one && (
-                        <a
-                        href={config.cta.one?.href}
-                        className={cn("text-sm text-white/70  transition", config.cta.one?.variant === "primary" ? "bg-white text-black px-4 py-1.5 rounded-full font-medium" : "")}
-                    >
-                        {config.cta.one?.text}
-                    </a>
-                    )
-                   }
-                   {
-                    config.cta.two && (
-                        <a
-                        href={config.cta.two?.href}
-                        className={cn("text-sm text-white/70  transition", config.cta.two?.variant === "primary" ? "bg-white text-black px-4 py-1.5 rounded-full font-medium" : "")}
+                    {
+                        config.cta.one && (
+                            <a
+                                href={config.cta.one?.href}
+                                className={cn("text-sm text-white/70  transition", config.cta.one?.variant === "primary" ? "bg-white text-black px-4 py-1.5 rounded-full font-medium" : "")}
+                            >
+                                {config.cta.one?.text}
+                            </a>
+                        )
+                    }
+                    {
+                        config.cta.two && (
+                            <a
+                                href={config.cta.two?.href}
+                                className={cn("text-sm text-white/70  transition", config.cta.two?.variant === "primary" ? "bg-white text-black px-4 py-1.5 rounded-full font-medium" : "")}
 
-                    >
-                        {config.cta.two?.text}
-                    </a>
-                    )
-                   }
+                            >
+                                {config.cta.two?.text}
+                            </a>
+                        )
+                    }
                 </div>
 
                 {/* Mobile Toggle */}
-                <button 
-                    className="md:hidden text-2xl z-70 relative w-10 h-10 flex items-center justify-center text-white" 
+                <button
+                    className="md:hidden text-2xl z-70 relative w-10 h-10 flex items-center justify-center text-white"
                     onClick={toggleMobileMenu}
                     aria-label="Toggle Menu"
                 >
@@ -238,7 +235,7 @@ export const Navbar: React.FC = () => {
                             onClick={toggleMobileMenu}
                             className="absolute inset-0 bg-black/80 backdrop-blur-md"
                         />
-                        
+
                         {/* Sidebar */}
                         <motion.div
                             initial={{ x: "100%" }}
@@ -248,7 +245,7 @@ export const Navbar: React.FC = () => {
                             className="absolute right-0 inset-y-0 h-screen w-[85vw] max-w-sm bg-black border-l border-white/10 flex flex-col p-8 pt-20 shadow-2xl overflow-y-auto"
                         >
                             {/* Inner Close Button for Mobile Menu */}
-                            <button 
+                            <button
                                 onClick={toggleMobileMenu}
                                 className="absolute top-6 right-8 text-2xl text-white w-10 h-10 flex items-center justify-center"
                             >
@@ -258,7 +255,7 @@ export const Navbar: React.FC = () => {
                             <ul className="flex flex-col gap-8 mt-4">
                                 {config.menu.map((item, index) => (
                                     <li key={index}>
-                                        <div 
+                                        <div
                                             className="flex items-center justify-between group cursor-pointer"
                                             onClick={() => item.dropdown && toggleMobileDropdown(index)}
                                         >
@@ -266,7 +263,7 @@ export const Navbar: React.FC = () => {
                                                 href={item.href || "#"}
                                                 className="text-2xl font-syne font-bold text-white hover:text-white/70 transition"
                                                 onClick={(e) => {
-                                                    if(item.dropdown) e.preventDefault();
+                                                    if (item.dropdown) e.preventDefault();
                                                 }}
                                             >
                                                 {item.label}
@@ -300,7 +297,7 @@ export const Navbar: React.FC = () => {
                                                         </div>
                                                     ))}
                                                 </motion.div>
-                                        )}
+                                            )}
                                         </AnimatePresence>
                                     </li>
                                 ))}

@@ -40,24 +40,24 @@ const faqsRight: FAQItem[] = [
 
 const FaqItemCard = ({ faq, isOpen, onToggle }: { faq: FAQItem, isOpen: boolean, onToggle: () => void }) => {
   return (
-    <div className="bg-white rounded-xl shadow-[0_5px_25px_-5px_rgba(0,0,0,0.05)] border border-gray-100 overflow-hidden">
+    <div className="bg-[#111111] rounded-[16px] overflow-hidden border border-[#333333] transition-all duration-300 cursor-pointer">
       <button
         className="w-full text-left px-6 py-6 flex items-start gap-5 focus:outline-none"
         onClick={onToggle}
       >
         <div className="mt-0.5 shrink-0">
           {isOpen ? (
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="text-blue-500">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="text-[#888]">
               <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14" />
             </svg>
           ) : (
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="text-gray-800">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="text-[#888]">
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 5v14M5 12h14" />
             </svg>
           )}
         </div>
         <div className="flex-1">
-          <h3 className={`text-base md:text-lg font-semibold transition-colors duration-200 ${isOpen ? 'text-[#1e293b]' : 'text-[#334155]'}`}>
+          <h3 className={`text-base md:text-lg font-medium transition-colors duration-200 text-white`}>
             {faq.question}
           </h3>
           <AnimatePresence initial={false}>
@@ -85,9 +85,9 @@ export default function Faq() {
   const [openId, setOpenId] = useState<string | null>(null);
 
   return (
-    <section className="w-full bg-white py-24 px-4 md:px-8">
+    <section className="w-full bg-black py-24 px-4 md:px-8"> 
       <div className="max-w-7xl mx-auto">
-        <h2 className="text-3xl md:text-4xl text-center font-medium text-gray-900 mb-16">
+        <h2 className="text-3xl md:text-4xl text-center font-medium text-white mb-16">
           Frequently Asked Questions
         </h2>
 

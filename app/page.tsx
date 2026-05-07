@@ -1,4 +1,5 @@
 import HomeClient from "@/components/home-client";
+import HomeComponent from "@/components/HomePage";
 import { SchemaMarkup } from "@/components/seo/schema-markup";
 import { Metadata } from "next";
 
@@ -39,6 +40,7 @@ export default function HomePage() {
     <>
       <SchemaMarkup schema={schema} />
       <HomeClient />
+      <HomeComponent />
     </>
   );
 }
