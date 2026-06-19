@@ -12,6 +12,7 @@ export default function FounderVision() {
                                 src="/abhay.webp"
                                 alt="Abhay Namdev — Founder & CEO of KavachX"
                                 fill
+                                sizes="(max-width: 768px) 100vw, 400px"
                                 className="object-cover"
                             />
                         </div>

@@ -19,6 +19,7 @@
 
 # ai-skills
 .agents/
+skills-lock.json
 
 
 # production

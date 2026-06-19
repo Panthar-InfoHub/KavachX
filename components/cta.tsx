@@ -2,7 +2,7 @@
 
 import { sendMsgAction } from "@/lib/mail.action";
 import { useForm } from "@tanstack/react-form";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useTransition } from "react";
 import { toast } from "sonner";
@@ -18,7 +18,6 @@ export default function CTA() {
       message: "",
     },
     onSubmit: async ({ value }) => {
-      // Simulate API call
 
       startTransition(async () => {
         try {
@@ -137,7 +136,7 @@ export default function CTA() {
                   id="message"
                   value={field.state.value}
                   onChange={(e) => field.handleChange(e.target.value)}
-                  className="w-full border-b border-gray-200 py-2 focus:outline-none focus:border-black transition-colors bg-transparent rounded-none placeholder-gray-400"
+                  className="w-full border-b border-gray-200 text-gray-800 py-2 focus:outline-none focus:border-black transition-colors bg-transparent rounded-none placeholder-gray-400"
                 />
               </div>
             )}
@@ -151,7 +150,7 @@ export default function CTA() {
                 disabled={!canSubmit || isSubmitting || isPending}
                 className="bg-black text-white px-8 py-4 rounded-full text-[15px] font-medium flex items-center gap-3 hover:bg-gray-900 transition-colors disabled:opacity-70 mt-4"
               >
-                {isSubmitting ? "Sending..." : "Leave us a Message"}
+                {isPending ? <> Processing... <Loader2 className="w-4 h-4 animate-spin" />  </> : "Leave us a Message"}
                 {!isSubmitting && <ArrowRight className="w-4 h-4" />}
               </button>
             )}

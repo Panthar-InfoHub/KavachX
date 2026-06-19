@@ -100,6 +100,7 @@ export default function SurakshaKavachPage() {
                 src="/images/mock_1.png"
                 alt="Feature preview left"
                 fill
+                sizes="(max-width: 640px) 96px, (max-width: 768px) 160px, 280px"
                 className="object-contain object-bottom drop-shadow-xl"
               />
             </div>
@@ -107,7 +108,7 @@ export default function SurakshaKavachPage() {
             {/* Center Phone */}
             <div className="relative w-40 sm:w-50 md:w-75 h-72 sm:h-95 md:h-150 shrink-0 self-end z-20">
               <Image
-                src="/images/mock_2.png"
+                src="/images/mock_2.svg"
                 alt="Suraksha Kavach SOS alert app screen"
                 fill
                 className="object-contain object-bottom drop-shadow-2xl"
@@ -121,6 +122,7 @@ export default function SurakshaKavachPage() {
                 src="/images/mock_3.png"
                 alt="Feature preview right"
                 fill
+                sizes="(max-width: 640px) 96px, (max-width: 768px) 160px, 280px"
                 className="object-contain object-bottom drop-shadow-xl"
               />
             </div>

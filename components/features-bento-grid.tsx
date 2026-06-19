@@ -63,6 +63,7 @@ export function FeaturesBentoGrid() {
                   src="/feature/aryan_avatar.png"
                   alt="Aryan avatar"
                   fill
+                  sizes="36px"
                   className="object-cover"
                 />
               </div>
@@ -77,6 +78,7 @@ export function FeaturesBentoGrid() {
                 src="/wave.png"
                 alt="Voice wave visualization"
                 fill
+                sizes="(max-width: 768px) 100vw, 50vw"
                 className="object-cover object-center opacity-70"
               />
             </div>
@@ -124,6 +126,7 @@ export function FeaturesBentoGrid() {
                   src="/feature/Maps.png"
                   alt="Drive & Crash Detection"
                   fill
+                  sizes="(max-width: 768px) 100vw, 33vw"
                   className="object-contain object-bottom"
                 />
               </div>

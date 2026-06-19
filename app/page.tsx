@@ -30,8 +30,8 @@ export default function HomePage() {
     "@context": "https://schema.org",
     "@type": "Organization",
     "name": "Kavach X",
-    "url": "https://kavachx.com",
-    "logo": "https://kavachx.com/logo.png",
+    "url": "https://kavachx.io",
+    "logo": "https://kavachx.io/images/logo.png",
     "description": "The Ultimate Safety Application providing AI safety features, SOS alerts, and the Suraksha Kavach platform.",
     "sameAs": []
   };
