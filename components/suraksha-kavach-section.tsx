@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
+import Link from "next/link";
 
 export function SurakshaKavachSection() {
   return (
@@ -15,12 +16,12 @@ export function SurakshaKavachSection() {
         <p className="text-sm md:text-base text-gray-600 mb-8 max-w-2xl font-medium leading-relaxed">
           Suraksha Kavach is a smart safety tool that protects users in emergencies. A single tap alerts trusted contacts, shares your location, and activates safety features for a quick response and peace of mind.
         </p>
-        <button className="flex items-center gap-2 px-6 py-2.5 rounded-full border border-black/20 text-xs font-bold uppercase tracking-[0.2em] hover:bg-black hover:text-white transition-all duration-300 group">
+        <Link href="/suraksha-kavach" className="flex items-center gap-2 px-6 py-2.5 rounded-full border border-black/20 text-xs font-bold uppercase tracking-[0.2em] hover:bg-black hover:text-white transition-all duration-300 group">
           Explore Features
           <svg className="w-3 h-3 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
           </svg>
-        </button>
+        </Link>
       </div>
 
       {/* Bento Grid */}

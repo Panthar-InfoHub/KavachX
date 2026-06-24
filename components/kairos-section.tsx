@@ -3,6 +3,7 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { TestimonialStrip } from "./testimonial-strip";
 
 export function KairosSection() {
@@ -28,12 +29,12 @@ export function KairosSection() {
         <p className="text-sm md:text-base text-gray-600 mb-8 max-w-2xl font-medium leading-relaxed">
           Distance may challenge connections, but with the Kavach Kairos for CCTV, you can keep an eye on your loved ones and favorite spots effortlessly. Our technology ensures you stay linked, no matter the miles.
         </p>
-        <button className="flex items-center gap-2 px-6 py-2.5 rounded-full border border-black/20 text-xs font-bold uppercase tracking-[0.2em] hover:bg-black hover:text-white transition-all duration-300 group">
+        <Link href="/kairos" className="flex items-center gap-2 px-6 py-2.5 rounded-full border border-black/20 text-xs font-bold uppercase tracking-[0.2em] hover:bg-black hover:text-white transition-all duration-300 group">
           Check More
           <svg className="w-3 h-3 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
           </svg>
-        </button>
+        </Link>
       </div>
 
       {/* Product Image Stage and Animated Background Text */}
@@ -42,7 +43,7 @@ export function KairosSection() {
           style={{ y: backgroundY }}
           className="absolute inset-0 flex justify-center items-center pointer-events-none z-0 px-4"
         >
-          <span className="text-[10vw] md:text-[11vw] font-black text-transparent bg-clip-text bg-linear-to-b from-[#e6e6e6] to-[#ffffff00] leading-none m-0 p-0 text-center translate-y-[-20%] select-none tracking-tight whitespace-nowrap">
+          <span className="text-[7vw] md:text-[8vw] font-black text-transparent bg-clip-text bg-linear-to-b from-[#e6e6e6] to-[#ffffff00] leading-none m-0 p-0 text-center translate-y-[-20%] select-none tracking-tight whitespace-nowrap">
             Launching Soon
           </span>
         </motion.div>

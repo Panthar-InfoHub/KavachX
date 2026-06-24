@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import {
@@ -85,6 +86,7 @@ const audiences = [
 export default function KairosPageClient() {
   const [activeAudience, setActiveAudience] = useState(audiences[0]);
   const heroRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
 
   const { scrollYProgress } = useScroll({
     target: heroRef,
@@ -147,11 +149,20 @@ export default function KairosPageClient() {
               transition={{ duration: 0.6, delay: 0.3 }}
               className="flex flex-col sm:flex-row items-center gap-4 w-full justify-center"
             >
-              <button className="w-full sm:w-auto bg-black hover:bg-gray-900 text-white px-6 py-2.5 rounded-full text-xs font-bold uppercase tracking-[0.2em] transition-all duration-300 shadow-[0_10px_30px_rgba(0,0,0,0.2)] hover:shadow-[0_15px_40px_rgba(0,0,0,0.3)]">
+              <button
+                onClick={() => router.push("/contact")}
+                className="w-full sm:w-auto text-center bg-black hover:bg-gray-900 text-white px-6 py-2.5 rounded-full text-xs font-bold uppercase tracking-[0.2em] transition-all duration-300 shadow-[0_10px_30px_rgba(0,0,0,0.2)] hover:shadow-[0_15px_40px_rgba(0,0,0,0.3)]"
+              >
                 Secure Your Space Today
               </button>
-              <button className="w-full sm:w-auto bg-white hover:bg-gray-50 border border-black/20 text-black px-6 py-2.5 rounded-full text-xs font-bold uppercase tracking-[0.2em] transition-colors duration-300 shadow-sm">
-                See How It Works
+              <button
+                onClick={() => {
+                  const el = document.getElementById("the-advantage");
+                  if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+                }}
+                className="w-full sm:w-auto bg-white hover:bg-gray-50 border border-black/20 text-black px-6 py-2.5 rounded-full text-xs font-bold uppercase tracking-[0.2em] transition-colors duration-300 shadow-sm"
+              >
+                Explore Feature
               </button>
             </motion.div>
           </motion.div>
@@ -176,7 +187,7 @@ export default function KairosPageClient() {
         </section>
 
         {/* CORE FEATURES SECTION */}
-        <section className="relative z-30 pt-32 md:pt-48 pb-24 px-6 bg-white border-y border-black/5">
+        <section id="the-advantage" className="relative z-30 pt-32 md:pt-48 pb-24 px-6 bg-white border-y border-black/5">
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-16">
               <h2 className="text-3xl md:text-5xl font-bold font-syne mb-4 text-black tracking-tight">The 3-5 Second Advantage</h2>
@@ -207,35 +218,36 @@ export default function KairosPageClient() {
         </section>
 
         {/* USE CASES SECTION */}
-        <section className="py-24 px-6 bg-gray-50 relative border-b border-black/5">
+        <section className="py-16 md:py-24 px-4 md:px-6 bg-gray-50 relative border-b border-black/5">
           <div className="max-w-7xl mx-auto">
-            <div className="mb-16">
-              <h2 className="text-3xl md:text-5xl font-bold font-syne mb-6 text-black tracking-tight">Designed For Your Reality</h2>
-              <p className="text-gray-600 max-w-2xl text-lg font-medium">Tailored intelligence that adapts to your specific environment and security needs.</p>
+            <div className="mb-10 md:mb-16">
+              <h2 className="text-2xl md:text-5xl font-bold font-syne mb-4 text-black tracking-tight">Designed For Your Reality</h2>
+              <p className="text-gray-600 max-w-2xl text-base md:text-lg font-medium">Tailored intelligence that adapts to your specific environment and security needs.</p>
             </div>
 
-            <div className="flex flex-col lg:flex-row gap-12">
+            <div className="flex flex-col lg:flex-row gap-6 lg:gap-12">
               {/* Tabs */}
-              <div className="flex flex-row lg:flex-col gap-2 overflow-x-auto lg:w-1/3 pb-4 lg:pb-0 scrollbar-hide">
+              <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-1 gap-2 lg:w-1/3 lg:shrink-0">
                 {audiences.map((aud) => (
                   <button
                     key={aud.id}
                     onClick={() => setActiveAudience(aud)}
-                    className={`flex items-center gap-4 p-5 rounded-[1.5rem] text-left transition-all duration-300 min-w-[200px] lg:min-w-0 ${activeAudience.id === aud.id
+                    className={`flex items-center gap-2 md:gap-4 p-3 md:p-5 rounded-2xl text-left transition-all duration-300 w-full ${
+                      activeAudience.id === aud.id
                         ? 'bg-black text-white shadow-xl'
                         : 'text-gray-500 hover:bg-gray-200 hover:text-black border border-transparent'
-                      }`}
+                    }`}
                   >
-                    <div className={`p-3 rounded-xl transition-colors ${activeAudience.id === aud.id ? 'bg-white/10' : 'bg-white shadow-sm'}`}>
-                      <aud.icon className={`w-6 h-6 ${activeAudience.id === aud.id ? 'text-white' : 'text-black'}`} />
+                    <div className={`p-2 md:p-3 rounded-xl transition-colors shrink-0 ${activeAudience.id === aud.id ? 'bg-white/10' : 'bg-white shadow-sm'}`}>
+                      <aud.icon className={`w-4 h-4 md:w-6 md:h-6 ${activeAudience.id === aud.id ? 'text-white' : 'text-black'}`} />
                     </div>
-                    <span className="font-bold text-lg tracking-wide">{aud.label}</span>
+                    <span className="font-bold text-xs sm:text-sm lg:text-lg tracking-wide leading-tight">{aud.label}</span>
                   </button>
                 ))}
               </div>
 
               {/* Content Panel */}
-              <div className="lg:w-2/3">
+              <div className="flex-1 min-w-0">
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={activeAudience.id}
@@ -243,7 +255,7 @@ export default function KairosPageClient() {
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: -20 }}
                     transition={{ duration: 0.4 }}
-                    className="relative rounded-[2.5rem] overflow-hidden group min-h-[400px] flex items-end shadow-2xl bg-black"
+                    className="relative rounded-[2rem] overflow-hidden group min-h-[300px] md:min-h-[400px] flex items-end shadow-2xl bg-black"
                   >
                     <div className="absolute inset-0 z-0">
                       <Image
@@ -255,17 +267,11 @@ export default function KairosPageClient() {
                       <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
                     </div>
 
-                    <div className="relative z-10 p-8 md:p-12 text-white">
-                      <h3 className="text-3xl md:text-4xl font-bold font-syne mb-4 tracking-tight">{activeAudience.headline}</h3>
-                      <p className="text-gray-300 text-lg md:text-xl leading-relaxed mb-8 max-w-2xl font-medium">
+                    <div className="relative z-10 p-6 md:p-12 text-white">
+                      <h3 className="text-2xl md:text-4xl font-bold font-syne mb-3 md:mb-4 tracking-tight">{activeAudience.headline}</h3>
+                      <p className="text-gray-300 text-base md:text-xl leading-relaxed max-w-2xl font-medium">
                         {activeAudience.body}
                       </p>
-                      <button className="flex items-center gap-2 bg-white text-black px-6 py-2.5 rounded-full text-xs font-bold uppercase tracking-[0.2em] hover:bg-gray-200 transition-colors shadow-lg">
-                        {activeAudience.cta}
-                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                        </svg>
-                      </button>
                     </div>
                   </motion.div>
                 </AnimatePresence>

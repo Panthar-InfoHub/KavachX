@@ -11,7 +11,7 @@ import Link from "next/link";
 const NAVBAR_CONFIG: NavbarConfig = {
     logo: <Image src="/images/logo.png" alt="KavachX Logo" width={140} height={40} className="h-8 w-auto object-contain" />,
     cta: {
-        one: { text: "Get Started", href: "#", variant: "primary" },
+        one: { text: "Contact Us", href: "/contact", variant: "primary" },
         // two: { text: "Sign up", href: "#", variant: "secondary" },
     },
     menu: [

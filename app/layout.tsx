@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { SiteHeader } from "@/components/site-header";
 import { Footer } from "@/components/footer";
 import { Toaster } from "@/components/ui/sonner";
+import { Navbar } from "@/components/navbar";
 
 
 const FontSyne = Syne({
@@ -84,7 +85,7 @@ export default function RootLayout({
       className={cn("h-full", "antialiased", FontSyne.variable, FontPoppins.variable)}
     >
       <body className="h-full min-h-full flex flex-col font-sans bg-black text-white relative">
-        <SiteHeader />
+        <Navbar />
         <main className="flex-1 w-full relative z-0">
           {children}
         </main>
