@@ -116,11 +116,12 @@ const associateMembers = [
 
 export default function TeamClient() {
     return (
-        <section className="relative w-full overflow-hidden bg-white py-12 md:py-24">
+        <div className="w-full bg-white">
             {/* Founder Vision Header */}
             <FounderVision />
 
-            <div className="relative z-10 mx-auto max-w-7xl pt-16">
+            <section className="relative w-full overflow-hidden bg-white py-12 md:py-24">
+                <div className="relative z-10 mx-auto max-w-7xl pt-16">
                 {/* Advisor / Leadership Section — now first */}
                 <div className="mx-auto mb-16 flex max-w-5xl flex-col items-center px-6 text-center lg:px-0">
                     <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-xl bg-black text-white">
@@ -267,5 +268,6 @@ export default function TeamClient() {
                 </div>
             </div>
         </section>
+    </div>
     );
 }
