@@ -602,134 +602,134 @@ export default function KairosPageClient() {
           {/* PROMO CARDS SECTION */}
           <section className="px-4 md:px-6 mx-2 md:mx-4">
             <div className="max-w-7xl mx-auto">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
 
-              {/* Early Access Card */}
-              <motion.div
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.7, ease: "easeOut" }}
-                className="relative rounded-[2rem] overflow-hidden group h-[520px] md:h-[580px] bg-[#0a0a0a] cursor-pointer"
-                style={{ boxShadow: '0 0 0 1px rgba(255,255,255,0.06)' }}
-              >
-                <Image
-                  src="/images/edgebox.png"
-                  alt="Kairos AI Edge Box – Early Access"
-                  fill
-                  className="object-contain object-[center_25%] group-hover:scale-[1.04] transition-transform duration-700 ease-out"
-                  style={{ opacity: 0.9 }}
-                />
-                {/* Deep gradient from bottom */}
-                <div className="absolute inset-0 pointer-events-none"
-                  style={{ background: 'linear-gradient(to top, #000 0%, rgba(0,0,0,0.82) 28%, rgba(0,0,0,0.15) 60%, transparent 100%)' }}
-                />
-                {/* Left vignette */}
-                <div className="absolute inset-0 pointer-events-none"
-                  style={{ background: 'linear-gradient(to right, rgba(0,0,0,0.25) 0%, transparent 55%)' }}
-                />
+                {/* Early Access Card */}
+                <motion.div
+                  initial={{ opacity: 0, y: 24 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.7, ease: "easeOut" }}
+                  className="relative rounded-[2rem] overflow-hidden group h-[520px] md:h-[580px] bg-[#0a0a0a] cursor-pointer"
+                  style={{ boxShadow: '0 0 0 1px rgba(255,255,255,0.06)' }}
+                >
+                  <Image
+                    src="/images/edgebox.png"
+                    alt="Kairos AI Edge Box – Early Access"
+                    fill
+                    className="object-contain object-[center_25%] group-hover:scale-[1.04] transition-transform duration-700 ease-out"
+                    style={{ opacity: 0.9 }}
+                  />
+                  {/* Deep gradient from bottom */}
+                  <div className="absolute inset-0 pointer-events-none"
+                    style={{ background: 'linear-gradient(to top, #000 0%, rgba(0,0,0,0.82) 28%, rgba(0,0,0,0.15) 60%, transparent 100%)' }}
+                  />
+                  {/* Left vignette */}
+                  <div className="absolute inset-0 pointer-events-none"
+                    style={{ background: 'linear-gradient(to right, rgba(0,0,0,0.25) 0%, transparent 55%)' }}
+                  />
 
-                <div className="absolute bottom-0 left-0 p-8 md:p-10 w-full z-10">
-                  <span className="block text-[10px] font-bold tracking-[0.4em] uppercase mb-4"
-                    style={{ color: 'rgba(255,255,255,0.45)' }}>
-                    New
-                  </span>
-                  <h3 className="text-3xl md:text-4xl font-bold text-white mb-3 leading-tight tracking-tight">
-                    Early Access
-                  </h3>
-                  <p className="text-[14px] leading-relaxed mb-7 max-w-[360px]"
-                    style={{ color: 'rgba(255,255,255,0.55)' }}>
-                    Get your hands on the Kairos AI edge box before anyone else. Limited spots available.
-                  </p>
-                  <div className="flex flex-wrap items-center gap-3">
-                    <button
-                      className="px-6 py-2.5 rounded-full text-white text-[13px] font-semibold transition-all duration-200 hover:brightness-110 active:scale-95"
-                      style={{
-                        background: 'linear-gradient(135deg, #00A3FF, #0082cc)',
-                        boxShadow: '0 4px 20px rgba(0,163,255,0.35), 0 0 0 1px rgba(255,255,255,0.08) inset'
-                      }}>
-                      Pre-order now
-                    </button>
-                    <button
-                      className="px-6 py-2.5 rounded-full text-[13px] font-semibold transition-all duration-200 hover:bg-white/15 active:scale-95"
-                      style={{
-                        background: 'rgba(255,255,255,0.07)',
-                        border: '1px solid rgba(255,255,255,0.14)',
-                        color: 'rgba(255,255,255,0.85)',
-                        backdropFilter: 'blur(12px)',
-                      }}>
-                      Learn more
-                    </button>
-                  </div>
-                </div>
-              </motion.div>
-
-              {/* Become a Vendor Card */}
-              <motion.div
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.7, ease: "easeOut", delay: 0.15 }}
-                className="relative rounded-[2rem] overflow-hidden group h-[520px] md:h-[580px] bg-[#0a0a0a] cursor-pointer"
-                style={{ boxShadow: '0 0 0 1px rgba(255,255,255,0.06)' }}
-              >
-                <Image
-                  src="/images/home.jpeg"
-                  alt="Become a Vendor"
-                  fill
-                  className="object-cover group-hover:scale-[1.04] transition-transform duration-700 ease-out"
-                  style={{ opacity: 0.85 }}
-                />
-                {/* Deep gradient from bottom */}
-                <div className="absolute inset-0 pointer-events-none"
-                  style={{ background: 'linear-gradient(to top, #000 0%, rgba(0,0,0,0.82) 28%, rgba(0,0,0,0.15) 60%, transparent 100%)' }}
-                />
-                {/* Left vignette */}
-                <div className="absolute inset-0 pointer-events-none"
-                  style={{ background: 'linear-gradient(to right, rgba(0,0,0,0.25) 0%, transparent 55%)' }}
-                />
-
-                <div className="absolute bottom-0 left-0 p-8 md:p-10 w-full z-10">
-                  <span className="block text-[10px] font-bold tracking-[0.4em] uppercase mb-4"
-                    style={{ color: 'rgba(255,255,255,0.45)' }}>
-                    Partner
-                  </span>
-                  <h3 className="text-3xl md:text-4xl font-bold text-white mb-3 leading-tight tracking-tight">
-                    Become a Vendor
-                  </h3>
-                  <p className="text-[14px] leading-relaxed mb-7 max-w-[360px]"
-                    style={{ color: 'rgba(255,255,255,0.55)' }}>
-                    Partner with KavachX to distribute state-of-the-art security solutions and grow your business.
-                  </p>
-                  <div className="flex flex-wrap items-center gap-3">
-                    <Link href="/vendor">
+                  <div className="absolute bottom-0 left-0 p-8 md:p-10 w-full z-10">
+                    <span className="block text-[10px] font-bold tracking-[0.4em] uppercase mb-4"
+                      style={{ color: 'rgba(255,255,255,0.45)' }}>
+                      New
+                    </span>
+                    <h3 className="text-3xl md:text-4xl font-bold text-white mb-3 leading-tight tracking-tight">
+                      Early Access
+                    </h3>
+                    <p className="text-[14px] leading-relaxed mb-7 max-w-[360px]"
+                      style={{ color: 'rgba(255,255,255,0.55)' }}>
+                      Get your hands on the Kairos AI edge box before anyone else. Limited spots available.
+                    </p>
+                    <div className="flex flex-wrap items-center gap-3">
                       <button
-                        // onClick={() => router.push("/vendor")}
                         className="px-6 py-2.5 rounded-full text-white text-[13px] font-semibold transition-all duration-200 hover:brightness-110 active:scale-95"
                         style={{
-                        background: 'linear-gradient(135deg, #00A3FF, #0082cc)',
-                        boxShadow: '0 4px 20px rgba(0,163,255,0.35), 0 0 0 1px rgba(255,255,255,0.08) inset'
-                      }}>
-                      Join now
-                    </button>
-                    </Link>
-                    <button
-                      className="px-6 py-2.5 rounded-full text-[13px] font-semibold transition-all duration-200 hover:bg-white/15 active:scale-95"
-                      style={{
-                        background: 'rgba(255,255,255,0.07)',
-                        border: '1px solid rgba(255,255,255,0.14)',
-                        color: 'rgba(255,255,255,0.85)',
-                        backdropFilter: 'blur(12px)',
-                      }}>
-                      Learn more
-                    </button>
+                          background: 'linear-gradient(135deg, #00A3FF, #0082cc)',
+                          boxShadow: '0 4px 20px rgba(0,163,255,0.35), 0 0 0 1px rgba(255,255,255,0.08) inset'
+                        }}>
+                        Pre-order now
+                      </button>
+                      <button
+                        className="px-6 py-2.5 rounded-full text-[13px] font-semibold transition-all duration-200 hover:bg-white/15 active:scale-95"
+                        style={{
+                          background: 'rgba(255,255,255,0.07)',
+                          border: '1px solid rgba(255,255,255,0.14)',
+                          color: 'rgba(255,255,255,0.85)',
+                          backdropFilter: 'blur(12px)',
+                        }}>
+                        Learn more
+                      </button>
+                    </div>
                   </div>
-                </div>
-              </motion.div>
+                </motion.div>
 
+                {/* Become a Vendor Card */}
+                <motion.div
+                  initial={{ opacity: 0, y: 24 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.7, ease: "easeOut", delay: 0.15 }}
+                  className="relative rounded-[2rem] overflow-hidden group h-[520px] md:h-[580px] bg-[#0a0a0a] cursor-pointer"
+                  style={{ boxShadow: '0 0 0 1px rgba(255,255,255,0.06)' }}
+                >
+                  <Image
+                    src="/images/home.jpeg"
+                    alt="Become a Vendor"
+                    fill
+                    className="object-cover group-hover:scale-[1.04] transition-transform duration-700 ease-out"
+                    style={{ opacity: 0.85 }}
+                  />
+                  {/* Deep gradient from bottom */}
+                  <div className="absolute inset-0 pointer-events-none"
+                    style={{ background: 'linear-gradient(to top, #000 0%, rgba(0,0,0,0.82) 28%, rgba(0,0,0,0.15) 60%, transparent 100%)' }}
+                  />
+                  {/* Left vignette */}
+                  <div className="absolute inset-0 pointer-events-none"
+                    style={{ background: 'linear-gradient(to right, rgba(0,0,0,0.25) 0%, transparent 55%)' }}
+                  />
+
+                  <div className="absolute bottom-0 left-0 p-8 md:p-10 w-full z-10">
+                    <span className="block text-[10px] font-bold tracking-[0.4em] uppercase mb-4"
+                      style={{ color: 'rgba(255,255,255,0.45)' }}>
+                      Partner
+                    </span>
+                    <h3 className="text-3xl md:text-4xl font-bold text-white mb-3 leading-tight tracking-tight">
+                      Become a Vendor
+                    </h3>
+                    <p className="text-[14px] leading-relaxed mb-7 max-w-[360px]"
+                      style={{ color: 'rgba(255,255,255,0.55)' }}>
+                      Partner with KavachX to distribute state-of-the-art security solutions and grow your business.
+                    </p>
+                    <div className="flex flex-wrap items-center gap-3">
+                      <Link href="/vendor">
+                        <button
+                          // onClick={() => router.push("/vendor")}
+                          className="px-6 py-2.5 rounded-full text-white text-[13px] font-semibold transition-all duration-200 hover:brightness-110 active:scale-95"
+                          style={{
+                            background: 'linear-gradient(135deg, #00A3FF, #0082cc)',
+                            boxShadow: '0 4px 20px rgba(0,163,255,0.35), 0 0 0 1px rgba(255,255,255,0.08) inset'
+                          }}>
+                          Join now
+                        </button>
+                      </Link>
+                      <button
+                        className="px-6 py-2.5 rounded-full text-[13px] font-semibold transition-all duration-200 hover:bg-white/15 active:scale-95"
+                        style={{
+                          background: 'rgba(255,255,255,0.07)',
+                          border: '1px solid rgba(255,255,255,0.14)',
+                          color: 'rgba(255,255,255,0.85)',
+                          backdropFilter: 'blur(12px)',
+                        }}>
+                        Learn more
+                      </button>
+                    </div>
+                  </div>
+                </motion.div>
+
+              </div>
             </div>
-          </div>
-        </section>
+          </section>
 
           {/* LAUNCHING SOON SECTION */}
           <section className="py-24 md:py-32 px-6 bg-white relative overflow-hidden flex flex-col items-center justify-center text-center rounded-[3rem] mx-2 md:mx-4 shadow-[0_8px_40px_rgba(0,0,0,0.03)] border border-black/[0.03]">
@@ -882,7 +882,7 @@ export default function KairosPageClient() {
           {/* FINAL CTA */}
           <section className="py-24 md:py-32 px-6 relative overflow-hidden bg-[#111] rounded-[3rem] mx-2 md:mx-4 border border-white/5 shadow-2xl">
             <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(255,255,255,0.1)_0%,transparent_70%)]" />
-            <div className="absolute inset-0 bg-[url('/images/noise.png')] opacity-[0.05] mix-blend-overlay" />
+            <div className="absolute inset-0 bg-[url('/images/')] opacity-[0.05] mix-blend-overlay" />
 
             <div className="relative z-10 max-w-4xl mx-auto text-center">
               <h2 className="text-4xl md:text-6xl font-bold font-syne mb-6 text-white tracking-tighter">Don't wait for an emergency.</h2>

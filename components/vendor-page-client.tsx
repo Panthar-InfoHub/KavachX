@@ -19,7 +19,9 @@ import {
   Briefcase,
   Home,
   CheckCircle2,
-  ChevronDown
+  ChevronDown,
+  LineChart,
+  Headset
 } from "lucide-react";
 import Image from "next/image";
 
@@ -83,28 +85,28 @@ const BadgeItem = ({ icon, line1, line2 }: { icon: React.ReactNode; line1: strin
   <div className="flex items-center gap-2">
     {/* Left Laurel from PNG */}
     <div className="relative w-[28px] h-[70px] overflow-hidden flex-shrink-0">
-      <Image 
-        src="/images/laurel-badge.png" 
-        alt="Left Laurel" 
-        fill 
-        className="object-cover object-left" 
+      <Image
+        src="/images/laurel-badge.png"
+        alt="Left Laurel"
+        fill
+        className="object-cover object-left"
         unoptimized
       />
     </div>
-    
+
     <div className="flex flex-col items-center gap-1 text-center min-w-[70px]">
       <div className="text-[#9CA3AF]">{icon}</div>
       <p className="text-[12px] font-semibold text-[#9CA3AF] leading-tight">{line1}</p>
       <p className="text-[12px] font-semibold text-[#9CA3AF] leading-tight">{line2}</p>
     </div>
-    
+
     {/* Right Laurel from PNG */}
     <div className="relative w-[28px] h-[70px] overflow-hidden flex-shrink-0">
-      <Image 
-        src="/images/laurel-badge.png" 
-        alt="Right Laurel" 
-        fill 
-        className="object-cover object-right" 
+      <Image
+        src="/images/laurel-badge.png"
+        alt="Right Laurel"
+        fill
+        className="object-cover object-right"
         unoptimized
       />
     </div>
@@ -128,7 +130,7 @@ const SocialProofSection = () => {
           <BadgeItem
             icon={
               <svg className="w-5 h-5 mb-0.5" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2C9.243 2 7 4.243 7 7v1H5a2 2 0 00-2 2v10a2 2 0 002 2h14a2 2 0 002-2V10a2 2 0 00-2-2h-2V7c0-2.757-2.243-5-5-5zm0 2c1.654 0 3 1.346 3 3v1H9V7c0-1.654 1.346-3 3-3zm0 10a2 2 0 110 4 2 2 0 010-4z"/>
+                <path d="M12 2C9.243 2 7 4.243 7 7v1H5a2 2 0 00-2 2v10a2 2 0 002 2h14a2 2 0 002-2V10a2 2 0 00-2-2h-2V7c0-2.757-2.243-5-5-5zm0 2c1.654 0 3 1.346 3 3v1H9V7c0-1.654 1.346-3 3-3zm0 10a2 2 0 110 4 2 2 0 010-4z" />
               </svg>
             }
             line1="Enterprise"
@@ -137,7 +139,7 @@ const SocialProofSection = () => {
           <BadgeItem
             icon={
               <svg className="w-5 h-5 mb-0.5" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2L3 7v6c0 5 3.8 9.7 9 10.9C18.2 22.7 22 18 22 13V7L12 2zm-1 13.4l-3-3 1.4-1.4L11 12.6l5.6-5.6 1.4 1.4-7 7z"/>
+                <path d="M12 2L3 7v6c0 5 3.8 9.7 9 10.9C18.2 22.7 22 18 22 13V7L12 2zm-1 13.4l-3-3 1.4-1.4L11 12.6l5.6-5.6 1.4 1.4-7 7z" />
               </svg>
             }
             line1="Trusted by"
@@ -170,7 +172,7 @@ const EarningModelSection = () => {
 
         <div className="grid md:grid-cols-2 gap-8">
           {/* Card 1 */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -187,7 +189,7 @@ const EarningModelSection = () => {
           </motion.div>
 
           {/* Card 2 */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -195,16 +197,16 @@ const EarningModelSection = () => {
             className="bg-slate-50 border border-slate-200 p-10 rounded-3xl relative overflow-hidden group hover:border-slate-300 transition-colors shadow-sm hover:shadow-md"
           >
             <div className="absolute top-1/2 right-1/4 -translate-y-1/2 w-48 h-48 opacity-[0.03] group-hover:opacity-[0.06] transition-opacity flex items-center justify-center">
-               <motion.div 
-                 animate={{ rotate: 360 }} 
-                 transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-                 className="w-full h-full border-2 border-dashed border-slate-900 rounded-full"
-               />
-               <motion.div 
-                 animate={{ rotate: -360 }} 
-                 transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-                 className="absolute w-3/4 h-3/4 border border-slate-900 rounded-full"
-               />
+              <motion.div
+                animate={{ rotate: 360 }}
+                transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+                className="w-full h-full border-2 border-dashed border-slate-900 rounded-full"
+              />
+              <motion.div
+                animate={{ rotate: -360 }}
+                transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+                className="absolute w-3/4 h-3/4 border border-slate-900 rounded-full"
+              />
             </div>
             <h3 className="text-slate-900 text-sm font-bold tracking-widest uppercase mb-4 relative z-10">Recurring Subscription Commission</h3>
             <h4 className="text-3xl font-bold font-syne mb-4 relative z-10">Your Customer Subscribes. You Keep Earning.</h4>
@@ -240,7 +242,7 @@ const HowYouEarnSection = () => {
         <div className="relative">
           {/* Glowing Line */}
           <div className="absolute top-12 left-0 w-full h-[2px] bg-slate-200 hidden md:block">
-            <motion.div 
+            <motion.div
               className="h-full bg-slate-900 shadow-[0_0_15px_rgba(0,0,0,0.5)]"
               initial={{ width: "0%" }}
               whileInView={{ width: "100%" }}
@@ -251,7 +253,7 @@ const HowYouEarnSection = () => {
 
           <div className="grid md:grid-cols-4 gap-8 relative z-10">
             {steps.map((step, idx) => (
-              <motion.div 
+              <motion.div
                 key={idx}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -260,7 +262,7 @@ const HowYouEarnSection = () => {
                 className="relative pt-8 md:pt-0 group"
               >
                 <div className="w-12 h-12 rounded-full bg-white border-2 border-slate-200 shadow-sm flex items-center justify-center font-syne font-bold text-slate-400 mb-6 md:mt-6 relative z-10 group-hover:border-slate-500 group-hover:text-slate-900 transition-colors">
-                   {step.num}
+                  {step.num}
                 </div>
                 <h3 className="text-xl font-bold mb-3">{step.title}</h3>
                 <p className="text-slate-600 text-sm">{step.desc}</p>
@@ -297,47 +299,47 @@ const WhyKairosSection = () => {
         </div>
 
         <div className="relative h-[800px] flex items-center justify-center mt-12">
-           {/* Center Product */}
-           <div className="absolute z-20 w-64 h-64 flex items-center justify-center">
-              <div className="relative w-full h-full">
-                <Image src="/images/edgebox.png" alt="KAIROS AI Edge Box" fill className="object-contain drop-shadow-2xl" />
+          {/* Center Product */}
+          <div className="absolute z-20 w-64 h-64 flex items-center justify-center">
+            <div className="relative w-full h-full">
+              <Image src="/images/edgebox.png" alt="KAIROS AI Edge Box" fill className="object-contain drop-shadow-2xl" />
+            </div>
+          </div>
+
+          {/* Orbits */}
+          <div className="absolute w-[450px] h-[450px] border border-slate-300 rounded-full animate-[spin_30s_linear_infinite]" />
+          <div className="absolute w-[750px] h-[750px] border border-slate-200 rounded-full animate-[spin_40s_linear_infinite_reverse]" />
+
+          {/* Features positioned on orbits logically */}
+          <div className="absolute z-30 w-[750px] h-[750px] animate-[spin_40s_linear_infinite_reverse]">
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-[spin_40s_linear_infinite]">
+              <div className="bg-white border border-slate-200 p-4 rounded-xl flex items-center gap-4 w-64 shadow-xl">
+                <div className="bg-slate-100 p-3 rounded-lg"><Flame className="text-slate-700 w-6 h-6" /></div>
+                <div><h4 className="font-bold text-sm text-slate-900">Fire Detection</h4><p className="text-xs text-slate-500">Identify potential fire events</p></div>
               </div>
-           </div>
-           
-           {/* Orbits */}
-           <div className="absolute w-[450px] h-[450px] border border-slate-300 rounded-full animate-[spin_30s_linear_infinite]" />
-           <div className="absolute w-[750px] h-[750px] border border-slate-200 rounded-full animate-[spin_40s_linear_infinite_reverse]" />
+            </div>
+            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 animate-[spin_40s_linear_infinite]">
+              <div className="bg-white border border-slate-200 p-4 rounded-xl flex items-center gap-4 w-64 shadow-xl">
+                <div className="bg-slate-100 p-3 rounded-lg"><UserX className="text-slate-700 w-6 h-6" /></div>
+                <div><h4 className="font-bold text-sm text-slate-900">Intrusion Detection</h4><p className="text-xs text-slate-500">Detect unauthorised entry</p></div>
+              </div>
+            </div>
+          </div>
 
-           {/* Features positioned on orbits logically */}
-           <div className="absolute z-30 w-[750px] h-[750px] animate-[spin_40s_linear_infinite_reverse]">
-             <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-[spin_40s_linear_infinite]">
-               <div className="bg-white border border-slate-200 p-4 rounded-xl flex items-center gap-4 w-64 shadow-xl">
-                 <div className="bg-slate-100 p-3 rounded-lg"><Flame className="text-slate-700 w-6 h-6" /></div>
-                 <div><h4 className="font-bold text-sm text-slate-900">Fire Detection</h4><p className="text-xs text-slate-500">Identify potential fire events</p></div>
-               </div>
-             </div>
-             <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 animate-[spin_40s_linear_infinite]">
-               <div className="bg-white border border-slate-200 p-4 rounded-xl flex items-center gap-4 w-64 shadow-xl">
-                 <div className="bg-slate-100 p-3 rounded-lg"><UserX className="text-slate-700 w-6 h-6" /></div>
-                 <div><h4 className="font-bold text-sm text-slate-900">Intrusion Detection</h4><p className="text-xs text-slate-500">Detect unauthorised entry</p></div>
-               </div>
-             </div>
-           </div>
-
-           <div className="absolute z-30 w-[450px] h-[450px] animate-[spin_30s_linear_infinite]">
-             <div className="absolute left-0 top-1/2 -translate-x-1/2 -translate-y-1/2 animate-[spin_30s_linear_infinite_reverse]">
-               <div className="bg-white border border-slate-200 p-4 rounded-xl flex items-center gap-4 w-64 shadow-xl">
-                 <div className="bg-amber-50 p-3 rounded-lg"><Activity className="text-amber-500 w-6 h-6" /></div>
-                 <div><h4 className="font-bold text-sm text-slate-900">Fall Detection</h4><p className="text-xs text-slate-500">Identify potential fall incidents</p></div>
-               </div>
-             </div>
-             <div className="absolute right-0 top-1/2 translate-x-1/2 -translate-y-1/2 animate-[spin_30s_linear_infinite_reverse]">
-               <div className="bg-white border border-slate-200 p-4 rounded-xl flex items-center gap-4 w-64 shadow-xl">
-                 <div className="bg-purple-50 p-3 rounded-lg"><Target className="text-purple-500 w-6 h-6" /></div>
-                 <div><h4 className="font-bold text-sm text-slate-900">Weapon Detection</h4><p className="text-xs text-slate-500">Detect potential visible threats</p></div>
-               </div>
-             </div>
-           </div>
+          <div className="absolute z-30 w-[450px] h-[450px] animate-[spin_30s_linear_infinite]">
+            <div className="absolute left-0 top-1/2 -translate-x-1/2 -translate-y-1/2 animate-[spin_30s_linear_infinite_reverse]">
+              <div className="bg-white border border-slate-200 p-4 rounded-xl flex items-center gap-4 w-64 shadow-xl">
+                <div className="bg-amber-50 p-3 rounded-lg"><Activity className="text-amber-500 w-6 h-6" /></div>
+                <div><h4 className="font-bold text-sm text-slate-900">Fall Detection</h4><p className="text-xs text-slate-500">Identify potential fall incidents</p></div>
+              </div>
+            </div>
+            <div className="absolute right-0 top-1/2 translate-x-1/2 -translate-y-1/2 animate-[spin_30s_linear_infinite_reverse]">
+              <div className="bg-white border border-slate-200 p-4 rounded-xl flex items-center gap-4 w-64 shadow-xl">
+                <div className="bg-purple-50 p-3 rounded-lg"><Target className="text-purple-500 w-6 h-6" /></div>
+                <div><h4 className="font-bold text-sm text-slate-900">Weapon Detection</h4><p className="text-xs text-slate-500">Detect potential visible threats</p></div>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div className="text-center mt-12">
@@ -353,48 +355,83 @@ const WhyKairosSection = () => {
 // ==========================================
 const BenefitsSection = () => {
   return (
-    <section className="py-24 bg-white text-slate-900">
-      <div className="container mx-auto px-6 max-w-6xl">
-        <div className="mb-16 text-center">
-          <div className="text-slate-900 text-sm font-bold tracking-widest uppercase mb-4">BUILT FOR PARTNER SUCCESS</div>
-          <h2 className="text-4xl font-bold font-syne">More Than a Product. A Partnership Built for Growth.</h2>
+    <section className="py-24 md:py-32 bg-[#fafbfc] relative overflow-hidden">
+      {/* Soft Background Effects */}
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-50/50 blur-[100px] rounded-full pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-indigo-50/50 blur-[100px] rounded-full pointer-events-none" />
+
+      <div className="container mx-auto px-4 sm:px-6 max-w-6xl relative z-10">
+        <div className="mb-16 md:mb-24 text-center">
+          <div className="inline-block border border-slate-200 bg-white/60 backdrop-blur-md px-5 py-2 rounded-full text-slate-500 text-[11px] font-bold tracking-[0.2em] uppercase mb-8 shadow-sm">
+            Built for Partner Success
+          </div>
+          <h2 className="text-3xl md:text-5xl font-bold font-syne text-slate-900 tracking-tight">
+            More Than a Product. <br className="hidden md:block" />
+            <span className="text-slate-400">A Partnership Built for Growth.</span>
+          </h2>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-6 auto-rows-[200px]">
+        <div className="grid md:grid-cols-3 gap-4 md:gap-6 auto-rows-[minmax(220px,auto)] md:auto-rows-[240px]">
           {/* Large Card 1 */}
-          <div className="md:col-span-2 md:row-span-2 bg-gradient-to-br from-white to-slate-50 border border-slate-200 rounded-3xl p-10 relative overflow-hidden group shadow-md hover:shadow-xl transition-shadow">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-slate-100 rounded-full blur-[80px] group-hover:bg-slate-200 transition-all duration-700 pointer-events-none" />
-            <div className="relative z-10 h-full flex flex-col justify-end">
-              <IndianRupee className="w-12 h-12 text-slate-900 mb-6" />
-              <h3 className="text-3xl font-bold font-syne mb-4 text-slate-900">20% Installation Commission</h3>
-              <p className="text-slate-600 text-lg max-w-md">Earn 20% commission on every successful eligible KAIROS installation.</p>
+          <div className="md:col-span-2 md:row-span-2 bg-white border border-slate-100/80 rounded-[2rem] p-8 md:p-12 relative overflow-hidden group shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_20px_60px_rgb(0,0,0,0.08)] transition-all duration-500">
+            <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-gradient-to-br from-blue-100/40 to-indigo-100/40 rounded-full blur-[60px] group-hover:scale-110 group-hover:bg-blue-100/60 transition-transform duration-700 pointer-events-none" />
+            <div className="relative z-10 h-full flex flex-col justify-between">
+              <div className="w-14 h-14 bg-slate-50 text-slate-900 rounded-2xl flex items-center justify-center mb-8 border border-slate-200 group-hover:scale-110 group-hover:-rotate-3 transition-transform duration-500 shadow-sm">
+                <IndianRupee className="w-7 h-7" />
+              </div>
+              <div className="max-w-xl">
+                <h3 className="text-3xl md:text-4xl font-bold font-syne mb-4 text-slate-900 tracking-tight">20% Installation Commission</h3>
+                <p className="text-slate-500 text-base md:text-lg leading-relaxed">Earn a generous 20% commission on every successful eligible KAIROS installation. Grow your revenue directly with every deployment.</p>
+              </div>
             </div>
           </div>
 
           {/* Large Card 2 */}
-          <div className="md:col-span-1 md:row-span-2 bg-gradient-to-bl from-white to-slate-50 border border-slate-200 rounded-3xl p-10 relative overflow-hidden group shadow-md hover:shadow-xl transition-shadow">
-            <div className="absolute bottom-0 right-0 w-64 h-64 bg-slate-100 rounded-full blur-[80px] group-hover:bg-slate-200 transition-all duration-700 pointer-events-none" />
-            <div className="relative z-10 h-full flex flex-col justify-end">
-              <Activity className="w-10 h-10 text-slate-900 mb-6" />
-              <h3 className="text-2xl font-bold font-syne mb-4 text-slate-900">Recurring Revenue Opportunity</h3>
-              <p className="text-slate-600">Unlock recurring commission potential through eligible active customer subscriptions.</p>
+          <div className="md:col-span-1 md:row-span-2 bg-white border border-slate-100/80 rounded-[2rem] p-8 md:p-10 relative overflow-hidden group shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_20px_60px_rgb(0,0,0,0.08)] transition-all duration-500">
+            <div className="absolute bottom-0 right-0 w-[300px] h-[300px] bg-gradient-to-tl from-purple-100/40 to-pink-100/40 rounded-full blur-[60px] group-hover:scale-110 group-hover:bg-purple-100/60 transition-transform duration-700 pointer-events-none" />
+            <div className="relative z-10 h-full flex flex-col justify-between">
+              <div className="w-14 h-14 bg-slate-50 text-slate-900 rounded-2xl flex items-center justify-center mb-8 border border-slate-200 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500 shadow-sm">
+                <Activity className="w-7 h-7" />
+              </div>
+              <div>
+                <h3 className="text-2xl md:text-3xl font-bold font-syne mb-4 text-slate-900 tracking-tight">Recurring Revenue Opportunity</h3>
+                <p className="text-slate-500 text-base leading-relaxed">Unlock recurring commission potential through eligible active customer subscriptions.</p>
+              </div>
             </div>
           </div>
 
           {/* Small Cards */}
-          <div className="bg-slate-50 border border-slate-200 rounded-3xl p-8 flex flex-col justify-center hover:bg-white hover:shadow-md transition-all">
-            <h3 className="text-lg font-bold mb-2 text-slate-900">Sales & Marketing Support</h3>
-            <p className="text-sm text-slate-600">Access brochures, presentations, and promotional creatives.</p>
+          <div className="bg-white border border-slate-100/80 rounded-[2rem] p-8 flex flex-col justify-center group hover:shadow-[0_15px_40px_rgb(0,0,0,0.06)] hover:-translate-y-1 transition-all duration-300 relative overflow-hidden shadow-[0_4px_20px_rgb(0,0,0,0.02)]">
+            <div className="absolute inset-0 bg-gradient-to-br from-transparent to-slate-50/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+            <div className="relative z-10">
+              <h3 className="text-lg font-bold mb-3 text-slate-900 tracking-tight flex items-center gap-3">
+                <span className="w-10 h-10 rounded-[12px] bg-slate-50 flex items-center justify-center border border-slate-200 text-slate-700 shrink-0 group-hover:bg-slate-100 group-hover:text-slate-900 group-hover:border-slate-300 transition-colors"><LineChart className="w-5 h-5" /></span>
+                Sales & Marketing
+              </h3>
+              <p className="text-sm text-slate-500 leading-relaxed">Access brochures, presentations, and high-quality promotional creatives.</p>
+            </div>
           </div>
-          
-          <div className="bg-slate-50 border border-slate-200 rounded-3xl p-8 flex flex-col justify-center hover:bg-white hover:shadow-md transition-all">
-            <h3 className="text-lg font-bold mb-2 text-slate-900">Product Training</h3>
-            <p className="text-sm text-slate-600">Get structured onboarding to confidently present KAIROS.</p>
+
+          <div className="bg-white border border-slate-100/80 rounded-[2rem] p-8 flex flex-col justify-center group hover:shadow-[0_15px_40px_rgb(0,0,0,0.06)] hover:-translate-y-1 transition-all duration-300 relative overflow-hidden shadow-[0_4px_20px_rgb(0,0,0,0.02)]">
+            <div className="absolute inset-0 bg-gradient-to-br from-transparent to-slate-50/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+            <div className="relative z-10">
+              <h3 className="text-lg font-bold mb-3 text-slate-900 tracking-tight flex items-center gap-3">
+                <span className="w-10 h-10 rounded-[12px] bg-slate-50 flex items-center justify-center border border-slate-200 text-slate-700 shrink-0 group-hover:bg-slate-100 group-hover:text-slate-900 group-hover:border-slate-300 transition-colors"><GraduationCap className="w-5 h-5" /></span>
+                Product Training
+              </h3>
+              <p className="text-sm text-slate-500 leading-relaxed">Get structured onboarding to confidently present and sell KAIROS.</p>
+            </div>
           </div>
-          
-          <div className="bg-slate-50 border border-slate-200 rounded-3xl p-8 flex flex-col justify-center hover:bg-white hover:shadow-md transition-all">
-            <h3 className="text-lg font-bold mb-2 text-slate-900">Technical Assistance</h3>
-            <p className="text-sm text-slate-600">Receive guidance for product understanding and deployment.</p>
+
+          <div className="bg-white border border-slate-100/80 rounded-[2rem] p-8 flex flex-col justify-center group hover:shadow-[0_15px_40px_rgb(0,0,0,0.06)] hover:-translate-y-1 transition-all duration-300 relative overflow-hidden shadow-[0_4px_20px_rgb(0,0,0,0.02)]">
+            <div className="absolute inset-0 bg-gradient-to-br from-transparent to-slate-50/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+            <div className="relative z-10">
+              <h3 className="text-lg font-bold mb-3 text-slate-900 tracking-tight flex items-center gap-3">
+                <span className="w-10 h-10 rounded-[12px] bg-slate-50 flex items-center justify-center border border-slate-200 text-slate-700 shrink-0 group-hover:bg-slate-100 group-hover:text-slate-900 group-hover:border-slate-300 transition-colors"><Headset className="w-5 h-5" /></span>
+                Technical Assistance
+              </h3>
+              <p className="text-sm text-slate-500 leading-relaxed">Receive priority guidance for product understanding and deployment.</p>
+            </div>
           </div>
         </div>
       </div>
@@ -425,41 +462,56 @@ const AudienceAndIndustriesSection = () => {
   ];
 
   return (
-    <section className="py-24 bg-slate-50 text-slate-900">
-      <div className="container mx-auto px-6 max-w-6xl">
+    <section className="py-24 md:py-32 bg-[#fafbfc] relative overflow-hidden text-slate-900">
+      {/* Soft Ambient Background */}
+      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-indigo-50/50 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-blue-50/50 rounded-full blur-[120px] pointer-events-none" />
+
+      <div className="container mx-auto px-4 sm:px-6 max-w-7xl relative z-10">
         {/* Who Can Join */}
-        <div className="mb-24">
-           <div className="text-center mb-12">
-             <div className="text-slate-900 text-sm font-bold tracking-widest uppercase mb-4">BUILT FOR AMBITIOUS PARTNERS</div>
-             <h2 className="text-3xl md:text-4xl font-bold font-syne max-w-3xl mx-auto">If You Understand Security, Technology, or Sales—There&apos;s an Opportunity to Grow.</h2>
-           </div>
-           <div className="flex flex-wrap justify-center gap-4">
-              {partners.map((p, i) => (
-                <div key={i} className="px-6 py-3 bg-white border border-slate-200 shadow-sm rounded-full text-slate-700 font-medium hover:border-slate-300 hover:text-slate-900 transition-colors cursor-default">
-                  {p}
-                </div>
-              ))}
-           </div>
+        <div className="mb-24 md:mb-32">
+          <div className="text-center mb-12 md:mb-16">
+            <div className="inline-block border border-slate-200 bg-white/60 backdrop-blur-md px-5 py-2 rounded-full text-slate-500 text-[11px] font-bold tracking-[0.2em] uppercase mb-8 shadow-sm">
+              Built for Ambitious Partners
+            </div>
+            <h2 className="text-3xl md:text-5xl font-bold font-syne max-w-4xl mx-auto tracking-tight leading-tight">
+              If You Understand Security, Technology, or Sales—<br className="hidden md:block" />
+              <span className="text-slate-500">There&apos;s an Opportunity to Grow.</span>
+            </h2>
+          </div>
+          <div className="flex flex-wrap justify-center gap-3 md:gap-4 max-w-5xl mx-auto">
+            {partners.map((p, i) => (
+              <div key={i} className="px-5 py-3 md:px-6 md:py-3.5 bg-white/90 backdrop-blur-sm border border-slate-100/80 shadow-[0_4px_15px_rgba(0,0,0,0.02)] rounded-full text-slate-700 text-sm font-medium hover:border-slate-200 hover:shadow-[0_8px_25px_rgba(0,0,0,0.06)] hover:-translate-y-0.5 transition-all duration-300 cursor-default">
+                {p}
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* Industries */}
         <div>
-           <div className="text-center mb-12">
-             <div className="text-slate-900 text-sm font-bold tracking-widest uppercase mb-4">ONE PRODUCT. MULTIPLE MARKETS.</div>
-             <h2 className="text-3xl md:text-4xl font-bold font-syne">Take Intelligent Security Across Industries.</h2>
-           </div>
-           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {industries.map((ind, i) => (
-                <div key={i} className="group relative bg-white border border-slate-200 shadow-sm rounded-2xl p-8 hover:shadow-lg transition-all overflow-hidden">
-                   <div className="absolute -right-6 -bottom-6 opacity-[0.03] group-hover:opacity-[0.06] transition-opacity">
-                      <ind.icon className="w-32 h-32" />
-                   </div>
-                   <ind.icon className="w-8 h-8 text-slate-900 mb-6" />
-                   <h3 className="text-xl font-bold mb-3 text-slate-900">{ind.title}</h3>
-                   <p className="text-sm text-slate-600 relative z-10">{ind.desc}</p>
+          <div className="text-center mb-16 md:mb-20">
+            <div className="inline-block border border-slate-200 bg-white/60 backdrop-blur-md px-5 py-2 rounded-full text-slate-500 text-[11px] font-bold tracking-[0.2em] uppercase mb-8 shadow-sm">
+              One Product. Multiple Markets.
+            </div>
+            <h2 className="text-3xl md:text-5xl font-bold font-syne tracking-tight">Take Intelligent Security <span className="text-slate-500">Across Industries.</span></h2>
+          </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+            {industries.map((ind, i) => (
+              <div key={i} className="group relative bg-white/80 backdrop-blur-xl border border-slate-100 shadow-[0_4px_20px_rgba(0,0,0,0.03)] rounded-[2rem] p-8 md:p-10 hover:shadow-[0_20px_40px_rgba(0,0,0,0.06)] hover:-translate-y-1 transition-all duration-500 overflow-hidden">
+                <div className="absolute -right-8 -bottom-8 opacity-[0.02] group-hover:opacity-[0.04] group-hover:rotate-12 group-hover:scale-110 transition-all duration-700 pointer-events-none">
+                  <ind.icon className="w-40 h-40" />
                 </div>
-              ))}
-           </div>
+
+                <div className="w-14 h-14 bg-slate-50 text-slate-900 rounded-2xl flex items-center justify-center mb-8 border border-slate-200 group-hover:scale-110 group-hover:-rotate-3 transition-transform duration-500 shadow-sm relative z-10">
+                  <ind.icon className="w-6 h-6" />
+                </div>
+
+                <h3 className="text-xl md:text-2xl font-bold mb-3 md:mb-4 text-slate-900 font-syne tracking-tight relative z-10">{ind.title}</h3>
+                <p className="text-sm md:text-base text-slate-500 relative z-10 leading-relaxed">{ind.desc}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>
@@ -491,7 +543,7 @@ const FaqSection = () => {
         <div className="space-y-4">
           {faqs.map((faq, i) => (
             <div key={i} className="border border-slate-200 rounded-2xl overflow-hidden bg-slate-50">
-              <button 
+              <button
                 onClick={() => setOpen(open === i ? null : i)}
                 className="w-full px-6 py-5 flex items-center justify-between font-semibold text-left focus:outline-none"
               >
@@ -500,7 +552,7 @@ const FaqSection = () => {
               </button>
               <AnimatePresence>
                 {open === i && (
-                  <motion.div 
+                  <motion.div
                     initial={{ height: 0, opacity: 0 }}
                     animate={{ height: "auto", opacity: 1 }}
                     exit={{ height: 0, opacity: 0 }}
