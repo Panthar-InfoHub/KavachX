@@ -82,9 +82,9 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={cn("h-full", "antialiased", FontSyne.variable, FontPoppins.variable)}
+      className={cn("min-h-screen", "antialiased", FontSyne.variable, FontPoppins.variable)}
     >
-      <body className="h-full min-h-full flex flex-col font-sans bg-black text-white relative">
+      <body className="min-h-screen flex flex-col font-sans bg-black text-white relative">
         <Navbar />
         <main className="flex-1 w-full relative z-0">
           {children}

@@ -73,8 +73,53 @@ function TargetGraphic() {
 
 export function KairosBentoGrid() {
   return (
-    <section className="w-full bg-[#f4f4f5] py-12 md:py-16 px-4 sm:px-6 lg:px-8 font-syne overflow-hidden">
-      <div className="max-w-[1400px] mx-auto">
+    <section className="w-full bg-[#f4f4f5] rounded-t-[3rem] py-24 md:py-32 px-4 sm:px-6 lg:px-8 font-syne relative overflow-hidden shadow-[0_-20px_50px_rgba(0,0,0,0.2)] z-20">
+      {/* Net / Grid Background Effect */}
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
+      
+      {/* Soft fade at the top of the grid */}
+      <div className="absolute top-0 left-0 right-0 h-40 bg-gradient-to-b from-[#f4f4f5] to-transparent pointer-events-none z-0"></div>
+
+      <div className="max-w-[1400px] mx-auto relative z-10">
+        
+        {/* Premium Intro Text */}
+        <div className="flex flex-col items-center text-center mb-24 relative z-10 pt-8">
+          {/* Animated Badge */}
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="inline-flex items-center gap-2.5 px-5 py-2 rounded-full bg-white border border-black/[0.06] shadow-sm mb-8"
+          >
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+            </span>
+            <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-black/80">Core Technology</span>
+          </motion.div>
+
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.1, duration: 0.6 }}
+            className="text-5xl md:text-[5.5rem] font-bold tracking-tighter mb-6 leading-[1.05]"
+          >
+            <span className="text-black">Powerful Features</span><br/>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-gray-400 to-gray-600">at the Edge</span>
+          </motion.h2>
+          
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2, duration: 0.6 }}
+            className="text-gray-500 text-lg md:text-xl font-medium max-w-2xl leading-relaxed"
+          >
+            Discover what makes KAIROS the ultimate intelligent security solution. Built for maximum speed, privacy, and absolute reliability.
+          </motion.p>
+        </div>
+
         <div className="grid gap-3 grid-cols-1 md:grid-cols-2 lg:grid-cols-12 auto-rows-auto">
 
           {/* ==================== ROW 1 ==================== */}
@@ -125,13 +170,13 @@ export function KairosBentoGrid() {
               <h3 className="text-3xl font-bold text-black mb-2">The Kairos Edge AI Box</h3>
               <p className="text-black/60 text-sm">Powerful AI. Compact form. Maximum protection.</p>
             </div>
-            <div className="absolute inset-0 flex items-center justify-center mt-20 pointer-events-none">
-              <div className="relative w-[110%] h-[110%] drop-shadow-2xl">
+            <div className="absolute inset-x-8 bottom-8 top-32 pointer-events-none">
+              <div className="relative w-full h-full drop-shadow-2xl">
                 <Image
                   src="/images/edgebox.png"
                   alt="Kairos Edge AI Box"
                   fill
-                  className="object-contain object-center scale-110"
+                  className="object-contain object-center"
                 />
               </div>
             </div>
@@ -201,15 +246,18 @@ export function KairosBentoGrid() {
           {/* 5. Existing Cameras */}
           <motion.div
             {...fadeUp(0.1)}
-            className="col-span-1 lg:col-span-2 bg-white rounded-[32px] p-6 flex flex-col justify-center min-h-[220px] relative overflow-hidden"
+            className="col-span-1 lg:col-span-2 bg-white rounded-[32px] p-6 flex flex-col min-h-[220px]"
           >
-            <div className="absolute left-[-20px] top-1/2 -translate-y-1/2 opacity-80 pointer-events-none">
-              <Cctv className="w-32 h-32 text-black/10" strokeWidth={1} />
+            <div className="flex items-center gap-3 mb-4">
+              <Cctv className="w-6 h-6 text-black/80" />
+              <h4 className="font-bold text-[14px] leading-tight text-black">Works with Your<br />Existing Cameras</h4>
             </div>
-            <div className="relative z-10 pl-16">
-              <h4 className="font-bold text-[15px] text-black mb-3 leading-snug">Works with Your<br />Existing Cameras</h4>
+            <div className="pl-1">
+              <p className="text-black/60 text-[11px] leading-relaxed mb-2">
+                Seamlessly integrates with your current IP cameras.
+              </p>
               <p className="text-black/60 text-[11px] leading-relaxed">
-                Seamlessly integrates with your current IP cameras.<br />No new cameras required.
+                No new cameras required.
               </p>
             </div>
           </motion.div>
