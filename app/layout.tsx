@@ -1,12 +1,11 @@
 import type { Metadata } from "next";
-import { Syne, Poppins, Geist } from "next/font/google";
+import { Syne, Poppins, Geist, Instrument_Serif } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { SiteHeader } from "@/components/site-header";
 import { Footer } from "@/components/footer";
 import { Toaster } from "@/components/ui/sonner";
 import { Navbar } from "@/components/navbar";
-
 
 const FontSyne = Syne({
   variable: "--font-syne",
@@ -17,6 +16,13 @@ const FontSyne = Syne({
 const FontPoppins = Poppins({
   variable: "--font-poppins",
   weight: ["400", "500", "600", "700", "800", "900"],
+  subsets: ["latin"],
+});
+
+const FontInstrument = Instrument_Serif({
+  variable: "--font-instrument",
+  weight: ["400"],
+  style: ["normal", "italic"],
   subsets: ["latin"],
 });
 
@@ -82,9 +88,9 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={cn("h-full", "antialiased", FontSyne.variable, FontPoppins.variable)}
+      className={cn("min-h-screen", "antialiased", FontSyne.variable, FontPoppins.variable, FontInstrument.variable)}
     >
-      <body className="h-full min-h-full flex flex-col font-sans bg-black text-white relative">
+      <body className="min-h-screen flex flex-col font-sans bg-black text-white relative">
         <Navbar />
         <main className="flex-1 w-full relative z-0">
           {children}

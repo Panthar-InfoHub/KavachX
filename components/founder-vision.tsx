@@ -7,13 +7,13 @@ export default function FounderVision() {
                 <div className="flex flex-col md:flex-row items-center gap-12 md:gap-20">
                     {/* Left — Founder Image */}
                     <div className="w-full md:w-[45%] shrink-0">
-                        <div className="relative aspect-[4/5] w-full max-w-[400px] mx-auto rounded-[24px] overflow-hidden bg-neutral-200 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.15)]">
+                        <div className="w-full max-w-[400px] mx-auto rounded-[24px] overflow-hidden bg-[#f5f5f5] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.15)] flex">
                             <Image
-                                src="/abhay.webp"
+                                src="/images/Abhay Namdev.png"
                                 alt="Abhay Namdev — Founder & CEO of KavachX"
-                                fill
-                                sizes="(max-width: 768px) 100vw, 400px"
-                                className="object-cover"
+                                width={1086}
+                                height={1448}
+                                className="w-full h-auto object-contain"
                             />
                         </div>
                     </div>

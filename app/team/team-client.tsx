@@ -39,28 +39,33 @@ const teamMembers = [
     {
         image: "/team/core_team/keshav gupta.png",
         name: "Keshav Gupta",
-        role: "Ai Engineer",
+        role: "AI Engineer",
     },
 
-    {
-        image: "/team/core_team/ai_priyam.png",
-        name: "Priyam",
-        role: "Ai Engineer",
-    },
-    {
-        image: "/team/core_team/Palak.webp",
-        name: "Palak",
-        role: "Mobile Developer",
-    },
+    // {
+    //     image: "/team/core_team/ai_priyam.png",
+    //     name: "Priyam",
+    //     role: "Ai Engineer",
+    // },
+    // {
+    //     image: "/team/core_team/Palak.webp",
+    //     name: "Palak",
+    //     role: "Mobile Developer",
+    // },
     {
         image: "/team/core_team/nandini.jpeg",
         name: "Nandini",
         role: "Full Stack Developer",
     },
     {
-        image: "/team/core_team/social_intern.jpeg",
-        name: "nitesh",
+        image: "/team/core_team/Nitesh.jpeg",
+        name: "Nitesh",
         role: "Social Media Specialist",
+    },
+    {
+        image: "/team/core_team/Nihal.JPG",
+        name: "Nihal",
+        role: "UI/UX Designer",
     },
     {
         image: "/team/core_team/ankit.png",
@@ -250,9 +255,9 @@ export default function TeamClient() {
                         <div className="relative h-14 w-14 overflow-hidden rounded-full">
                             <Image
                                 alt="Abhay Namdev — Founder & CEO of KavachX"
-                                className="h-full w-full object-cover"
+                                className="h-full w-full object-cover object-top"
                                 fill
-                                src="/abhay.webp"
+                                src="/images/Abhay Namdev.png"
                                 sizes="56px"
                             />
                         </div>

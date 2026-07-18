@@ -28,6 +28,7 @@ export function Footer() {
             <Link href="/suraksha-kavach" className="text-2xl text-white hover:text-gray-300 transition-colors font-semibold tracking-wide">Suraksha Kavach</Link>
             <Link href="/kairos" className="text-2xl text-white hover:text-gray-300 transition-colors font-semibold tracking-wide">Kairos</Link>
             <Link href="/resources" className="text-2xl text-white hover:text-gray-300 transition-colors font-semibold tracking-wide">Resources</Link>
+            <Link href="/vendor" className="text-2xl text-white hover:text-gray-300 transition-colors font-semibold tracking-wide">Become a Vendor</Link>
           </div>
 
           {/* Socials */}
@@ -47,7 +48,7 @@ export function Footer() {
 
       {/* Massive Bottom Text */}
       <div className="w-[90%] mx-auto text-center select-none relative z-0 flex justify-between items-end mt-8 pb-1 px-4 overflow-hidden">
-        <h1 className="text-[10vw] font-bold text-transparent bg-clip-text bg-linear-to-b from-[#7a7a7a] to-black leading-none m-0 p-0 w-full flex justify-between uppercase tracking-normal">
+        <div className="text-[10vw] font-bold text-transparent bg-clip-text bg-linear-to-b from-[#7a7a7a] to-black leading-none m-0 p-0 w-full flex justify-between uppercase tracking-normal">
           <span>K</span>
           <span>A</span>
           <span>V</span>
@@ -55,7 +56,7 @@ export function Footer() {
           <span>C</span>
           <span>H</span>
           <span>X</span>
-        </h1>
+        </div>
       </div>
 
     </footer>

@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 200" fill="none">
+  <!-- KAIROS wordmark — geometric/futuristic style matching the logo -->
+  <!-- K -->
+  <g fill="currentColor">
+    <!-- K left vertical -->
+    <rect x="30" y="30" width="12" height="100" rx="1"/>
+    <!-- K upper diagonal -->
+    <polygon points="42,80 100,30 114,30 56,80"/>
+    <!-- K lower diagonal -->
+    <polygon points="42,82 114,130 100,130 42,84"/>
+
+    <!-- A — with dot inside triangle -->
+    <!-- A left leg -->
+    <polygon points="145,130 175,30 181,30 154,130"/>
+    <!-- A right leg -->
+    <polygon points="214,130 184,30 190,30 220,130"/>
+    <!-- A crossbar -->
+    <rect x="158" y="88" width="50" height="9" rx="1"/>
+    <!-- A dot -->
+    <circle cx="183" cy="65" r="5"/>
+
+    <!-- I -->
+    <rect x="255" y="30" width="12" height="100" rx="1"/>
+
+    <!-- R -->
+    <!-- R vertical -->
+    <rect x="300" y="30" width="12" height="100" rx="1"/>
+    <!-- R bowl top -->
+    <path d="M312 30 Q358 30 358 62 Q358 88 312 90 Z" fill="currentColor"/>
+    <!-- R bowl inner cutout -->
+    <path d="M318 38 Q348 38 348 62 Q348 80 318 82 Z" fill="white"/>
+    <!-- R leg -->
+    <polygon points="338,90 362,130 348,130 326,90"/>
+
+    <!-- O -->
+    <path d="M395 30 Q448 30 448 80 Q448 130 395 130 Q342 130 342 80 Q342 30 395 30 Z" fill="currentColor"/>
+    <path d="M395 42 Q436 42 436 80 Q436 118 395 118 Q354 118 354 80 Q354 42 395 42 Z" fill="white"/>
+
+    <!-- S -->
+    <path d="M480 30 Q530 30 530 62 Q530 80 500 86 Q480 90 480 104 Q480 118 510 118 Q530 118 540 110 L546 120 Q532 130 510 130 Q460 130 460 104 Q460 86 490 80 Q510 76 510 62 Q510 48 490 48 Q472 48 462 58 L456 48 Q468 30 480 30 Z" fill="currentColor"/>
+  </g>
+
+  <!-- Tagline with flanking dashes -->
+  <line x1="90" y1="162" x2="120" y2="162" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+  <text x="288" y="168" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13" font-weight="500" letter-spacing="4" fill="currentColor" text-anchor="middle">SECURE TODAY, SAFE TOMORROW</text>
+  <line x1="456" y1="162" x2="486" y2="162" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+</svg>

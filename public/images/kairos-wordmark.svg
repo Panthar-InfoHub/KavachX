@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 200" fill="none">
+
+  <!-- K -->
+  <line x1="30" y1="20" x2="30" y2="120" stroke="currentColor" stroke-width="13" stroke-linecap="round"/>
+  <line x1="30" y1="70" x2="98" y2="20" stroke="currentColor" stroke-width="13" stroke-linecap="round"/>
+  <line x1="30" y1="70" x2="98" y2="120" stroke="currentColor" stroke-width="13" stroke-linecap="round"/>
+
+  <!-- A (no crossbar, just the dot) -->
+  <line x1="140" y1="120" x2="180" y2="20" stroke="currentColor" stroke-width="13" stroke-linecap="round"/>
+  <line x1="220" y1="120" x2="180" y2="20" stroke="currentColor" stroke-width="13" stroke-linecap="round"/>
+  <circle cx="180" cy="90" r="7" fill="currentColor"/>
+
+  <!-- I -->
+  <line x1="260" y1="20" x2="260" y2="120" stroke="currentColor" stroke-width="13" stroke-linecap="round"/>
+
+  <!-- R -->
+  <line x1="302" y1="20" x2="302" y2="120" stroke="currentColor" stroke-width="13" stroke-linecap="round"/>
+  <path d="M302 20 Q373 20 373 58 Q373 90 302 90" stroke="currentColor" stroke-width="13" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <line x1="336" y1="90" x2="380" y2="120" stroke="currentColor" stroke-width="13" stroke-linecap="round"/>
+
+  <!-- O -->
+  <ellipse cx="440" cy="70" rx="42" ry="50" stroke="currentColor" stroke-width="13" fill="none"/>
+
+  <!-- S (shifted left to close gap) -->
+  <path d="
+    M 582 28
+    C 582 28 562 20 540 20
+    C 518 20 498 30 498 50
+    C 498 70 518 70 540 70
+    C 562 70 582 70 582 90
+    C 582 110 562 120 540 120
+    C 518 120 498 112 498 112
+  " stroke="currentColor" stroke-width="13" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Tagline -->
+  <line x1="55" y1="158" x2="95" y2="158" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+  <text x="400" y="163" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="12.5" font-weight="500" letter-spacing="4" fill="currentColor" text-anchor="middle">SECURE TODAY, SAFE TOMORROW</text>
+  <line x1="705" y1="158" x2="745" y2="158" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+
+</svg>
