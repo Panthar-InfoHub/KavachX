@@ -9,6 +9,7 @@
   --color-foreground: var(--foreground);
   --font-syne: var(--font-syne);
   --font-poppins: var(--font-poppins);
+  --font-instrument: var(--font-instrument);
   --font-heading: var(--font-sans);
   --font-sans: var(--font-poppins);
   --color-sidebar-ring: var(--sidebar-ring);

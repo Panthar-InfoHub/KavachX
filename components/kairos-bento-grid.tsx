@@ -73,29 +73,19 @@ function TargetGraphic() {
 
 export function KairosBentoGrid() {
   return (
-    <section className="w-full bg-[#f4f4f5] rounded-t-[3rem] py-24 md:py-32 px-4 sm:px-6 lg:px-8 font-syne relative overflow-hidden shadow-[0_-20px_50px_rgba(0,0,0,0.2)] z-20">
-      {/* Net / Grid Background Effect */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
-      
-      {/* Soft fade at the top of the grid */}
-      <div className="absolute top-0 left-0 right-0 h-40 bg-gradient-to-b from-[#f4f4f5] to-transparent pointer-events-none z-0"></div>
+    <section className="w-full bg-[#F8F9FA] rounded-t-[3rem] py-24 md:py-32 px-4 sm:px-6 lg:px-8 font-syne relative overflow-hidden shadow-[0_-20px_50px_rgba(0,0,0,0.05)] z-20">
+      <div className="max-w-[1100px] mx-auto relative z-10 px-4 md:px-8">
 
-      <div className="max-w-[1400px] mx-auto relative z-10">
-        
-        {/* Premium Intro Text */}
+        {/* Minimalist Intro Text */}
         <div className="flex flex-col items-center text-center mb-24 relative z-10 pt-8">
-          {/* Animated Badge */}
+          {/* Subtle Badge */}
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="inline-flex items-center gap-2.5 px-5 py-2 rounded-full bg-white border border-black/[0.06] shadow-sm mb-8"
+            className="inline-flex items-center gap-2 border border-slate-200 bg-white px-4 py-1.5 rounded-full text-slate-500 text-xs font-bold tracking-widest uppercase mb-8 shadow-[0_2px_10px_rgba(0,0,0,0.02)]"
           >
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-            </span>
-            <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-black/80">Core Technology</span>
+            Core Technology
           </motion.div>
 
           <motion.h2
@@ -103,18 +93,18 @@ export function KairosBentoGrid() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1, duration: 0.6 }}
-            className="text-5xl md:text-[5.5rem] font-bold tracking-tighter mb-6 leading-[1.05]"
+            className="text-5xl md:text-[5.5rem] lg:text-[6.5rem] font-bold tracking-tighter mb-8 leading-[1.05] text-slate-900"
           >
-            <span className="text-black">Powerful Features</span><br/>
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-gray-400 to-gray-600">at the Edge</span>
+            Powerful Features <br />
+            <span className="text-slate-400">at the Edge.</span>
           </motion.h2>
-          
+
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2, duration: 0.6 }}
-            className="text-gray-500 text-lg md:text-xl font-medium max-w-2xl leading-relaxed"
+            className="text-slate-600 text-lg md:text-xl font-medium max-w-2xl leading-relaxed"
           >
             Discover what makes KAIROS the ultimate intelligent security solution. Built for maximum speed, privacy, and absolute reliability.
           </motion.p>
@@ -127,9 +117,9 @@ export function KairosBentoGrid() {
           {/* 1. Brand Hero */}
           <motion.div
             {...fadeUp(0.02)}
-            className="col-span-1 md:col-span-2 lg:col-span-4 lg:row-span-2 bg-[#09090b] rounded-[32px] p-8 flex flex-col justify-between relative overflow-hidden min-h-[480px]"
+            className="col-span-1 md:col-span-2 lg:col-span-4 lg:row-span-2 bg-slate-950 rounded-[2.5rem] shadow-[0_10px_40px_rgba(0,0,0,0.08)] border border-white/5 p-8 flex flex-col justify-between relative overflow-hidden min-h-[400px]"
           >
-            <div className="absolute bottom-0 left-0 right-0 h-40 pointer-events-none">
+            <div className="absolute bottom-0 left-0 right-0 h-40 pointer-events-none z-0">
               <ParticleWave />
             </div>
 
@@ -144,7 +134,7 @@ export function KairosBentoGrid() {
               </p>
             </div>
 
-            <div className="relative z-10 grid grid-cols-4 gap-4 mt-12">
+            <div className="relative z-10 grid grid-cols-2 sm:grid-cols-4 gap-4 mt-auto pt-8">
               {[
                 { icon: Shield, text: "Enterprise\nGrade Security" },
                 { icon: BrainCircuit, text: "AI-Powered\nIntelligence" },
@@ -164,69 +154,100 @@ export function KairosBentoGrid() {
           {/* 2. Main Product */}
           <motion.div
             {...fadeUp(0.04)}
-            className="col-span-1 md:col-span-2 lg:col-span-5 lg:row-span-2 bg-white rounded-[32px] p-8 flex flex-col relative overflow-hidden min-h-[480px]"
+            className="col-span-1 md:col-span-2 lg:col-span-5 lg:row-span-2 bg-white rounded-[2.5rem] border border-slate-200/60 shadow-[0_4px_20px_rgba(0,0,0,0.03)] pt-8 px-8 flex flex-col relative overflow-hidden min-h-[400px]"
           >
-            <div className="relative z-10 mb-8">
+            <div className="relative z-20 mb-4">
               <h3 className="text-3xl font-bold text-black mb-2">The Kairos Edge AI Box</h3>
               <p className="text-black/60 text-sm">Powerful AI. Compact form. Maximum protection.</p>
             </div>
-            <div className="absolute inset-x-8 bottom-8 top-32 pointer-events-none">
-              <div className="relative w-full h-full drop-shadow-2xl">
-                <Image
-                  src="/images/edgebox.png"
-                  alt="Kairos Edge AI Box"
-                  fill
-                  className="object-contain object-center"
-                />
-              </div>
+
+            {/* Middle Empty Section Filler */}
+            <div className="flex-1 relative w-full flex items-center justify-center min-h-[120px] pointer-events-none mt-2 mb-4">
+               {/* Aesthetic concentric lines */}
+               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[240px] h-[240px] md:w-[280px] md:h-[280px] border border-black/[0.03] rounded-full" />
+               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[160px] h-[160px] md:w-[200px] md:h-[200px] border border-black/[0.05] rounded-full" />
+               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80px] h-[80px] md:w-[120px] md:h-[120px] border border-black/[0.08] rounded-full bg-black/[0.01]" />
+               
+               {/* Tech Badges */}
+               <motion.div 
+                 initial={{ y: 10, opacity: 0 }}
+                 whileInView={{ y: 0, opacity: 1 }}
+                 transition={{ delay: 0.3, duration: 0.5 }}
+                 className="absolute top-[15%] left-[5%] md:left-[10%] bg-white border border-black/[0.06] px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-[0_4px_12px_rgba(0,0,0,0.05)] z-20"
+               >
+                 <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-[pulse_2s_ease-in-out_infinite]" />
+                 <span className="text-[9px] font-bold tracking-widest uppercase text-black/80">Edge NPU</span>
+               </motion.div>
+               
+               <motion.div 
+                 initial={{ y: -10, opacity: 0 }}
+                 whileInView={{ y: 0, opacity: 1 }}
+                 transition={{ delay: 0.4, duration: 0.5 }}
+                 className="absolute bottom-[10%] right-[0%] md:right-[5%] bg-white border border-black/[0.06] px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-[0_4px_12px_rgba(0,0,0,0.05)] z-20"
+               >
+                 <Cpu className="w-3 h-3 text-black/60" />
+                 <span className="text-[9px] font-bold tracking-widest uppercase text-black/80">Local Compute</span>
+               </motion.div>
+            </div>
+            
+            <div className="relative w-full h-[180px] md:h-full min-h-[160px] md:min-h-[200px] mt-auto">
+              <Image
+                src="/images/edgebox.png"
+                alt="Kairos Edge AI Box"
+                fill
+                className="object-contain object-bottom drop-shadow-2xl scale-110 origin-bottom relative z-10"
+              />
+              <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[80%] h-8 bg-black/10 blur-xl rounded-full z-0" />
             </div>
           </motion.div>
 
           {/* 3. AI Detection */}
           <motion.div
             {...fadeUp(0.06)}
-            className="col-span-1 lg:col-span-3 bg-white rounded-[32px] p-8 flex flex-col justify-between overflow-hidden relative min-h-[234px]"
+            className="col-span-1 lg:col-span-3 bg-white rounded-[2.5rem] border border-slate-200/60 shadow-[0_4px_20px_rgba(0,0,0,0.03)] pt-8 px-8 flex flex-col relative overflow-hidden min-h-[220px]"
           >
-            <div className="relative z-10 max-w-[140px]">
-              <h4 className="font-bold text-lg text-black mb-3 leading-tight">AI-Powered<br />Detection</h4>
-              <p className="text-black/60 text-[11px] leading-relaxed">
-                Detects threats in real time with advanced AI models running on the edge.
-              </p>
-            </div>
-            <div className="absolute right-4 top-1/2 -translate-y-1/2 w-[180px] h-[180px]">
-              <TargetGraphic />
-            </div>
-
-            <div className="absolute top-6 right-6 flex items-center gap-2">
+            <div className="absolute top-6 right-6 flex items-center gap-2 z-20">
               <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
               </span>
               <span className="text-[8px] tracking-widest text-black/50 font-bold uppercase">KAIROS</span>
             </div>
+
+            <div className="relative z-20 mb-4">
+              <h4 className="font-bold text-lg text-black mb-3 leading-tight">AI-Powered<br />Detection</h4>
+              <p className="text-black/60 text-[11px] leading-relaxed max-w-[150px]">
+                Detects threats in real time with advanced AI models running on the edge.
+              </p>
+            </div>
+            
+            <div className="relative w-full h-[110px] mt-auto flex items-end justify-end -mr-6 -mb-4 overflow-hidden">
+               <div className="relative w-[160px] h-[160px]">
+                 <TargetGraphic />
+               </div>
+            </div>
           </motion.div>
 
           {/* 4. Real-Time Alerts */}
           <motion.div
             {...fadeUp(0.08)}
-            className="col-span-1 lg:col-span-3 bg-[#09090b] rounded-[32px] p-8 flex flex-col justify-between relative overflow-hidden min-h-[234px]"
+            className="col-span-1 lg:col-span-3 bg-slate-950 rounded-[2.5rem] shadow-[0_10px_40px_rgba(0,0,0,0.08)] border border-white/5 pt-8 px-8 flex flex-col relative overflow-hidden min-h-[220px]"
           >
-            <div className="relative z-10 max-w-[130px]">
+            <div className="relative z-10 mb-6">
               <h4 className="font-bold text-lg text-white mb-3 leading-tight">Real-Time<br />Alerts</h4>
-              <p className="text-white/60 text-[11px] leading-relaxed">
-                Instant notifications for critical events across all your connected devices.
+              <p className="text-white/60 text-[11px] leading-relaxed max-w-[150px]">
+                Instant notifications for critical events.
               </p>
             </div>
             {/* Mock UI */}
-            <div className="absolute right-[-20px] top-[10%] w-[160px] h-[120%] bg-black border border-white/10 rounded-l-3xl p-3 flex flex-col gap-2">
-              <div className="flex justify-between items-center mb-2 px-1">
+            <div className="w-[120%] -ml-[10%] bg-black border border-white/10 rounded-t-3xl p-4 flex flex-col gap-2 mt-auto relative z-10 shadow-[0_-10px_30px_rgba(0,0,0,0.5)]">
+              <div className="flex justify-between items-center mb-1 px-1">
                 <div className="w-4 h-4 rounded-full bg-white/10" />
                 <span className="text-[8px] tracking-widest text-white/50">KAIROS</span>
               </div>
               {[
                 { icon: Flame, title: "Fire Detected", sub: "Warehouse 1", time: "10:24 AM", color: "text-red-500" },
                 { icon: UserX, title: "Intrusion Detected", sub: "Gate Entrance", time: "10:24 AM", color: "text-orange-500" },
-                { icon: PersonStanding, title: "Fall Detected", sub: "Production Area", time: "10:24 AM", color: "text-yellow-500" },
               ].map((alert, i) => (
                 <div key={i} className="flex items-center gap-2 bg-white/5 rounded-lg p-2">
                   <alert.icon className={`w-3 h-3 ${alert.color}`} />
@@ -246,17 +267,17 @@ export function KairosBentoGrid() {
           {/* 5. Existing Cameras */}
           <motion.div
             {...fadeUp(0.1)}
-            className="col-span-1 lg:col-span-2 bg-white rounded-[32px] p-6 flex flex-col min-h-[220px]"
+            className="col-span-1 md:col-span-2 lg:col-span-3 bg-white rounded-[2.5rem] border border-slate-200/60 shadow-[0_4px_20px_rgba(0,0,0,0.03)] p-6 flex flex-col min-h-[220px] justify-between"
           >
-            <div className="flex items-center gap-3 mb-4">
+            <div className="flex flex-col gap-3">
               <Cctv className="w-6 h-6 text-black/80" />
-              <h4 className="font-bold text-[14px] leading-tight text-black">Works with Your<br />Existing Cameras</h4>
+              <h4 className="font-bold text-[16px] leading-tight text-black">Works with Your<br />Existing Cameras</h4>
             </div>
-            <div className="pl-1">
-              <p className="text-black/60 text-[11px] leading-relaxed mb-2">
+            <div>
+              <p className="text-black/60 text-[12px] leading-relaxed mb-2">
                 Seamlessly integrates with your current IP cameras.
               </p>
-              <p className="text-black/60 text-[11px] leading-relaxed">
+              <p className="text-black/60 text-[12px] leading-relaxed">
                 No new cameras required.
               </p>
             </div>
@@ -265,100 +286,110 @@ export function KairosBentoGrid() {
           {/* 6. Detection Capabilities */}
           <motion.div
             {...fadeUp(0.12)}
-            className="col-span-1 lg:col-span-2 bg-white rounded-[32px] p-6 flex flex-col min-h-[220px]"
+            className="col-span-1 md:col-span-2 lg:col-span-3 bg-white rounded-[2.5rem] border border-slate-200/60 shadow-[0_4px_20px_rgba(0,0,0,0.03)] p-6 flex flex-col min-h-[220px]"
           >
-            <div className="flex items-center gap-3 mb-4">
+            <div className="flex flex-col gap-3 mb-4">
               <BrainCircuit className="w-6 h-6 text-black/80" />
-              <h4 className="font-bold text-[14px] leading-tight text-black">AI Detection<br />Capabilities</h4>
+              <h4 className="font-bold text-[16px] leading-tight text-black">AI Detection<br />Capabilities</h4>
             </div>
-            <div className="grid grid-cols-1 gap-2 pl-1">
+            <div className="grid grid-cols-2 gap-x-1 gap-y-2.5">
               {[
-                "Fire Detection", "Intrusion Detection", "Fall Detection",
-                "Weapon Detection", "Loitering Detection", "Crowd Detection"
+                "Fire Detection", "Intrusion", "Falls",
+                "Weapons", "Loitering", "Crowds"
               ].map((cap, i) => (
-                <div key={i} className="flex items-center gap-2">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-black/40" />
-                  <span className="text-[11px] text-black/70 font-medium">{cap}</span>
+                <div key={i} className="flex items-center gap-1.5">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500/70 shrink-0" />
+                  <span className="text-[10px] text-black/70 font-medium">{cap}</span>
                 </div>
               ))}
             </div>
           </motion.div>
 
-          {/* 7,8,9. Mini Features Group (Span 5) */}
-          <div className="col-span-1 md:col-span-2 lg:col-span-5 grid grid-cols-1 sm:grid-cols-3 gap-3">
-            {/* Edge AI Processing */}
-            <motion.div {...fadeUp(0.14)} className="bg-white rounded-[32px] p-6 flex flex-col min-h-[220px] relative overflow-hidden">
-              <div className="flex items-center gap-3 mb-4 z-10">
-                <Cpu className="w-6 h-6 text-black/80" />
-                <h4 className="font-bold text-[14px] leading-tight text-black">Edge AI<br />Processing</h4>
+          {/* 7. Edge AI Processing */}
+          <motion.div {...fadeUp(0.14)} className="col-span-1 md:col-span-2 lg:col-span-3 bg-white rounded-[2.5rem] border border-slate-200/60 shadow-[0_4px_20px_rgba(0,0,0,0.03)] p-6 flex flex-col min-h-[220px] relative overflow-hidden justify-between">
+            <div className="absolute bottom-[-20px] right-[-20px] w-32 h-32 bg-[radial-gradient(circle_at_center,rgba(0,0,0,0.03)_0%,transparent_70%)] pointer-events-none z-0" />
+            <div className="relative z-10 flex flex-col gap-3">
+              <div className="w-10 h-10 rounded-full bg-[#f4f4f5] flex items-center justify-center">
+                <Cpu className="w-5 h-5 text-black" />
               </div>
-              <p className="text-black/60 text-[11px] leading-relaxed z-10">
-                All processing happens on the device itself. Your data stays private and secure.
-              </p>
-              <div className="absolute bottom-[-10px] right-[-10px] w-24 h-24 bg-[radial-gradient(ellipse_at_center,rgba(0,0,0,0.1)_0%,transparent_70%)]" />
-            </motion.div>
-
-            {/* Privacy by Design */}
-            <motion.div {...fadeUp(0.16)} className="bg-white rounded-[32px] p-6 flex flex-col min-h-[220px]">
-              <div className="flex items-center gap-3 mb-4">
-                <Lock className="w-6 h-6 text-black/80" />
-                <h4 className="font-bold text-[14px] leading-tight text-black">Privacy by<br />Design</h4>
-              </div>
-              <p className="text-black/60 text-[11px] leading-relaxed">
-                No video leaves your premises. No cloud dependency. Complete data privacy.
-              </p>
-            </motion.div>
-
-            {/* 24/7 Monitoring */}
-            <motion.div {...fadeUp(0.18)} className="bg-white rounded-[32px] p-6 flex flex-col min-h-[220px]">
-              <div className="flex items-center gap-3 mb-4">
-                <Clock className="w-6 h-6 text-black/80" />
-                <h4 className="font-bold text-[14px] leading-tight text-black">24/7 Monitoring</h4>
-              </div>
-              <p className="text-black/60 text-[11px] leading-relaxed">
-                Always on. Always vigilant. Built for uninterrupted protection.
-              </p>
-            </motion.div>
-          </div>
-
-          {/* 10. Plug & Protect */}
-          <motion.div
-            {...fadeUp(0.20)}
-            className="col-span-1 lg:col-span-3 bg-[#09090b] rounded-[32px] p-8 flex justify-between relative overflow-hidden min-h-[220px]"
-          >
-            <div className="relative z-10 flex flex-col justify-center">
-              <h4 className="font-bold text-[22px] text-white mb-2 leading-tight">Plug & Protect</h4>
-              <p className="text-white/50 text-[12px] mb-6">Simple to set up.<br />Hard to stop.</p>
-              <div className="flex flex-col gap-2.5">
-                {["Plug in Power", "Connect to Network", "Start Protecting"].map((step, i) => (
-                  <div key={i} className="flex items-center gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-white" />
-                    <span className="text-[11px] text-white/80">{step}</span>
-                  </div>
-                ))}
-              </div>
+              <h4 className="font-bold text-[16px] leading-tight text-black">Edge AI<br />Processing</h4>
             </div>
+            <p className="text-black/60 text-[12px] leading-relaxed relative z-10">
+              All processing happens on the device itself. Your data stays private and secure.
+            </p>
+          </motion.div>
 
-            <div className="absolute right-[-10px] top-1/2 -translate-y-1/2 w-[220px] h-[220px] opacity-90 pointer-events-none">
-              <Image
-                src="/images/edgebox.png"
-                alt="Edgebox top view"
-                fill
-                className="object-contain object-right"
-              />
+          {/* 8. Privacy by Design */}
+          <motion.div {...fadeUp(0.16)} className="col-span-1 md:col-span-2 lg:col-span-3 bg-white rounded-[2.5rem] border border-slate-200/60 shadow-[0_4px_20px_rgba(0,0,0,0.03)] p-6 flex flex-col min-h-[220px] justify-between">
+            <div className="flex flex-col gap-3">
+              <div className="w-10 h-10 rounded-full bg-[#f4f4f5] flex items-center justify-center">
+                <Lock className="w-5 h-5 text-black" />
+              </div>
+              <h4 className="font-bold text-[16px] leading-tight text-black">Privacy by<br />Design</h4>
             </div>
+            <p className="text-black/60 text-[12px] leading-relaxed">
+              No video leaves your premises. No cloud dependency. Complete data privacy.
+            </p>
           </motion.div>
 
 
           {/* ==================== ROW 3 ==================== */}
 
+          {/* 9. 24/7 Monitoring */}
+          <motion.div {...fadeUp(0.18)} className="col-span-1 md:col-span-2 lg:col-span-3 bg-white rounded-[2.5rem] border border-slate-200/60 shadow-[0_4px_20px_rgba(0,0,0,0.03)] p-6 flex flex-col min-h-[240px] justify-between">
+            <div className="flex flex-col gap-3">
+              <div className="w-10 h-10 rounded-full bg-[#f4f4f5] flex items-center justify-center">
+                <Clock className="w-5 h-5 text-black" />
+              </div>
+              <h4 className="font-bold text-[16px] leading-tight text-black">24/7<br />Monitoring</h4>
+            </div>
+            <p className="text-black/60 text-[12px] leading-relaxed">
+              Always on. Always vigilant. Built for uninterrupted protection.
+            </p>
+          </motion.div>
+
+          {/* 10. Plug & Protect */}
+          <motion.div
+            {...fadeUp(0.20)}
+            className="col-span-1 md:col-span-2 lg:col-span-5 bg-slate-950 rounded-[2.5rem] shadow-[0_10px_40px_rgba(0,0,0,0.08)] border border-white/5 pt-6 px-6 flex flex-col relative overflow-hidden min-h-[240px]"
+          >
+            <div className="relative z-20 flex flex-col mb-4">
+              <h4 className="font-bold text-[20px] text-white mb-1 leading-tight">Plug & Protect</h4>
+              <p className="text-white/50 text-[12px] mb-4">Simple to set up. Hard to stop.</p>
+              <div className="flex flex-wrap gap-3">
+                {["Plug in Power", "Connect to Network", "Start Protecting"].map((step, i) => (
+                  <div key={i} className="flex items-center gap-1.5">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
+                    <span className="text-[11px] text-white/90 font-medium">{step}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+            
+            <div className="relative w-full h-[100px] mt-auto pb-4">
+              <Image
+                src="/images/edgebox.png"
+                alt="Edgebox top view"
+                fill
+                className="object-contain object-bottom scale-100 origin-bottom"
+              />
+            </div>
+          </motion.div>
+
           {/* 11. Environments */}
           <motion.div
             {...fadeUp(0.22)}
-            className="col-span-1 md:col-span-2 lg:col-span-4 bg-[#09090b] rounded-[32px] p-8 flex flex-col justify-between min-h-[160px]"
+            className="col-span-1 lg:col-span-4 bg-slate-950 rounded-[2.5rem] shadow-[0_10px_40px_rgba(0,0,0,0.08)] border border-white/5 p-6 flex flex-col min-h-[240px] relative overflow-hidden"
           >
-            <h4 className="font-bold text-[16px] text-white mb-6">Built for Every Environment</h4>
-            <div className="flex items-center justify-between px-2">
+            <div className="relative z-10 flex flex-col mb-4">
+              <h4 className="font-bold text-[16px] text-white mb-1">Built for Every Environment</h4>
+              <p className="text-white/50 text-[11px] max-w-[220px]">Adaptable AI that seamlessly integrates into any architectural space.</p>
+            </div>
+
+            {/* Ambient Background Graphic */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150%] h-[150%] bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.03)_0%,transparent_50%)] pointer-events-none z-0" />
+
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-y-3 gap-x-3 w-full mt-auto relative z-10">
               {[
                 { icon: Building2, label: "Offices" },
                 { icon: Factory, label: "Factories" },
@@ -367,45 +398,48 @@ export function KairosBentoGrid() {
                 { icon: GraduationCap, label: "Campuses" },
                 { icon: MoreHorizontal, label: "And more" },
               ].map((env, i) => (
-                <div key={i} className="flex flex-col items-center gap-3 opacity-60 hover:opacity-100 transition-opacity">
-                  <env.icon className="w-6 h-6 text-white" strokeWidth={1.5} />
-                  <span className="text-[9px] text-white font-medium">{env.label}</span>
+                <div key={i} className="flex flex-col items-center justify-center gap-1.5 p-2.5 rounded-[14px] bg-white/[0.02] border border-white/[0.05] hover:bg-white/[0.08] transition-colors cursor-default">
+                  <env.icon className="w-4 h-4 text-white/70" strokeWidth={1.5} />
+                  <span className="text-[9px] text-white/70 font-medium text-center">{env.label}</span>
                 </div>
               ))}
             </div>
           </motion.div>
 
+
+          {/* ==================== ROW 4 ==================== */}
+
           {/* 12. Dimensions */}
           <motion.div
             {...fadeUp(0.24)}
-            className="col-span-1 lg:col-span-3 bg-white rounded-[32px] p-8 flex justify-between relative overflow-hidden min-h-[160px]"
+            className="col-span-1 lg:col-span-5 bg-white rounded-[2.5rem] border border-slate-200/60 shadow-[0_4px_20px_rgba(0,0,0,0.03)] pt-6 px-6 flex flex-col relative overflow-hidden min-h-[240px]"
           >
-            <div className="relative z-10 flex flex-col justify-between">
-              <h4 className="font-bold text-[15px] text-black leading-tight mb-4">
-                Compact. Powerful.<br />Uncompromising.
+            <div className="relative z-20 flex flex-col mb-4">
+              <h4 className="font-bold text-[16px] text-black leading-tight mb-3">
+                Compact. Powerful. Uncompromising.
               </h4>
-              <div className="grid grid-cols-2 gap-x-6 gap-y-2">
+              <div className="grid grid-cols-3 gap-x-4 gap-y-3">
                 <div>
-                  <p className="text-[8px] text-black/40 uppercase font-bold tracking-wider mb-0.5">Dimensions</p>
-                  <p className="text-[10px] text-black font-semibold">120 x 45 mm</p>
+                  <p className="text-[10px] text-black/40 uppercase font-bold tracking-wider mb-1">Dimensions</p>
+                  <p className="text-[12px] text-black font-semibold">120 x 45 mm</p>
                 </div>
                 <div>
-                  <p className="text-[8px] text-black/40 uppercase font-bold tracking-wider mb-0.5">Weight</p>
-                  <p className="text-[10px] text-black font-semibold">335 gms</p>
+                  <p className="text-[10px] text-black/40 uppercase font-bold tracking-wider mb-1">Weight</p>
+                  <p className="text-[12px] text-black font-semibold">335 gms</p>
                 </div>
-                <div className="col-span-2">
-                  <p className="text-[8px] text-black/40 uppercase font-bold tracking-wider mb-0.5">Build</p>
-                  <p className="text-[10px] text-black font-semibold">Aluminum Body</p>
+                <div>
+                  <p className="text-[10px] text-black/40 uppercase font-bold tracking-wider mb-1">Build</p>
+                  <p className="text-[12px] text-black font-semibold">Premium Aluminum</p>
                 </div>
               </div>
             </div>
-
-            <div className="absolute right-[-30px] bottom-[-20px] w-40 h-40">
+            
+            <div className="relative w-full h-[120px] mt-auto">
               <Image
                 src="/images/edgebox.png"
                 alt="Edgebox side"
                 fill
-                className="object-contain"
+                className="object-contain object-bottom scale-[1.2] origin-bottom"
               />
             </div>
           </motion.div>
@@ -413,51 +447,50 @@ export function KairosBentoGrid() {
           {/* 13. Future-Ready */}
           <motion.div
             {...fadeUp(0.26)}
-            className="col-span-1 lg:col-span-2 bg-[#09090b] rounded-[32px] p-6 flex flex-col justify-between relative overflow-hidden min-h-[160px]"
+            className="col-span-1 md:col-span-2 lg:col-span-3 bg-slate-950 rounded-[2.5rem] shadow-[0_10px_40px_rgba(0,0,0,0.08)] border border-white/5 pt-6 px-6 flex flex-col relative overflow-hidden min-h-[240px]"
           >
-            <div className="relative z-10">
-              <h4 className="font-bold text-[15px] text-white leading-tight mb-3">
+            <div className="relative z-10 mb-4">
+              <h4 className="font-bold text-[16px] text-white leading-tight mb-3">
                 Secure. Reliable.<br />Future-Ready.
               </h4>
-              <p className="text-white/60 text-[11px] leading-relaxed">
+              <p className="text-white/60 text-[12px] leading-relaxed">
                 Regular updates.<br />New features.<br />Stronger protection.
               </p>
             </div>
-
-            <div className="absolute right-[-10px] bottom-[-10px] w-32 h-32 opacity-20 pointer-events-none flex items-center justify-center">
-              <div className="absolute inset-0 border border-white rounded-full scale-50" />
-              <div className="absolute inset-0 border border-white rounded-full scale-75" />
-              <ShieldCheck className="w-12 h-12 text-white" />
+            
+            <div className="relative w-full h-[100px] mt-auto flex items-center justify-center opacity-20">
+              <div className="absolute inset-0 border border-white rounded-full scale-[0.6]" />
+              <div className="absolute inset-0 border border-white rounded-full scale-[0.85]" />
+              <ShieldCheck className="w-12 h-12 text-white relative z-10" />
             </div>
           </motion.div>
 
           {/* 14. Blend In */}
           <motion.div
             {...fadeUp(0.28)}
-            className="col-span-1 lg:col-span-3 bg-white rounded-[32px] p-8 flex justify-between relative overflow-hidden min-h-[160px]"
+            className="col-span-1 lg:col-span-4 bg-white rounded-[2.5rem] border border-slate-200/60 shadow-[0_4px_20px_rgba(0,0,0,0.03)] pt-6 px-6 pb-2 flex flex-col relative overflow-hidden min-h-[240px]"
           >
-            <div className="relative z-20 max-w-[170px] flex flex-col justify-center">
-              <h4 className="font-bold text-[15px] text-black leading-tight mb-3">
+            <div className="relative z-20 flex flex-col mb-4">
+              <h4 className="font-bold text-[16px] text-black leading-tight mb-3">
                 Designed to Blend In.<br />Built to Stand Out.
               </h4>
-              <p className="text-black/60 text-[11px] leading-relaxed">
+              <p className="text-black/60 text-[12px] leading-relaxed max-w-[200px]">
                 Premium aluminum body with a minimalist design that fits anywhere.
               </p>
             </div>
-
-            {/* Protective gradient for text legibility */}
-            <div className="absolute inset-y-0 left-0 w-3/4 bg-gradient-to-r from-white via-white/90 to-transparent z-10 pointer-events-none" />
-
-            <div className="absolute right-[-90px] top-1/2 -translate-y-1/2 w-[220px] h-[220px] pointer-events-none">
+            
+            <div className="relative w-full h-[100px] mt-auto">
               <Image
                 src="/images/edgebox.png"
                 alt="Edgebox grille detail"
                 fill
-                className="object-contain object-right scale-[1.3]"
+                className="object-contain object-bottom scale-100 origin-bottom"
               />
             </div>
           </motion.div>
 
+
+          {/* ==================== FINAL BANNER ==================== */}
 
           {/* 15. Final Banner */}
           <motion.div

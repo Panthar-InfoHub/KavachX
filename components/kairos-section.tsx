@@ -4,6 +4,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 import { TestimonialStrip } from "./testimonial-strip";
 
 export function KairosSection() {
@@ -29,11 +30,11 @@ export function KairosSection() {
         <p className="text-sm md:text-base text-gray-600 mb-8 max-w-2xl font-medium leading-relaxed">
           Distance may challenge connections, but with the Kavach Kairos for CCTV, you can keep an eye on your loved ones and favorite spots effortlessly. Our technology ensures you stay linked, no matter the miles.
         </p>
-        <Link href="/kairos" className="flex items-center gap-2 px-6 py-2.5 rounded-full border border-black/20 text-xs font-bold uppercase tracking-[0.2em] hover:bg-black hover:text-white transition-all duration-300 group">
+        <Link href="/kairos" className="group inline-flex h-14 w-full sm:w-auto items-center justify-between gap-4 rounded-full bg-black pl-8 pr-2 text-[15px] font-medium text-white transition-all hover:bg-slate-800 active:scale-[0.98]">
           Check More
-          <svg className="w-3 h-3 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-          </svg>
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white text-black transition-transform group-hover:scale-[1.05]">
+            <ArrowRight className="h-4 w-4 -rotate-45 transition-transform group-hover:rotate-0" />
+          </div>
         </Link>
       </div>
 

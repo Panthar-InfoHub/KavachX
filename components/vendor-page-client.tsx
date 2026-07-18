@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import LenisDiv from "@/components/LenisDiv";
-import { motion, AnimatePresence } from "motion/react";
+import { motion, AnimatePresence, useScroll, useTransform } from "motion/react";
 import Link from "next/link";
 import {
   Shield,
@@ -27,56 +27,61 @@ import Image from "next/image";
 
 // ==========================================
 // 1. Hero Section
+import { AIIcon } from "./icons";
+
+// ==========================================
+// HERO SECTION
 // ==========================================
 const HeroSection = () => {
   return (
-    <section className="relative flex flex-col items-center justify-center overflow-hidden bg-slate-50 pt-32 pb-24 min-h-[70vh]">
+    <section className="relative flex min-h-[90vh] w-full flex-col items-center justify-center overflow-hidden bg-[#F6F6F6] font-sans text-black pt-32 pb-24">
+      
+      <main className="container mx-auto flex w-full flex-col items-center px-6 text-center z-10 relative">
+        
+        {/* Subtle grid background for the hero */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#00000008_1px,transparent_1px),linear-gradient(to_bottom,#00000008_1px,transparent_1px)] bg-[size:60px_60px] pointer-events-none -z-10 [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_80%)]" />
 
-      {/* ── Net / Grid Background Effect ── */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#8080801a_1px,transparent_1px),linear-gradient(to_bottom,#8080801a_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none" />
-      {/* Soft fade at the top and bottom of the grid */}
-      <div className="absolute top-0 left-0 right-0 h-40 bg-gradient-to-b from-slate-50 to-transparent pointer-events-none z-0" />
-      <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-slate-50 to-transparent pointer-events-none z-0" />
+        {/* Headline - Marklab inspired mixed typography */}
+        <motion.h1 
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          className="mb-8 max-w-5xl text-balance text-6xl font-medium tracking-tight text-slate-900 md:text-7xl lg:text-[6rem] leading-[1.05]"
+        >
+          Sell Smarter Security. <br className="hidden sm:block" />
+          <span className="text-slate-500">Keep Earning</span> Tomorrow.
+        </motion.h1>
 
-      <div className="container mx-auto px-6 relative z-10 flex flex-col items-center text-center mt-10">
-        <motion.div
+        <motion.p 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          className="w-full max-w-6xl mx-auto flex flex-col items-center"
+          transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+          className="mx-auto mb-12 max-w-[650px] text-balance text-lg leading-relaxed text-slate-600 md:text-xl"
         >
+          All partnerships here are designed to deliver impact—not just impressions. Earn 20% on every installation, plus recurring revenue.
+        </motion.p>
 
-
-          <h1 className="text-[2.75rem] sm:text-5xl md:text-6xl lg:text-[5.5rem] font-bold leading-[1.05] mb-6 font-syne text-slate-900 tracking-tight whitespace-nowrap">
-            Sell Smarter Security. <br />
-            Keep Earning <span className="text-[#768294]">Tomorrow.</span>
-          </h1>
-
-          {/* ── Subtitle ── */}
-          <p className="text-xl text-slate-600 mb-10 max-w-2xl leading-relaxed">
-            Join the KavachX Vendor Partner Network. Earn 20% on eligible KAIROS installations, plus recurring commission from active customer subscriptions.
-          </p>
-
-          {/* ── Standardized Global Button ── */}
-          <div className="flex flex-col items-center gap-4">
-            <Link
-              href="/contact"
-              className="w-full sm:w-auto text-center bg-black hover:bg-gray-900 text-white px-8 py-3.5 rounded-full text-xs font-bold uppercase tracking-[0.2em] transition-all duration-300 shadow-[0_10px_30px_rgba(0,0,0,0.15)] hover:shadow-[0_15px_40px_rgba(0,0,0,0.25)] inline-flex items-center justify-center gap-2 active:scale-95"
-            >
-              Become a Vendor Partner
-            </Link>
-
-            <div className="flex items-center gap-2 mt-2">
-              <div className="flex text-amber-400 text-base gap-0.5 leading-none">
-                ★★★★★
-              </div>
-              <span className="text-[13px] font-medium text-slate-500">
-                Trusted by security integrators globally
-              </span>
+        {/* Call to Actions - Marklab style pill buttons */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+          className="flex w-full flex-col items-center justify-center gap-4 sm:flex-row"
+        >
+          <Link 
+            href="/contact" 
+            className="group flex h-14 w-full sm:w-auto items-center justify-between gap-4 rounded-full bg-black pl-8 pr-2 text-[15px] font-medium text-white transition-all hover:bg-slate-800 active:scale-[0.98]"
+          >
+            Become a Partner
+            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white text-black transition-transform group-hover:scale-[1.05]">
+              <ArrowRight className="h-4 w-4 -rotate-45 transition-transform group-hover:rotate-0" />
             </div>
-          </div>
+          </Link>
+          
+
         </motion.div>
-      </div>
+
+      </main>
     </section>
   );
 };
@@ -113,107 +118,160 @@ const BadgeItem = ({ icon, line1, line2 }: { icon: React.ReactNode; line1: strin
   </div>
 );
 
-const SocialProofSection = () => {
+import { Marquee } from "./ui/marquee";
+
+const MarqueeSection = () => {
   return (
-    <section className="py-24 bg-white text-center flex flex-col items-center">
-      <div className="container mx-auto px-6 max-w-4xl">
-        <p className="text-sm font-semibold text-slate-500 mb-8 tracking-widest uppercase">Compatible with</p>
-        <div className="flex flex-wrap justify-center items-center gap-10 md:gap-16" style={{ opacity: 0.55 }}>
-          <span className="text-2xl md:text-3xl font-black tracking-tighter text-slate-800">HIKVISION</span>
-          <span className="text-2xl md:text-3xl font-bold tracking-tight text-slate-800" style={{ fontVariant: "small-caps" }}>dahua</span>
-          <span className="text-2xl md:text-3xl font-bold tracking-widest uppercase text-slate-800">Bosch</span>
-          <span className="text-2xl md:text-3xl font-extrabold tracking-tight uppercase text-slate-800">CP PLUS</span>
-        </div>
-
-        {/* Laurel badge row */}
-        <div className="mt-24 flex flex-col sm:flex-row justify-center items-center gap-12 sm:gap-20">
-          <BadgeItem
-            icon={
-              <svg className="w-5 h-5 mb-0.5" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2C9.243 2 7 4.243 7 7v1H5a2 2 0 00-2 2v10a2 2 0 002 2h14a2 2 0 002-2V10a2 2 0 00-2-2h-2V7c0-2.757-2.243-5-5-5zm0 2c1.654 0 3 1.346 3 3v1H9V7c0-1.654 1.346-3 3-3zm0 10a2 2 0 110 4 2 2 0 010-4z" />
-              </svg>
-            }
-            line1="Enterprise"
-            line2="Ready"
-          />
-          <BadgeItem
-            icon={
-              <svg className="w-5 h-5 mb-0.5" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2L3 7v6c0 5 3.8 9.7 9 10.9C18.2 22.7 22 18 22 13V7L12 2zm-1 13.4l-3-3 1.4-1.4L11 12.6l5.6-5.6 1.4 1.4-7 7z" />
-              </svg>
-            }
-            line1="Trusted by"
-            line2="Integrators"
-          />
-        </div>
-
-        <h2 className="mt-16 text-4xl md:text-5xl lg:text-[3.5rem] font-bold font-syne text-[#0F172A] max-w-4xl mx-auto leading-[1.1] tracking-tight">
-          Join hundreds of partners upgrading to intelligent security
-        </h2>
+    <section className="py-20 bg-white border-b border-slate-100 overflow-hidden">
+      <div className="container mx-auto px-6 mb-10 text-center">
+        <p className="text-sm font-semibold text-slate-500 tracking-widest uppercase">
+          Be part of the 100+ businesses transforming their digital presence.
+        </p>
+      </div>
+      
+      <div className="relative w-full overflow-hidden">
+        {/* Left and Right fades */}
+        <div className="pointer-events-none absolute inset-y-0 left-0 w-1/4 bg-gradient-to-r from-white z-10"></div>
+        <div className="pointer-events-none absolute inset-y-0 right-0 w-1/4 bg-gradient-to-l from-white z-10"></div>
+        
+        <Marquee className="[--duration:30s] flex items-center" repeat={6}>
+          <span className="text-3xl font-black tracking-tighter text-slate-300 mx-8 opacity-70">HIKVISION</span>
+          <span className="text-3xl font-bold tracking-tight text-slate-300 mx-8 opacity-70" style={{ fontVariant: "small-caps" }}>dahua</span>
+          <span className="text-3xl font-bold tracking-widest uppercase text-slate-300 mx-8 opacity-70">Bosch</span>
+          <span className="text-3xl font-extrabold tracking-tight uppercase text-slate-300 mx-8 opacity-70">CP PLUS</span>
+        </Marquee>
       </div>
     </section>
   );
 };
 
 // ==========================================
-// 2. Earning Model
+// 2. Earning Model (Ultra Premium Design)
 // ==========================================
 const EarningModelSection = () => {
   return (
-    <section id="earning-model" className="py-24 bg-white text-slate-900 relative">
-      <div className="container mx-auto px-6 max-w-6xl">
-        <div className="text-center mb-16">
-          <div className="text-slate-900 text-sm font-bold tracking-widest uppercase mb-4">TWO WAYS TO EARN</div>
-          <h2 className="text-4xl md:text-5xl font-bold font-syne mb-6">Earn Once. Keep Earning Every Month.</h2>
-          <p className="text-slate-600 max-w-2xl mx-auto text-lg">
-            One KAIROS customer can create more than a one-time business opportunity. Earn through successful installations and continue unlocking recurring earning potential through eligible active subscriptions.
-          </p>
-        </div>
+    <section id="earning-model" className="py-32 bg-[#FDFDFD] text-slate-900 relative overflow-hidden">
+      {/* Subtle ambient light */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-[1000px] h-[400px] bg-gradient-to-b from-slate-100/50 to-transparent blur-3xl pointer-events-none" />
 
-        <div className="grid md:grid-cols-2 gap-8">
-          {/* Card 1 */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
+      <div className="container mx-auto px-6 max-w-[1200px] relative z-10">
+        <div className="flex flex-col lg:flex-row gap-16 lg:gap-24 items-center">
+          
+          {/* Left Side - Editorial Content */}
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="bg-slate-50 border border-slate-200 p-10 rounded-3xl relative overflow-hidden group hover:border-slate-300 transition-colors shadow-sm hover:shadow-md"
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            className="flex-1 w-full flex flex-col justify-center"
           >
-            <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
-              <div className="text-9xl font-bold text-slate-900">20%</div>
+            <div className="inline-flex items-center gap-2 border border-slate-200/80 bg-white/50 backdrop-blur-sm px-4 py-1.5 rounded-full text-slate-500 text-[11px] font-bold tracking-[0.2em] uppercase mb-8 shadow-sm self-start">
+              <span className="w-1.5 h-1.5 rounded-full bg-slate-900 animate-pulse" />
+              Partner Economics
             </div>
-            <h3 className="text-slate-900 text-sm font-bold tracking-widest uppercase mb-4 relative z-10">20% Installation Commission</h3>
-            <h4 className="text-3xl font-bold font-syne mb-4 relative z-10">Earn 20% on Every Eligible Installation</h4>
-            <p className="text-slate-600 relative z-10 mb-8">
-              Successfully bring and install KAIROS for an eligible customer and earn a 20% commission on the applicable installation value. The more installations you complete, the greater your earning potential.
+            
+            <h2 className="text-4xl md:text-6xl font-bold font-syne tracking-tight text-slate-900 leading-[1.05] mb-6">
+              One Install. <br/>
+              <span className="text-slate-400">Endless Returns.</span>
+            </h2>
+            
+            <p className="text-xl text-slate-600 mb-10 leading-relaxed max-w-lg font-medium">
+              Transform single transactions into a compounding portfolio. Earn a robust upfront margin, then secure your future with ongoing monthly revenue.
             </p>
+
+            <div className="flex flex-col sm:flex-row gap-4 mb-12">
+              <Link 
+                href="/contact" 
+                className="group relative flex h-14 w-full sm:w-auto items-center justify-center gap-3 rounded-full bg-slate-900 px-8 text-[15px] font-medium text-white transition-all hover:bg-slate-800 hover:shadow-[0_8px_30px_rgba(0,0,0,0.12)] active:scale-[0.98] overflow-hidden"
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
+                <span>Become a Partner</span>
+                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+              </Link>
+            </div>
+
+            {/* Premium Metrics List */}
+            <div className="grid sm:grid-cols-2 gap-8 border-t border-slate-200/60 pt-10">
+              <div>
+                <div className="text-3xl font-bold font-syne text-slate-900 mb-1">20%</div>
+                <div className="text-sm font-medium text-slate-500 uppercase tracking-widest">Upfront Margin</div>
+              </div>
+              <div>
+                <div className="text-3xl font-bold font-syne text-slate-900 mb-1">Recurring</div>
+                <div className="text-sm font-medium text-slate-500 uppercase tracking-widest">Monthly Revenue</div>
+              </div>
+            </div>
           </motion.div>
 
-          {/* Card 2 */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
+          {/* Right Side - Premium Visual Stack */}
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
-            className="bg-slate-50 border border-slate-200 p-10 rounded-3xl relative overflow-hidden group hover:border-slate-300 transition-colors shadow-sm hover:shadow-md"
+            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+            className="flex-1 w-full relative"
           >
-            <div className="absolute top-1/2 right-1/4 -translate-y-1/2 w-48 h-48 opacity-[0.03] group-hover:opacity-[0.06] transition-opacity flex items-center justify-center">
-              <motion.div
-                animate={{ rotate: 360 }}
-                transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-                className="w-full h-full border-2 border-dashed border-slate-900 rounded-full"
-              />
-              <motion.div
-                animate={{ rotate: -360 }}
-                transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-                className="absolute w-3/4 h-3/4 border border-slate-900 rounded-full"
-              />
+            {/* Soft decorative background element */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] aspect-square bg-gradient-to-tr from-slate-100 to-slate-50 rounded-full blur-3xl opacity-50 pointer-events-none" />
+
+            <div className="relative w-full aspect-square max-w-[500px] mx-auto">
+              
+              {/* Card 1: Direct Commission (Back/Top) */}
+              <motion.div 
+                animate={{ y: [0, -10, 0] }}
+                transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+                className="absolute top-0 right-0 w-[85%] aspect-[4/3] bg-white rounded-3xl border border-slate-200/60 shadow-[0_20px_60px_rgba(0,0,0,0.06)] p-8 flex flex-col justify-between overflow-hidden"
+              >
+                <div className="absolute top-[40%] left-1/2 -translate-x-1/2 -translate-y-1/2 text-[5rem] md:text-[7rem] font-black font-syne text-slate-100 leading-none select-none pointer-events-none w-full text-center scale-x-110 -rotate-2">
+                  20%
+                </div>
+                
+                <div className="relative z-10 flex justify-between items-start w-full">
+                  <div className="w-12 h-12 bg-slate-50 rounded-full flex items-center justify-center border border-slate-100 shadow-sm">
+                    <IndianRupee className="w-5 h-5 text-slate-900" />
+                  </div>
+                  <div className="bg-emerald-50 text-emerald-600 text-[10px] font-bold uppercase tracking-widest px-3 py-1.5 rounded-full border border-emerald-100/50">
+                    Paid Instantly
+                  </div>
+                </div>
+                
+                <div className="relative z-10">
+                  <h3 className="text-3xl font-bold font-syne text-slate-900 tracking-tight mb-1">Direct</h3>
+                  <p className="text-slate-500 font-medium">Hardware Commission</p>
+                </div>
+              </motion.div>
+
+              {/* Card 2: Recurring (Front/Bottom) */}
+              <motion.div 
+                animate={{ y: [0, 10, 0] }}
+                transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+                className="absolute bottom-0 left-0 w-[85%] aspect-[4/3] bg-slate-900 rounded-3xl border border-slate-800 shadow-[0_30px_80px_rgba(0,0,0,0.15)] p-8 flex flex-col justify-between overflow-hidden"
+              >
+                {/* Subtle dark gradient overlay */}
+                <div className="absolute inset-0 bg-gradient-to-br from-white/[0.05] to-transparent pointer-events-none" />
+                
+                <div className="relative z-10 flex justify-between items-start w-full">
+                  <div className="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center border border-white/5 shadow-inner">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-white">
+                      <path d="M21 12a9 9 0 0 1-9 9m9-9a9 9 0 0 0-9-9m9 9H3m9 9a9 9 0 0 1-9-9m9 9c1.66 0 3-4.03 3-9s-1.34-9-3-9m0 18c-1.66 0-3-4.03-3-9s1.34-9 3-9m-9 9a9 9 0 0 1 9-9" />
+                    </svg>
+                  </div>
+                  <div className="flex gap-1.5">
+                    {[1, 2, 3].map((i) => (
+                      <div key={i} className={`w-1.5 rounded-full bg-white/20 animate-pulse`} style={{ height: `${12 + i * 4}px`, animationDelay: `${i * 0.2}s` }} />
+                    ))}
+                  </div>
+                </div>
+                
+                <div className="relative z-10">
+                  <h3 className="text-3xl font-bold font-syne text-white tracking-tight mb-1">Recurring</h3>
+                  <p className="text-slate-400 font-medium">Software Subscriptions</p>
+                </div>
+              </motion.div>
+              
             </div>
-            <h3 className="text-slate-900 text-sm font-bold tracking-widest uppercase mb-4 relative z-10">Recurring Subscription Commission</h3>
-            <h4 className="text-3xl font-bold font-syne mb-4 relative z-10">Your Customer Subscribes. You Keep Earning.</h4>
-            <p className="text-slate-600 relative z-10">
-              When an eligible customer acquired through you continues with a qualifying KAIROS subscription plan, you can earn recurring commission according to the applicable Vendor Partner Program terms.
-            </p>
           </motion.div>
+
         </div>
       </div>
     </section>
@@ -284,66 +342,90 @@ const HowYouEarnSection = () => {
 
 
 // ==========================================
-// 5. Why KAIROS
+// 5. Why KAIROS (Marklab Service Grid Style)
 // ==========================================
 const WhyKairosSection = () => {
+  const services = [
+    {
+      title: "Fire & Smoke Detection",
+      desc: "Identify potential fire events and smoke patterns before they escalate using advanced visual recognition.",
+      icon: <Flame className="w-5 h-5 text-slate-700" strokeWidth={1.5} />,
+      image: "/images/Fire & Smoke Detection.png"
+    },
+    {
+      title: "FootFall Detection",
+      desc: "Automatically detect human falls in real-time, enabling rapid medical response for workplace and healthcare safety.",
+      icon: <Activity className="w-5 h-5 text-slate-700" strokeWidth={1.5} />,
+      image: "/images/FootFall Detection.png"
+    },
+    {
+      title: "Intrusion Detection",
+      desc: "Secure restricted areas by instantly flagging unauthorized human or vehicular entry in real-time.",
+      icon: <UserX className="w-5 h-5 text-slate-700" strokeWidth={1.5} />,
+      image: "/images/Intrusion Detection.png"
+    },
+    {
+      title: "Weapon Detection",
+      desc: "Proactively identify visible weapons to preemptively secure high-risk commercial and educational zones.",
+      icon: <Target className="w-5 h-5 text-slate-700" strokeWidth={1.5} />,
+      image: "/images/Weapon Detection.png"
+    },
+  ];
+
   return (
-    <section className="py-24 bg-slate-50 text-slate-900 overflow-hidden">
-      <div className="container mx-auto px-6 max-w-6xl">
-        <div className="text-center mb-16">
-          <div className="text-slate-900 text-sm font-bold tracking-widest uppercase mb-4">THE PRODUCT BEHIND THE OPPORTUNITY</div>
-          <h2 className="text-4xl font-bold font-syne mb-6 max-w-3xl mx-auto">Your Customers Already Have Cameras. KAIROS Makes Them Smarter.</h2>
-          <p className="text-slate-600 max-w-2xl mx-auto text-lg">
-            Traditional CCTV systems primarily record what has already happened. KAIROS is an AI Edge Box designed to add intelligent, real-time detection capabilities to compatible existing CCTV infrastructure.
-          </p>
-        </div>
-
-        <div className="relative h-[800px] flex items-center justify-center mt-12">
-          {/* Center Product */}
-          <div className="absolute z-20 w-64 h-64 flex items-center justify-center">
-            <div className="relative w-full h-full">
-              <Image src="/images/edgebox.png" alt="KAIROS AI Edge Box" fill className="object-contain drop-shadow-2xl" />
-            </div>
+    <section className="py-24 md:py-32 bg-white text-slate-900 overflow-hidden">
+      <div className="container mx-auto px-6 max-w-7xl">
+        {/* Header */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 md:mb-20 gap-8">
+          <div className="max-w-2xl">
+            <h2 className="text-4xl md:text-5xl lg:text-[3.5rem] font-bold font-syne tracking-tight leading-[1.1] mb-6">
+              Smart <span className="text-slate-500">Service</span> <br/>
+              That Real <span className="text-slate-500">Impact.</span>
+            </h2>
+            <p className="text-slate-600 text-lg leading-relaxed">
+              An AI Edge Box that processes video streams locally in real-time, transforming passive CCTV into a proactive threat detection system.
+            </p>
           </div>
-
-          {/* Orbits */}
-          <div className="absolute w-[450px] h-[450px] border border-slate-300 rounded-full animate-[spin_30s_linear_infinite]" />
-          <div className="absolute w-[750px] h-[750px] border border-slate-200 rounded-full animate-[spin_40s_linear_infinite_reverse]" />
-
-          {/* Features positioned on orbits logically */}
-          <div className="absolute z-30 w-[750px] h-[750px] animate-[spin_40s_linear_infinite_reverse]">
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-[spin_40s_linear_infinite]">
-              <div className="bg-white border border-slate-200 p-4 rounded-xl flex items-center gap-4 w-64 shadow-xl">
-                <div className="bg-slate-100 p-3 rounded-lg"><Flame className="text-slate-700 w-6 h-6" /></div>
-                <div><h4 className="font-bold text-sm text-slate-900">Fire Detection</h4><p className="text-xs text-slate-500">Identify potential fire events</p></div>
+          <div>
+            <Link 
+              href="/contact" 
+              className="group flex h-14 w-full sm:w-auto items-center justify-between gap-4 rounded-full bg-black pl-8 pr-2 text-[15px] font-medium text-white transition-all hover:bg-slate-800 active:scale-[0.98]"
+            >
+              Learn More
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white text-black transition-transform group-hover:scale-[1.05]">
+                <ArrowRight className="h-4 w-4 -rotate-45 transition-transform group-hover:rotate-0" />
               </div>
-            </div>
-            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 animate-[spin_40s_linear_infinite]">
-              <div className="bg-white border border-slate-200 p-4 rounded-xl flex items-center gap-4 w-64 shadow-xl">
-                <div className="bg-slate-100 p-3 rounded-lg"><UserX className="text-slate-700 w-6 h-6" /></div>
-                <div><h4 className="font-bold text-sm text-slate-900">Intrusion Detection</h4><p className="text-xs text-slate-500">Detect unauthorised entry</p></div>
-              </div>
-            </div>
-          </div>
-
-          <div className="absolute z-30 w-[450px] h-[450px] animate-[spin_30s_linear_infinite]">
-            <div className="absolute left-0 top-1/2 -translate-x-1/2 -translate-y-1/2 animate-[spin_30s_linear_infinite_reverse]">
-              <div className="bg-white border border-slate-200 p-4 rounded-xl flex items-center gap-4 w-64 shadow-xl">
-                <div className="bg-amber-50 p-3 rounded-lg"><Activity className="text-amber-500 w-6 h-6" /></div>
-                <div><h4 className="font-bold text-sm text-slate-900">Fall Detection</h4><p className="text-xs text-slate-500">Identify potential fall incidents</p></div>
-              </div>
-            </div>
-            <div className="absolute right-0 top-1/2 translate-x-1/2 -translate-y-1/2 animate-[spin_30s_linear_infinite_reverse]">
-              <div className="bg-white border border-slate-200 p-4 rounded-xl flex items-center gap-4 w-64 shadow-xl">
-                <div className="bg-purple-50 p-3 rounded-lg"><Target className="text-purple-500 w-6 h-6" /></div>
-                <div><h4 className="font-bold text-sm text-slate-900">Weapon Detection</h4><p className="text-xs text-slate-500">Detect potential visible threats</p></div>
-              </div>
-            </div>
+            </Link>
           </div>
         </div>
 
-        <div className="text-center mt-12">
-          <p className="text-2xl font-syne font-medium text-slate-600">CCTV Records the Past. <span className="text-slate-900 font-bold">KAIROS Reads the Present.</span></p>
+        {/* Services Grid */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {services.map((service, idx) => (
+            <motion.div
+              key={idx}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: idx * 0.1, duration: 0.6 }}
+              className="group bg-[#F6F6F6] border border-slate-100 rounded-[2rem] p-3 hover:bg-slate-50 hover:border-slate-200 transition-all duration-300 flex flex-col overflow-hidden"
+            >
+              <div className="w-full aspect-[4/3] relative rounded-3xl overflow-hidden mb-6 bg-white border border-slate-100">
+                <Image src={service.image} alt={service.title} fill className="object-cover transition-transform duration-700 group-hover:scale-110" />
+                <div className="absolute top-4 left-4 w-10 h-10 bg-white/80 backdrop-blur-md rounded-full flex items-center justify-center shadow-sm border border-slate-100/50">
+                  {service.icon}
+                </div>
+              </div>
+              <div className="px-4 pb-6 mt-auto">
+                <h4 className="text-xl font-bold font-syne text-slate-900 mb-2 mt-auto">
+                  {service.title}
+                </h4>
+                <p className="text-slate-500 text-sm leading-relaxed">
+                  {service.desc}
+                </p>
+              </div>
+            </motion.div>
+          ))}
         </div>
       </div>
     </section>
@@ -438,6 +520,8 @@ const BenefitsSection = () => {
     </section>
   );
 };
+
+
 
 // ==========================================
 // 7. & 8. Who Can Join & Industries
@@ -573,23 +657,35 @@ const FaqSection = () => {
 };
 
 // ==========================================
-// 13. Final CTA
+// 13. Final CTA (Marklab Style)
 // ==========================================
 const CtaSection = () => {
   return (
-    <div className="relative bg-slate-50 pb-6 md:pb-8">
-      <section className="py-24 md:py-32 px-6 relative overflow-hidden bg-[#111] rounded-[3rem] mx-2 md:mx-4 border border-white/5 shadow-2xl">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(255,255,255,0.1)_0%,transparent_70%)]" />
-        <div className="absolute inset-0 bg-[url('/images/noise.png')] opacity-[0.05] mix-blend-overlay" />
-
-        <div className="relative z-10 max-w-4xl mx-auto text-center">
-          <h2 className="text-4xl md:text-6xl font-bold font-syne mb-6 text-white tracking-tighter">One Installation Can Start Something Bigger.</h2>
-          <p className="text-xl text-gray-400 mb-10 max-w-2xl mx-auto font-medium">
-            Earn <strong className="text-white">20% commission on eligible KAIROS installations</strong> and unlock the opportunity for recurring commission through qualifying active customer subscriptions.
+    <div className="relative bg-white pb-6 md:pb-8">
+      <section className="py-24 md:py-32 px-6 relative overflow-hidden bg-[#F6F6F6] rounded-[3rem] mx-2 md:mx-4 border border-slate-200 shadow-sm">
+        <div className="relative z-10 max-w-5xl mx-auto text-center">
+          <p className="text-sm font-semibold text-slate-500 tracking-widest uppercase mb-6">
+            Ready to Partner With Us?
           </p>
-          <Link href="/contact" className="inline-block bg-white text-black px-8 py-4 rounded-full text-[11px] font-bold uppercase tracking-[0.2em] hover:scale-105 transition-transform duration-300 shadow-[0_0_40px_rgba(255,255,255,0.2)]">
-            Become a Vendor Partner
-          </Link>
+          <h2 className="text-4xl md:text-6xl lg:text-[4.5rem] font-bold font-syne mb-8 text-slate-900 tracking-tight leading-[1.05]">
+            One Installation Can Start <br />
+            <span className="text-slate-500">Something Bigger.</span>
+          </h2>
+          <p className="text-xl text-slate-600 mb-12 max-w-2xl mx-auto leading-relaxed">
+            Earn <strong>20% commission</strong> on eligible KAIROS installations and unlock recurring commission through qualifying active subscriptions.
+          </p>
+          
+          <div className="flex justify-center">
+            <Link 
+              href="/contact" 
+              className="group flex h-16 items-center justify-between gap-6 rounded-full bg-black pl-10 pr-2 text-[17px] font-medium text-white transition-all hover:bg-slate-800 active:scale-[0.98]"
+            >
+              Become a Vendor Partner
+              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-white text-black transition-transform group-hover:scale-[1.05]">
+                <ArrowRight className="h-5 w-5 -rotate-45 transition-transform group-hover:rotate-0" />
+              </div>
+            </Link>
+          </div>
         </div>
       </section>
     </div>
@@ -603,9 +699,9 @@ const CtaSection = () => {
 export default function VendorPageClient() {
   return (
     <LenisDiv>
-      <div className="min-h-screen bg-slate-50 font-sans">
+      <div className="min-h-screen bg-[#F6F6F6] font-sans">
         <HeroSection />
-        <SocialProofSection />
+        <MarqueeSection />
         <EarningModelSection />
         <HowYouEarnSection />
         <WhyKairosSection />

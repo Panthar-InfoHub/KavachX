@@ -13,16 +13,18 @@ import {
   Briefcase,
   Store,
   Home,
-  CheckCircle2,
-  Lock,
-  WifiOff,
+  // CheckCircle2,
+  // Lock,
+  // WifiOff,
   ArrowRight,
   UserX,
   Activity,
   Target,
   Users,
   Clock,
-  Plus
+  Plus,
+  Cpu,
+  Cctv
 } from "lucide-react";
 import LenisDiv from "@/components/LenisDiv";
 import Link from "next/link";
@@ -187,19 +189,14 @@ export default function KairosPageClient() {
             >
               <button
                 onClick={() => router.push("/contact")}
-                className="w-full sm:w-auto text-center bg-black hover:bg-gray-900 text-white px-6 py-2.5 rounded-full text-xs font-bold uppercase tracking-[0.2em] transition-all duration-300 shadow-[0_10px_30px_rgba(0,0,0,0.2)] hover:shadow-[0_15px_40px_rgba(0,0,0,0.3)]"
+                className="group inline-flex h-14 w-full sm:w-auto items-center justify-between gap-4 rounded-full bg-white pl-8 pr-2 text-[15px] font-medium text-black transition-all hover:bg-gray-100 active:scale-[0.98]"
               >
                 Secure Your Space Today
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-black text-white transition-transform group-hover:scale-[1.05]">
+                  <ArrowRight className="h-4 w-4 -rotate-45 transition-transform group-hover:rotate-0" />
+                </div>
               </button>
-              <button
-                onClick={() => {
-                  const el = document.getElementById("the-advantage");
-                  if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
-                }}
-                className="w-full sm:w-auto bg-white hover:bg-gray-50 border border-black/20 text-black px-6 py-2.5 rounded-full text-xs font-bold uppercase tracking-[0.2em] transition-colors duration-300 shadow-sm"
-              >
-                Explore Feature
-              </button>
+
             </motion.div>
           </div>
 
@@ -286,16 +283,50 @@ export default function KairosPageClient() {
                       </p>
                     </div>
 
-                    <div className="relative z-10 md:w-1/2 flex justify-center md:justify-end">
-                      <div className="relative w-48 h-48 md:w-64 md:h-64 flex items-center justify-center">
-                        {/* Pulsing rings */}
-                        <div className="absolute inset-0 rounded-full border border-white/20 animate-[ping_3s_cubic-bezier(0,0,0.2,1)_infinite]" />
-                        <div className="absolute inset-4 rounded-full border border-white/10 animate-[ping_3s_cubic-bezier(0,0,0.2,1)_infinite_1s]" />
-                        <div className="absolute inset-8 rounded-full border border-white/5 animate-[ping_3s_cubic-bezier(0,0,0.2,1)_infinite_2s]" />
+                    <div className="relative z-10 md:w-1/2 flex justify-center md:justify-end mt-8 md:mt-0">
+                      <div className="relative w-full max-w-[340px] h-48 md:h-64 flex items-center justify-center">
+                        {/* Background Pulsing Effects - Left */}
+                        <div className="absolute left-[10%] md:left-[15%] w-24 h-24 md:w-32 md:h-32 rounded-full border border-white/10 animate-[ping_3s_cubic-bezier(0,0,0.2,1)_infinite]" />
+                        
+                        {/* Background Pulsing Effects - Right */}
+                        <div className="absolute right-[10%] md:right-[15%] w-24 h-24 md:w-32 md:h-32 rounded-full border border-white/10 animate-[ping_3s_cubic-bezier(0,0,0.2,1)_infinite_1s]" />
 
-                        {/* Center Icon */}
-                        <div className="relative w-24 h-24 rounded-full bg-white flex items-center justify-center shadow-[0_0_40px_rgba(255,255,255,0.3)] group-hover:scale-110 transition-transform duration-500">
-                          <featuredItem.icon className="w-10 h-10 text-black" strokeWidth={1.5} />
+                        {/* Center Connected Icons */}
+                        <div className="relative w-full flex items-center justify-between group-hover:scale-105 transition-transform duration-500 z-10 px-4 md:px-6">
+                          {/* Camera Icon (Source) */}
+                          <div className="relative z-10 w-16 h-16 md:w-20 md:h-20 rounded-full bg-white flex items-center justify-center shadow-[0_0_40px_rgba(255,255,255,0.2)] shrink-0 group/icon">
+                            <Cctv className="w-7 h-7 md:w-9 md:h-9 text-black group-hover/icon:scale-110 transition-transform duration-300" strokeWidth={1.5} />
+                            <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-[10px] font-bold text-white/40 tracking-widest uppercase">Camera</div>
+                            <div className="absolute inset-0 rounded-full border border-white/50 animate-[ping_2s_cubic-bezier(0,0,0.2,1)_infinite]" />
+                          </div>
+
+                          {/* Connection Data Stream */}
+                          <div className="flex-1 mx-3 md:mx-4 relative flex items-center justify-center">
+                            {/* Animated Line */}
+                            <div className="absolute inset-x-0 h-[1px] md:h-[2px] bg-white/10 overflow-hidden rounded-full">
+                              <motion.div
+                                animate={{ x: ["-100%", "300%"] }}
+                                transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
+                                className="absolute top-0 left-0 w-1/2 h-full bg-gradient-to-r from-transparent via-emerald-400 to-transparent shadow-[0_0_15px_rgba(52,211,153,0.8)]"
+                              />
+                            </div>
+                            
+                            {/* Tech Connection Nodes */}
+                            <div className="absolute left-0 w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)]" />
+                            <div className="absolute right-0 w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)]" />
+
+                            {/* Response Time Badge */}
+                            <div className="relative z-10 text-[9px] md:text-[10px] font-bold text-emerald-400 tracking-widest uppercase bg-[#09090b] px-3 py-1 rounded-full border border-emerald-500/30 shadow-[0_0_15px_rgba(52,211,153,0.15)] whitespace-nowrap">
+                              3-5s
+                            </div>
+                          </div>
+
+                          {/* Edge Box Icon (Destination) */}
+                          <div className="relative z-10 w-16 h-16 md:w-20 md:h-20 rounded-full bg-white flex items-center justify-center shadow-[0_0_40px_rgba(255,255,255,0.2)] shrink-0 group/icon">
+                            <Cpu className="w-7 h-7 md:w-9 md:h-9 text-black group-hover/icon:scale-110 transition-transform duration-300" strokeWidth={1.5} />
+                            <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-[10px] font-bold text-white/40 tracking-widest uppercase">Kairos</div>
+                            <div className="absolute inset-0 rounded-full border border-white/50 animate-[ping_2s_cubic-bezier(0,0,0.2,1)_infinite_1s]" />
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -441,7 +472,9 @@ export default function KairosPageClient() {
               </p>
 
               <div className="flex items-center gap-3">
-                <button className="px-7 py-2.5 rounded-full text-sm font-semibold transition-all duration-200 hover:bg-white/10"
+                <button 
+                  onClick={() => router.push("/contact")}
+                  className="px-7 py-2.5 rounded-full text-sm font-semibold transition-all duration-200 hover:bg-white/10"
                   style={{
                     background: 'rgba(255,255,255,0.04)',
                     border: '1px solid rgba(255,255,255,0.12)',
@@ -597,10 +630,47 @@ export default function KairosPageClient() {
         </section>
 
         {/* BLACK BACKGROUND WRAPPER FOR ALL BOTTOM SECTIONS */}
-        <div className="bg-[#141414] w-full pt-20 pb-12 flex flex-col gap-12 md:gap-16 relative z-20">
+        <div className="bg-[#050505] w-full pt-24 pb-16 flex flex-col gap-12 md:gap-16 relative z-20 overflow-hidden">
+          {/* Aesthetic Background Elements: Animated Aurora */}
+          <div className="absolute inset-0 bg-black pointer-events-none" />
+          
+          {/* Slowly Drifting Gradient Orbs */}
+          <motion.div 
+            animate={{ 
+              scale: [1, 1.15, 1],
+              x: [0, 40, 0],
+              y: [0, -30, 0]
+            }}
+            transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute top-[5%] -left-[10%] w-[60vw] max-w-[800px] h-[800px] rounded-full bg-emerald-600/10 blur-[120px] md:blur-[160px] pointer-events-none mix-blend-screen" 
+          />
+          <motion.div 
+            animate={{ 
+              scale: [1, 1.2, 1],
+              x: [0, -40, 0],
+              y: [0, 30, 0]
+            }}
+            transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute top-[15%] -right-[10%] w-[60vw] max-w-[900px] h-[900px] rounded-full bg-blue-600/10 blur-[120px] md:blur-[160px] pointer-events-none mix-blend-screen" 
+          />
+          <motion.div 
+            animate={{ 
+              scale: [1, 1.1, 1],
+              x: [0, 30, 0],
+              y: [0, 40, 0]
+            }}
+            transition={{ duration: 25, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute -top-[10%] left-[20%] w-[70vw] max-w-[1000px] h-[700px] rounded-[100%] bg-indigo-600/10 blur-[120px] md:blur-[160px] pointer-events-none mix-blend-screen" 
+          />
+
+          {/* Deep Vignette Overlay to ensure edges remain pitch black */}
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_20%,#000_100%)] pointer-events-none" />
+          
+          {/* Ultra-subtle Film Grain */}
+          <div className="absolute inset-0 opacity-[0.03] pointer-events-none mix-blend-screen" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noise%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.85%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noise)%22/%3E%3C/svg%3E")' }} />
 
           {/* PROMO CARDS SECTION */}
-          <section className="px-4 md:px-6 mx-2 md:mx-4">
+          <section className="px-4 md:px-6 mx-2 md:mx-4 relative z-10">
             <div className="max-w-7xl mx-auto">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
 
@@ -650,16 +720,7 @@ export default function KairosPageClient() {
                         }}>
                         Pre-order now
                       </button>
-                      <button
-                        className="px-6 py-2.5 rounded-full text-[13px] font-semibold transition-all duration-200 hover:bg-white/15 active:scale-95"
-                        style={{
-                          background: 'rgba(255,255,255,0.07)',
-                          border: '1px solid rgba(255,255,255,0.14)',
-                          color: 'rgba(255,255,255,0.85)',
-                          backdropFilter: 'blur(12px)',
-                        }}>
-                        Learn more
-                      </button>
+
                     </div>
                   </div>
                 </motion.div>
@@ -713,16 +774,7 @@ export default function KairosPageClient() {
                           Join now
                         </button>
                       </Link>
-                      <button
-                        className="px-6 py-2.5 rounded-full text-[13px] font-semibold transition-all duration-200 hover:bg-white/15 active:scale-95"
-                        style={{
-                          background: 'rgba(255,255,255,0.07)',
-                          border: '1px solid rgba(255,255,255,0.14)',
-                          color: 'rgba(255,255,255,0.85)',
-                          backdropFilter: 'blur(12px)',
-                        }}>
-                        Learn more
-                      </button>
+
                     </div>
                   </div>
                 </motion.div>
@@ -768,12 +820,13 @@ export default function KairosPageClient() {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="flex flex-col sm:flex-row items-center gap-4 z-10"
             >
-              <button className="px-8 py-3.5 rounded-full bg-black text-white text-[11px] font-bold uppercase tracking-[0.15em] hover:bg-gray-900 transition-colors shadow-lg">
-                Join The Waitlist
+              <button className="group inline-flex h-14 w-full sm:w-auto items-center justify-between gap-4 rounded-full bg-black pl-8 pr-2 text-[15px] font-medium text-white transition-all hover:bg-slate-800 active:scale-[0.98] shadow-[0_10px_30px_rgba(0,0,0,0.1)] hover:shadow-[0_15px_40px_rgba(0,0,0,0.15)]">
+                JOIN THE WAITLIST
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white text-black transition-transform group-hover:scale-[1.05]">
+                  <ArrowRight className="h-4 w-4 -rotate-45 transition-transform group-hover:rotate-0" />
+                </div>
               </button>
-              <button className="px-8 py-3.5 rounded-full bg-white text-black border border-black/10 text-[11px] font-bold uppercase tracking-[0.15em] hover:bg-gray-50 transition-colors shadow-sm">
-                Get Notified
-              </button>
+
             </motion.div>
 
             <motion.div
@@ -889,8 +942,11 @@ export default function KairosPageClient() {
               <p className="text-xl text-gray-400 mb-10 max-w-2xl mx-auto font-medium">
                 Upgrade your security today. Get KAIROS- AI edge box and experience the peace of mind that comes with 3-second response times.
               </p>
-              <Link href="/contact" className="inline-block bg-white text-black px-6 py-3 rounded-full text-xs font-bold uppercase tracking-[0.2em] hover:scale-105 transition-transform duration-300 shadow-[0_0_40px_rgba(255,255,255,0.2)]">
+              <Link href="/contact" className="group inline-flex h-14 w-full sm:w-auto items-center justify-between gap-4 rounded-full bg-white pl-8 pr-2 text-[15px] font-medium text-black transition-all hover:bg-gray-100 active:scale-[0.98] mx-auto mt-6 shadow-[0_0_40px_rgba(255,255,255,0.2)]">
                 Pre-order KAIROS Today
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-black text-white transition-transform group-hover:scale-[1.05]">
+                  <ArrowRight className="h-4 w-4 -rotate-45 transition-transform group-hover:rotate-0" />
+                </div>
               </Link>
             </div>
           </section>

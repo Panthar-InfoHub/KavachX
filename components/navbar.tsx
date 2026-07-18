@@ -215,7 +215,7 @@ export const Navbar: React.FC = () => {
 
                 {/* Mobile Toggle */}
                 <button
-                    className="md:hidden text-2xl z-70 relative w-10 h-10 flex items-center justify-center text-white"
+                    className="md:hidden text-2xl z-[70] relative w-10 h-10 flex items-center justify-center text-white"
                     onClick={toggleMobileMenu}
                     aria-label="Toggle Menu"
                 >
@@ -226,7 +226,7 @@ export const Navbar: React.FC = () => {
             {/* Mobile Menu Overlay */}
             <AnimatePresence>
                 {isMobileMenuOpen && (
-                    <div className="fixed inset-0 z-120 md:hidden">
+                    <div className="fixed inset-0 z-[120] md:hidden">
                         {/* Backdrop Blur */}
                         <motion.div
                             initial={{ opacity: 0 }}

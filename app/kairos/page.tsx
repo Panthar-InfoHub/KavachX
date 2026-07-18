@@ -21,7 +21,16 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Kairos | Smart CCTV Security Device by Kavach X",
     description: "Kavach Kairos – AI-driven edge computing, real-time CCTV analytics & intelligent home security. Monitor your home from anywhere. Coming soon.",
-    url: "/kairos",
+    url: "https://kavachx.com/kairos",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Kairos | Smart CCTV Security Device by Kavach X",
+    description: "Kavach Kairos – AI-driven edge computing, real-time CCTV analytics & intelligent home security. Monitor your home from anywhere. Coming soon.",
+  },
+  alternates: {
+    canonical: "https://kavachx.com/kairos",
   },
 };
 
