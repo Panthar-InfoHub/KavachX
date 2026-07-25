@@ -6,31 +6,29 @@ import { SchemaMarkup } from "@/components/seo/schema-markup";
 import KairosPageClient from "@/components/kairos-page-client";
 
 export const metadata: Metadata = {
-  title: "Kairos | Smart CCTV Security Device by Kavach X",
-  description: "Kavach Kairos – AI-driven edge computing, real-time CCTV analytics & intelligent home security. Monitor your home from anywhere. Coming soon.",
+  title: "KAIROS AI Edge Box | Intelligent Home Security by KavachX",
+  description: "Monitor your home, family, and spaces from anywhere in the world. The Kavach Kairos brings AI-driven CCTV analytics and real-time intelligence directly to your front door.",
   keywords: [
-    "Kairos India",
-    "smart CCTV device",
-    "AI home security India",
+    "KAIROS AI edge box",
+    "Intelligent Home Security",
+    "AI-driven CCTV analytics",
+    "real-time intelligence",
     "edge computing security",
-    "real-time video analytics",
-    "intelligent CCTV",
-    "home surveillance AI",
-    "Kavach X kairos"
+    "KavachX kairos"
   ],
   openGraph: {
-    title: "Kairos | Smart CCTV Security Device by Kavach X",
-    description: "Kavach Kairos – AI-driven edge computing, real-time CCTV analytics & intelligent home security. Monitor your home from anywhere. Coming soon.",
-    url: "https://kavachx.com/kairos",
+    title: "KAIROS AI Edge Box | Intelligent Home Security by KavachX",
+    description: "Monitor your home, family, and spaces from anywhere in the world. The Kavach Kairos brings AI-driven CCTV analytics and real-time intelligence directly to your front door.",
+    url: "https://kavachx.io/kairos",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Kairos | Smart CCTV Security Device by Kavach X",
-    description: "Kavach Kairos – AI-driven edge computing, real-time CCTV analytics & intelligent home security. Monitor your home from anywhere. Coming soon.",
+    title: "KAIROS AI Edge Box | Intelligent Home Security",
+    description: "The Kavach Kairos brings AI-driven CCTV analytics directly to your front door.",
   },
   alternates: {
-    canonical: "https://kavachx.com/kairos",
+    canonical: "https://kavachx.io/kairos",
   },
 };
 
@@ -40,11 +38,11 @@ export default function KairosPage() {
     "@graph": [
       {
         "@type": "Product",
-        "name": "Kavach Kairos",
-        "description": "Kairos for empowering security through AI-driven edge computing, real-time data processing and intelligent analytics.",
+        "name": "Kavach KAIROS AI Edge Box",
+        "description": "Intelligent Home Security. Monitor your home, family, and spaces from anywhere in the world. The Kavach Kairos brings AI-driven CCTV analytics and real-time intelligence directly to your front door.",
         "brand": {
           "@type": "Brand",
-          "name": "Kavach X"
+          "name": "KavachX"
         }
       },
       {
@@ -52,10 +50,10 @@ export default function KairosPage() {
         "mainEntity": [
           {
             "@type": "Question",
-            "name": "When does Kairos launch?",
+            "name": "What does the KAIROS AI Edge Box do?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "The Kavach Kairos is launching soon. It will bring AI-driven edge computing and real-time CCTV analytics to your home security setup."
+              "text": "The Kavach Kairos brings AI-driven CCTV analytics and real-time intelligence directly to your front door, providing Intelligent Home Security."
             }
           }
         ]

@@ -3,20 +3,20 @@ import { Metadata } from "next";
 import { SchemaMarkup } from "@/components/seo/schema-markup";
 
 export const metadata: Metadata = {
-  title: "Contact Us | Kavach X",
-  description: "Get in touch with Kavach X. We're here to assist you with any inquiries regarding our smart personal safety app and AI security features.",
+  title: "Contact Us | KavachX",
+  description: "Get in touch with KavachX. We're here to assist you with any inquiries regarding our Safety Infrastructure for Organizations and KAIROS AI edge box.",
 };
 
 export default function ContactPage() {
   const schema = {
     "@context": "https://schema.org",
     "@type": "ContactPage",
-    "name": "Contact Kavach X Support",
-    "description": "Get in touch with Kavach X for inquiries about our smart personal safety app and Kairos AI home security.",
+    "name": "Contact KavachX Support",
+    "description": "Get in touch with KavachX for inquiries about our Safety Infrastructure for Organizations and the KAIROS AI edge box.",
     "url": "https://kavachx.io/contact",
     "mainEntity": {
       "@type": "Organization",
-      "name": "Kavach X",
+      "name": "KavachX",
       "url": "https://kavachx.io",
       "logo": "https://kavachx.io/images/logo.png"
     }
