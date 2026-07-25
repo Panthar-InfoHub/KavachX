@@ -23,17 +23,17 @@ const teamMembers = [
     },
     {
         image: "/team/core_team/Shiva.webp",
-        name: "Shiva",
+        name: "Shiva Yadav",
         role: "Full Stack Developer",
     },
     {
         image: "/team/core_team/Aham.webp",
-        name: "Aham",
+        name: "Aham Gupta",
         role: "Graphics Designer",
     },
     {
         image: "/team/core_team/yash.png",
-        name: "Yash",
+        name: "Yogendra Saini",
         role: "Mobile Developer",
     },
     {
@@ -42,11 +42,11 @@ const teamMembers = [
         role: "AI Engineer",
     },
 
-    // {
-    //     image: "/team/core_team/ai_priyam.png",
-    //     name: "Priyam",
-    //     role: "Ai Engineer",
-    // },
+    {
+        image: "/team/core_team/sneha.jpeg",
+        name: "Sneha Sahu",
+        role: "Sale Executive",
+    },
     // {
     //     image: "/team/core_team/Palak.webp",
     //     name: "Palak",

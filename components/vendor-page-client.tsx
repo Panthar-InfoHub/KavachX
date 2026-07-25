@@ -35,14 +35,14 @@ import { AIIcon } from "./icons";
 const HeroSection = () => {
   return (
     <section className="relative flex min-h-[90vh] w-full flex-col items-center justify-center overflow-hidden bg-[#F6F6F6] font-sans text-black pt-32 pb-24">
-      
+
       <main className="container mx-auto flex w-full flex-col items-center px-6 text-center z-10 relative">
-        
+
         {/* Subtle grid background for the hero */}
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#00000008_1px,transparent_1px),linear-gradient(to_bottom,#00000008_1px,transparent_1px)] bg-[size:60px_60px] pointer-events-none -z-10 [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_80%)]" />
 
         {/* Headline - Marklab inspired mixed typography */}
-        <motion.h1 
+        <motion.h1
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
@@ -52,7 +52,7 @@ const HeroSection = () => {
           <span className="text-slate-500">Keep Earning</span> Tomorrow.
         </motion.h1>
 
-        <motion.p 
+        <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
@@ -66,7 +66,7 @@ const HeroSection = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-          className="flex w-full flex-col items-center justify-center gap-4 sm:flex-row"
+          className="flex w-full flex-col items-center justify-center gap-4 sm:flex-row mb-12"
         >
           <Link 
             href="/contact" 
@@ -77,8 +77,6 @@ const HeroSection = () => {
               <ArrowRight className="h-4 w-4 -rotate-45 transition-transform group-hover:rotate-0" />
             </div>
           </Link>
-          
-
         </motion.div>
 
       </main>
@@ -128,12 +126,12 @@ const MarqueeSection = () => {
           Be part of the 100+ businesses transforming their digital presence.
         </p>
       </div>
-      
+
       <div className="relative w-full overflow-hidden">
         {/* Left and Right fades */}
         <div className="pointer-events-none absolute inset-y-0 left-0 w-1/4 bg-gradient-to-r from-white z-10"></div>
         <div className="pointer-events-none absolute inset-y-0 right-0 w-1/4 bg-gradient-to-l from-white z-10"></div>
-        
+
         <Marquee className="[--duration:30s] flex items-center" repeat={6}>
           <span className="text-3xl font-black tracking-tighter text-slate-300 mx-8 opacity-70">HIKVISION</span>
           <span className="text-3xl font-bold tracking-tight text-slate-300 mx-8 opacity-70" style={{ fontVariant: "small-caps" }}>dahua</span>
@@ -156,9 +154,9 @@ const EarningModelSection = () => {
 
       <div className="container mx-auto px-6 max-w-[1200px] relative z-10">
         <div className="flex flex-col lg:flex-row gap-16 lg:gap-24 items-center">
-          
+
           {/* Left Side - Editorial Content */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -169,19 +167,19 @@ const EarningModelSection = () => {
               <span className="w-1.5 h-1.5 rounded-full bg-slate-900 animate-pulse" />
               Partner Economics
             </div>
-            
+
             <h2 className="text-4xl md:text-6xl font-bold font-syne tracking-tight text-slate-900 leading-[1.05] mb-6">
-              One Install. <br/>
+              One Install. <br />
               <span className="text-slate-400">Endless Returns.</span>
             </h2>
-            
+
             <p className="text-xl text-slate-600 mb-10 leading-relaxed max-w-lg font-medium">
               Transform single transactions into a compounding portfolio. Earn a robust upfront margin, then secure your future with ongoing monthly revenue.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 mb-12">
-              <Link 
-                href="/contact" 
+              <Link
+                href="/contact"
                 className="group relative flex h-14 w-full sm:w-auto items-center justify-center gap-3 rounded-full bg-slate-900 px-8 text-[15px] font-medium text-white transition-all hover:bg-slate-800 hover:shadow-[0_8px_30px_rgba(0,0,0,0.12)] active:scale-[0.98] overflow-hidden"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
@@ -204,7 +202,7 @@ const EarningModelSection = () => {
           </motion.div>
 
           {/* Right Side - Premium Visual Stack */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
@@ -215,9 +213,9 @@ const EarningModelSection = () => {
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] aspect-square bg-gradient-to-tr from-slate-100 to-slate-50 rounded-full blur-3xl opacity-50 pointer-events-none" />
 
             <div className="relative w-full aspect-square max-w-[500px] mx-auto">
-              
+
               {/* Card 1: Direct Commission (Back/Top) */}
-              <motion.div 
+              <motion.div
                 animate={{ y: [0, -10, 0] }}
                 transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
                 className="absolute top-0 right-0 w-[85%] aspect-[4/3] bg-white rounded-3xl border border-slate-200/60 shadow-[0_20px_60px_rgba(0,0,0,0.06)] p-8 flex flex-col justify-between overflow-hidden"
@@ -225,7 +223,7 @@ const EarningModelSection = () => {
                 <div className="absolute top-[40%] left-1/2 -translate-x-1/2 -translate-y-1/2 text-[5rem] md:text-[7rem] font-black font-syne text-slate-100 leading-none select-none pointer-events-none w-full text-center scale-x-110 -rotate-2">
                   20%
                 </div>
-                
+
                 <div className="relative z-10 flex justify-between items-start w-full">
                   <div className="w-12 h-12 bg-slate-50 rounded-full flex items-center justify-center border border-slate-100 shadow-sm">
                     <IndianRupee className="w-5 h-5 text-slate-900" />
@@ -234,7 +232,7 @@ const EarningModelSection = () => {
                     Paid Instantly
                   </div>
                 </div>
-                
+
                 <div className="relative z-10">
                   <h3 className="text-3xl font-bold font-syne text-slate-900 tracking-tight mb-1">Direct</h3>
                   <p className="text-slate-500 font-medium">Hardware Commission</p>
@@ -242,14 +240,14 @@ const EarningModelSection = () => {
               </motion.div>
 
               {/* Card 2: Recurring (Front/Bottom) */}
-              <motion.div 
+              <motion.div
                 animate={{ y: [0, 10, 0] }}
                 transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 1 }}
                 className="absolute bottom-0 left-0 w-[85%] aspect-[4/3] bg-slate-900 rounded-3xl border border-slate-800 shadow-[0_30px_80px_rgba(0,0,0,0.15)] p-8 flex flex-col justify-between overflow-hidden"
               >
                 {/* Subtle dark gradient overlay */}
                 <div className="absolute inset-0 bg-gradient-to-br from-white/[0.05] to-transparent pointer-events-none" />
-                
+
                 <div className="relative z-10 flex justify-between items-start w-full">
                   <div className="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center border border-white/5 shadow-inner">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-white">
@@ -262,13 +260,13 @@ const EarningModelSection = () => {
                     ))}
                   </div>
                 </div>
-                
+
                 <div className="relative z-10">
                   <h3 className="text-3xl font-bold font-syne text-white tracking-tight mb-1">Recurring</h3>
                   <p className="text-slate-400 font-medium">Software Subscriptions</p>
                 </div>
               </motion.div>
-              
+
             </div>
           </motion.div>
 
@@ -379,7 +377,7 @@ const WhyKairosSection = () => {
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 md:mb-20 gap-8">
           <div className="max-w-2xl">
             <h2 className="text-4xl md:text-5xl lg:text-[3.5rem] font-bold font-syne tracking-tight leading-[1.1] mb-6">
-              Smart <span className="text-slate-500">Service</span> <br/>
+              Smart <span className="text-slate-500">Service</span> <br />
               That Real <span className="text-slate-500">Impact.</span>
             </h2>
             <p className="text-slate-600 text-lg leading-relaxed">
@@ -387,8 +385,8 @@ const WhyKairosSection = () => {
             </p>
           </div>
           <div>
-            <Link 
-              href="/contact" 
+            <Link
+              href="/contact"
               className="group flex h-14 w-full sm:w-auto items-center justify-between gap-4 rounded-full bg-black pl-8 pr-2 text-[15px] font-medium text-white transition-all hover:bg-slate-800 active:scale-[0.98]"
             >
               Learn More
@@ -674,10 +672,10 @@ const CtaSection = () => {
           <p className="text-xl text-slate-600 mb-12 max-w-2xl mx-auto leading-relaxed">
             Earn <strong>20% commission</strong> on eligible KAIROS installations and unlock recurring commission through qualifying active subscriptions.
           </p>
-          
+
           <div className="flex justify-center">
-            <Link 
-              href="/contact" 
+            <Link
+              href="/contact"
               className="group flex h-16 items-center justify-between gap-6 rounded-full bg-black pl-10 pr-2 text-[17px] font-medium text-white transition-all hover:bg-slate-800 active:scale-[0.98]"
             >
               Become a Vendor Partner
