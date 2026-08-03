@@ -70,7 +70,7 @@ const teamMembers = [
     {
         image: "/team/core_team/ankit.png",
         name: "Ankit",
-        role: "Creative Head",
+        role: "UX Designer",
     },
 
 ];
@@ -247,32 +247,35 @@ export default function TeamClient() {
                     </Marquee>
                 </div>
 
-                <div className="mx-auto mt-20 max-w-3xl px-6 text-center lg:px-0">
-                    <p className="mb-8 font-medium text-lg text-neutral-900 leading-relaxed md:text-xl dark:text-neutral-100">
-                        "The Kavachx team's dedication to safety innovation is extraordinary. They built a product that genuinely protects families across India they're just getting started"
-                    </p>
-                    <div className="flex flex-col items-center gap-3">
-                        <div className="relative h-14 w-14 overflow-hidden rounded-full">
-                            <Image
-                                alt="Abhay Namdev — Founder & CEO of KavachX"
-                                className="h-full w-full object-cover object-top"
-                                fill
-                                src="/images/Abhay Namdev.png"
-                                sizes="56px"
-                            />
-                        </div>
-                        <div className="text-center">
-                            <p className="font-semibold text-neutral-900 dark:text-neutral-100">
-                                Abhay Namdev
-                            </p>
-                            <p className="text-neutral-600 text-sm dark:text-neutral-400">
-                                Founder · CEO · KavachX
-                            </p>
-                        </div>
+            </div>
+        </section>
+
+        <div className="w-full bg-white py-20">
+            <div className="mx-auto mt-20 max-w-3xl px-6 text-center lg:px-0">
+                <p className="mb-8 font-medium text-lg text-neutral-900 leading-relaxed md:text-xl dark:text-neutral-100">
+                    &quot;The Kavachx team&apos;s dedication to safety innovation is extraordinary. They built a product that genuinely protects families across India they&apos;re just getting started&quot;
+                </p>
+                <div className="flex flex-col items-center gap-3">
+                    <div className="relative h-14 w-14 overflow-hidden rounded-full">
+                        <Image
+                            alt="Abhay Namdev — Founder &amp; CEO of KavachX"
+                            className="h-full w-full object-cover object-top"
+                            fill
+                            src="/images/Abhay Namdev.png"
+                            sizes="56px"
+                        />
+                    </div>
+                    <div className="text-center">
+                        <p className="font-semibold text-neutral-900 dark:text-neutral-100">
+                            Abhay Namdev
+                        </p>
+                        <p className="text-neutral-600 text-sm dark:text-neutral-400">
+                            Founder · CEO · KavachX
+                        </p>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
     </div>
     );
 }

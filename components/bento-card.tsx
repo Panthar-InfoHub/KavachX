@@ -40,8 +40,8 @@ export default function BentoCard({
             >
                 {/* 🌌 Nebula Glow */}
                 {nebulaColor !== "none" && (
-                    <div 
-                        className={`nebula-glow nebula-${nebulaColor} w-[150%] h-[150%] -top-[25%] -left-[25%] opacity-20 group-hover:opacity-40 transition-opacity duration-700`} 
+                    <div
+                        className={`nebula-glow nebula-${nebulaColor} w-[150%] h-[150%] -top-[25%] -left-[25%] opacity-20 group-hover:opacity-40 transition-opacity duration-700`}
                     />
                 )}
 
@@ -88,11 +88,11 @@ export default function BentoCard({
                                 {icon}
                             </div>
                         )}
-                        
+
                         <h3 className="font-sans text-xl md:text-2xl font-medium text-white tracking-tight leading-tight mb-2">
                             {title}
                         </h3>
-                        
+
                         {description && (
                             <p className="text-sm md:text-base text-white/60 leading-relaxed font-light max-w-[95%] drop-shadow-sm">
                                 {description}

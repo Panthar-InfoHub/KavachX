@@ -44,13 +44,25 @@ const NAVBAR_CONFIG: NavbarConfig = {
             href: "team"
         },
         {
+            label: "Become a Vendor",
+            href: "vendor"
+        },
+        {
+            label: "Blog",
+            href: "blog"
+        },
+        {
+            label: "Achievements",
+            href: "achievements"
+        },
+        {
             label: "Resources",
             dropdown: [
                 {
                     heading: "Policy",
                     links: [
                         { text: "Privacy Policy", href: "#" },
-                        { text: "Help Center", href: "#" },
+                        // { text: "Help Center", href: "#" },
                     ],
                 },
             ],

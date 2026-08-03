@@ -5,48 +5,57 @@ import { TestimonialsColumn } from "./blocks/testimonials-columns-1";
 const testimonials = [
     {
         text: "I gifted Suraksha Kavach to my elderly mother who lives alone. She's not very tech-savvy but the setup was so simple even she figured it out in minutes. Now with one press she can alert me immediately. I feel so much better knowing she has this protection around the clock.",
-        image: "https://randomuser.me/api/portraits/women/1.jpg",
-        name: "Briana Patton",
+        image: "/images/jitesh.png",
+        name: "Jitesh Verma",
+        role: "Founder of Social Offer",
     },
     {
         text: "I truly appreciate the thought and effort behind Suraksha Kawach. It’s rare to find technology that genuinely cares. This app brings confidence and security to every user.",
-        image: "https://randomuser.me/api/portraits/men/2.jpg",
+        image: "/team/advisor_team/parantap.png",
         name: "Parantap Sharma",
+        role: "Social Work",
     },
     {
         text: "I travel solo across India for my business work — sometimes to remote areas with zero connectivity. Suraksha Kavach's offline functionality is the only reason I feel confident going to places where Google Maps itself fails. Absolutely essential app.",
-        image: "https://randomuser.me/api/portraits/women/3.jpg",
+        image: "/team/advisor_team/sahgal.png",
         name: "Sahgal Yadav",
+        role: "CEO Lesspay",
     },
     {
         text: "As someone who has always stood for women’s safety, I see Suraksha Kawach as a powerful step forward. It empowers women to feel secure and gives families hope that their loved ones are never truly alone.",
-        image: "https://randomuser.me/api/portraits/men/4.jpg",
+        image: "/images/laxmi.webp",
         name: "Laxmi Agarwal",
+        role: "Social Work",
     },
     {
         text: "Being in the financial world, I know the importance of security. Suraksha Kawach brings that same sense of assurance to personal safety. It’s a must-have in every phone, especially for our loved ones.",
-        image: "https://randomuser.me/api/portraits/women/5.jpg",
+        image: "/images/rishi.jpg",
         name: "Rishi Sugandh",
+        role: "Financial Advisor",
     },
     {
         text: "I used to feel anxious every time I traveled alone for work. Since I started using Suraksha Kavach, my parents finally stop worrying — they can see my location in real time. The voice command SOS is a game changer. I don't even need to touch my phone.",
-        image: "https://randomuser.me/api/portraits/women/6.jpg",
+        image: "/images/tripti.jpg",
         name: "Tripti Sharma",
+        role: "Working Professional",
     },
     {
         text: "Safety of citizens is our foremost duty, and Suraksha Kawach is a shining example of how technology can support this mission. It reflects a vision of a safer and stronger community.",
-        image: "https://randomuser.me/api/portraits/men/7.jpg",
+        image: "/images/ravi sharma.webp",
         name: "Ravi Sharma",
+        role: "MLA",
     },
     {
         text: "The app has made me feel much more secure while commuting late. The real-time tracking feature gives my parents complete peace of mind, and I no longer have to worry about reaching home safely.",
-        image: "https://randomuser.me/api/portraits/women/8.jpg",
+        image: "/images/ishan.jpg",
         name: "Ishan Raj Saxena",
+        role: "Founder of Learner Bag",
     },
     {
         text: "I feel more confident letting my daughter travel alone now, knowing she has Suraksha Kavach with her. The voice SOS and emergency contacts give me reassurance that help is just a tap away, no matter where she is.",
-        image: "https://randomuser.me/api/portraits/men/9.jpg",
+        image: "/images/pratham.png",
         name: "Pratham Singh",
+        role: "Social Work",
     },
 ];
 

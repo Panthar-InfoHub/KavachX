@@ -49,7 +49,7 @@ const HeroSection = () => {
           className="mb-8 max-w-5xl text-balance text-6xl font-medium tracking-tight text-slate-900 md:text-7xl lg:text-[6rem] leading-[1.05]"
         >
           Sell Smarter Security. <br className="hidden sm:block" />
-          <span className="text-slate-500">Keep Earning</span> Tomorrow.
+          <span className="bg-clip-text text-transparent bg-gradient-to-br from-black to-slate-400">Keep Earning</span> Tomorrow.
         </motion.h1>
 
         <motion.p
@@ -170,7 +170,7 @@ const EarningModelSection = () => {
 
             <h2 className="text-4xl md:text-6xl font-bold font-syne tracking-tight text-slate-900 leading-[1.05] mb-6">
               One Install. <br />
-              <span className="text-slate-400">Endless Returns.</span>
+              <span className="bg-clip-text text-transparent bg-gradient-to-br from-black to-slate-400">Endless Returns.</span>
             </h2>
 
             <p className="text-xl text-slate-600 mb-10 leading-relaxed max-w-lg font-medium">
@@ -377,8 +377,8 @@ const WhyKairosSection = () => {
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 md:mb-20 gap-8">
           <div className="max-w-2xl">
             <h2 className="text-4xl md:text-5xl lg:text-[3.5rem] font-bold font-syne tracking-tight leading-[1.1] mb-6">
-              Smart <span className="text-slate-500">Service</span> <br />
-              That Real <span className="text-slate-500">Impact.</span>
+              Smart <span className="bg-clip-text text-transparent bg-gradient-to-br from-black to-slate-400">Service</span> <br />
+              That Real <span className="bg-clip-text text-transparent bg-gradient-to-br from-black to-slate-400">Impact.</span>
             </h2>
             <p className="text-slate-600 text-lg leading-relaxed">
               An AI Edge Box that processes video streams locally in real-time, transforming passive CCTV into a proactive threat detection system.
@@ -447,7 +447,7 @@ const BenefitsSection = () => {
           </div>
           <h2 className="text-3xl md:text-5xl font-bold font-syne text-slate-900 tracking-tight">
             More Than a Product. <br className="hidden md:block" />
-            <span className="text-slate-400">A Partnership Built for Growth.</span>
+            <span className="bg-clip-text text-transparent bg-gradient-to-br from-black to-slate-400">A Partnership Built for Growth.</span>
           </h2>
         </div>
 
@@ -558,7 +558,7 @@ const AudienceAndIndustriesSection = () => {
             </div>
             <h2 className="text-3xl md:text-5xl font-bold font-syne max-w-4xl mx-auto tracking-tight leading-tight">
               If You Understand Security, Technology, or Sales—<br className="hidden md:block" />
-              <span className="text-slate-500">There&apos;s an Opportunity to Grow.</span>
+              <span className="bg-clip-text text-transparent bg-gradient-to-br from-black to-slate-400">There&apos;s an Opportunity to Grow.</span>
             </h2>
           </div>
           <div className="flex flex-wrap justify-center gap-3 md:gap-4 max-w-5xl mx-auto">
@@ -576,7 +576,7 @@ const AudienceAndIndustriesSection = () => {
             <div className="inline-block border border-slate-200 bg-white/60 backdrop-blur-md px-5 py-2 rounded-full text-slate-500 text-[11px] font-bold tracking-[0.2em] uppercase mb-8 shadow-sm">
               One Product. Multiple Markets.
             </div>
-            <h2 className="text-3xl md:text-5xl font-bold font-syne tracking-tight">Take Intelligent Security <span className="text-slate-500">Across Industries.</span></h2>
+            <h2 className="text-3xl md:text-5xl font-bold font-syne tracking-tight">Take Intelligent Security <span className="bg-clip-text text-transparent bg-gradient-to-br from-black to-slate-400">Across Industries.</span></h2>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             {industries.map((ind, i) => (
@@ -660,26 +660,27 @@ const FaqSection = () => {
 const CtaSection = () => {
   return (
     <div className="relative bg-white pb-6 md:pb-8">
-      <section className="py-24 md:py-32 px-6 relative overflow-hidden bg-[#F6F6F6] rounded-[3rem] mx-2 md:mx-4 border border-slate-200 shadow-sm">
+      <section className="py-24 md:py-32 px-6 relative overflow-hidden bg-[#111] rounded-[3rem] mx-2 md:mx-4 border border-white/5 shadow-2xl">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(255,255,255,0.1)_0%,transparent_70%)]" />
         <div className="relative z-10 max-w-5xl mx-auto text-center">
-          <p className="text-sm font-semibold text-slate-500 tracking-widest uppercase mb-6">
+          <p className="text-sm font-semibold text-slate-400 tracking-widest uppercase mb-6">
             Ready to Partner With Us?
           </p>
-          <h2 className="text-4xl md:text-6xl lg:text-[4.5rem] font-bold font-syne mb-8 text-slate-900 tracking-tight leading-[1.05]">
+          <h2 className="text-4xl md:text-6xl lg:text-[4.5rem] font-bold font-syne mb-8 text-white tracking-tight leading-[1.05]">
             One Installation Can Start <br />
-            <span className="text-slate-500">Something Bigger.</span>
+            <span className="bg-clip-text text-transparent bg-gradient-to-br from-white to-slate-500">Something Bigger.</span>
           </h2>
-          <p className="text-xl text-slate-600 mb-12 max-w-2xl mx-auto leading-relaxed">
-            Earn <strong>20% commission</strong> on eligible KAIROS installations and unlock recurring commission through qualifying active subscriptions.
+          <p className="text-xl text-slate-400 mb-12 max-w-2xl mx-auto leading-relaxed">
+            Earn <strong className="text-white">20% commission</strong> on eligible KAIROS installations and unlock recurring commission through qualifying active subscriptions.
           </p>
 
           <div className="flex justify-center">
             <Link
               href="/contact"
-              className="group flex h-16 items-center justify-between gap-6 rounded-full bg-black pl-10 pr-2 text-[17px] font-medium text-white transition-all hover:bg-slate-800 active:scale-[0.98]"
+              className="group inline-flex h-16 w-full sm:w-auto items-center justify-between gap-6 rounded-full bg-white pl-10 pr-2 text-[17px] font-medium text-black transition-all hover:bg-gray-100 active:scale-[0.98] shadow-[0_0_40px_rgba(255,255,255,0.2)]"
             >
               Become a Vendor Partner
-              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-white text-black transition-transform group-hover:scale-[1.05]">
+              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-black text-white transition-transform group-hover:scale-[1.05]">
                 <ArrowRight className="h-5 w-5 -rotate-45 transition-transform group-hover:rotate-0" />
               </div>
             </Link>

@@ -134,9 +134,8 @@ export function RiskScannerAsset() {
             <span className="text-[9px] text-white/30 font-mono w-20 tracking-wider">{risk.label}</span>
             <div className="flex-1 h-1.5 rounded-full bg-white/5 overflow-hidden relative">
               <motion.div
-                className={`h-full rounded-full ${
-                  risk.status === "med" ? "bg-blue-400" : "bg-blue-500/40"
-                }`}
+                className={`h-full rounded-full ${risk.status === "med" ? "bg-blue-400" : "bg-blue-500/40"
+                  }`}
                 initial={{ width: 0 }}
                 animate={{ width: `${risk.level * 100}%` }}
                 transition={{ duration: 1.5, delay: i * 0.2, ease: "easeOut" }}
@@ -148,9 +147,8 @@ export function RiskScannerAsset() {
                 transition={{ duration: 3, repeat: Infinity, delay: i * 0.4, ease: "linear" }}
               />
             </div>
-            <span className={`text-[9px] font-mono tracking-wider ${
-              risk.status === "med" ? "text-blue-400" : "text-white/20"
-            }`}>
+            <span className={`text-[9px] font-mono tracking-wider ${risk.status === "med" ? "text-blue-400" : "text-white/20"
+              }`}>
               {(risk.level * 100).toFixed(0)}%
             </span>
           </div>
