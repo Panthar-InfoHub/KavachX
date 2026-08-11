@@ -7,6 +7,7 @@ import { NavbarConfig } from "@/types/navbar";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const NAVBAR_CONFIG: NavbarConfig = {
     logo: <Image src="/images/logo.png" alt="KavachX Logo" width={140} height={40} className="h-8 w-auto object-contain" />,
@@ -40,6 +41,10 @@ const NAVBAR_CONFIG: NavbarConfig = {
             href: "kairos"
         },
         {
+            label: "Blogs",
+            href: "blogs"
+        },
+        {
             label: "Team",
             href: "team"
         },
@@ -65,7 +70,12 @@ const NAVBAR_CONFIG: NavbarConfig = {
 type AnimationDirection = "right-to-left" | "left-to-right";
 
 export const Navbar: React.FC = () => {
+    const pathname = usePathname();
     const config = NAVBAR_CONFIG;
+
+    if (pathname?.startsWith("/admin")) {
+        return null;
+    }
 
     const [activeMenuItemIndex, setActiveMenuItemIndex] = useState<number | null>(
         null

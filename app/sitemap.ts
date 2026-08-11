@@ -1,14 +1,22 @@
 import { MetadataRoute } from 'next';
+import { connectDB } from '@/lib/mongodb';
+import Blog from '@/models/Blog';
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
 
-  return [
+  const staticRoutes: MetadataRoute.Sitemap = [
     {
       url: `${baseUrl}`,
       lastModified: new Date(),
       changeFrequency: 'weekly',
       priority: 1,
+    },
+    {
+      url: `${baseUrl}/blogs`,
+      lastModified: new Date(),
+      changeFrequency: 'daily',
+      priority: 0.9,
     },
     {
       url: `${baseUrl}/suraksha-kavach`,
@@ -41,4 +49,23 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
   ];
+
+  try {
+    await connectDB();
+    const publishedBlogs = await Blog.find({
+      isDeleted: { $ne: true },
+      status: "PUBLISHED",
+    }).lean();
+
+    const blogRoutes: MetadataRoute.Sitemap = publishedBlogs.map((b: any) => ({
+      url: `${baseUrl}/blogs/${b.slug}`,
+      lastModified: b.updatedAt || b.publishedAt || new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.8,
+    }));
+
+    return [...staticRoutes, ...blogRoutes];
+  } catch {
+    return staticRoutes;
+  }
 }
