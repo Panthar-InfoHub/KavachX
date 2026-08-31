@@ -49,6 +49,7 @@ export async function GET(
         createdAt: (blogDoc as any).createdAt,
         updatedAt: (blogDoc as any).updatedAt,
         publishedAt: (blogDoc as any).publishedAt || null,
+        isFeatured: Boolean((blogDoc as any).isFeatured),
         isDeleted: Boolean((blogDoc as any).isDeleted),
         deletedAt: (blogDoc as any).deletedAt || null,
       },
@@ -103,7 +104,7 @@ export async function PATCH(
       );
     }
 
-    const { title, slug, excerpt, content, coverImage, status } = body || {};
+    const { title, slug, excerpt, content, coverImage, status, isFeatured } = body || {};
 
     if (title !== undefined) {
       if (typeof title !== "string" || !title.trim()) {
@@ -192,6 +193,15 @@ export async function PATCH(
       }
     }
 
+    if (isFeatured !== undefined) {
+      if (Boolean(isFeatured)) {
+        await Blog.updateMany({ _id: { $ne: id }, isFeatured: true }, { isFeatured: false });
+        blog.isFeatured = true;
+      } else {
+        blog.isFeatured = false;
+      }
+    }
+
     await blog.save();
 
     return NextResponse.json({
@@ -208,6 +218,7 @@ export async function PATCH(
         createdAt: blog.createdAt,
         updatedAt: blog.updatedAt,
         publishedAt: blog.publishedAt,
+        isFeatured: Boolean(blog.isFeatured),
         isDeleted: blog.isDeleted,
         deletedAt: blog.deletedAt,
       },

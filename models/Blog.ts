@@ -11,6 +11,7 @@ export interface IBlog extends Document {
   createdAt: Date;
   updatedAt: Date;
   publishedAt?: Date | null;
+  isFeatured?: boolean;
   isDeleted?: boolean;
   deletedAt?: Date | null;
 }
@@ -58,6 +59,11 @@ const BlogSchema = new Schema<IBlog>(
     publishedAt: {
       type: Date,
       default: null,
+    },
+    isFeatured: {
+      type: Boolean,
+      default: false,
+      index: true,
     },
     isDeleted: {
       type: Boolean,

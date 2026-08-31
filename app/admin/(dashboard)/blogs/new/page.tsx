@@ -16,6 +16,7 @@ export default function NewBlogPage() {
   const [excerpt, setExcerpt] = useState("");
   const [coverImage, setCoverImage] = useState("");
   const [content, setContent] = useState("");
+  const [isFeatured, setIsFeatured] = useState(false);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -93,6 +94,7 @@ export default function NewBlogPage() {
           content,
           coverImage,
           status: targetStatus,
+          isFeatured,
         }),
       });
 
@@ -232,6 +234,28 @@ export default function NewBlogPage() {
           <p className="text-[11px] text-white/40 mt-1.5">
             URL identifier. Auto-generated from title, editable manually.
           </p>
+        </div>
+
+        {/* Is Featured Toggle */}
+        <div className="flex items-center justify-between p-4 rounded-xl bg-black/40 border border-white/10">
+          <div>
+            <label htmlFor="isFeaturedToggle" className="text-xs font-semibold text-white uppercase tracking-wider font-mono cursor-pointer">
+              ★ Mark as Featured Blog
+            </label>
+            <p className="text-[11px] text-white/50 mt-0.5">
+              If enabled, this article will be highlighted as the Featured Insight on the main blogs page.
+            </p>
+          </div>
+          <input
+            id="isFeaturedToggle"
+            type="checkbox"
+            checked={isFeatured}
+            onChange={(e) => {
+              setIsFeatured(e.target.checked);
+              setSaveState("unsaved");
+            }}
+            className="w-5 h-5 rounded border-white/20 text-indigo-600 focus:ring-indigo-500 focus:ring-offset-0 bg-black/50 cursor-pointer accent-indigo-600"
+          />
         </div>
 
         {/* Excerpt Input with character counter */}

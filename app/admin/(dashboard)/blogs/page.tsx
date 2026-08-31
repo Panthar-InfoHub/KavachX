@@ -16,6 +16,7 @@ interface BlogItem {
   createdAt: string;
   updatedAt: string;
   publishedAt: string | null;
+  isFeatured: boolean;
   isDeleted: boolean;
   deletedAt: string | null;
 }
@@ -107,6 +108,34 @@ export default function BlogsManagerPage() {
       }
     } catch {
       toast.error("Network error while updating status");
+    } finally {
+      setActionLoadingId(null);
+    }
+  };
+
+  // Handle Feature Toggle
+  const handleToggleFeature = async (blog: BlogItem) => {
+    setActionLoadingId(blog.id);
+    try {
+      const res = await fetch(`/api/blogs/${blog.id}/feature`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ isFeatured: !blog.isFeatured }),
+      });
+      const data = await res.json();
+
+      if (data.success) {
+        toast.success(
+          blog.isFeatured
+            ? "Blog unfeatured."
+            : "Blog marked as featured!"
+        );
+        fetchBlogs();
+      } else {
+        toast.error(data.error?.message || "Failed to update feature status");
+      }
+    } catch {
+      toast.error("Network error while updating feature status");
     } finally {
       setActionLoadingId(null);
     }
@@ -298,24 +327,32 @@ export default function BlogsManagerPage() {
                         </span>
                       </td>
 
-                      {/* Status Badge */}
+                      {/* Status & Featured Badge */}
                       <td className="py-4 px-4 whitespace-nowrap">
-                        {isDeleted ? (
-                          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-medium bg-rose-500/10 text-rose-400 border border-rose-500/20">
-                            <span className="w-1.5 h-1.5 rounded-full bg-rose-400" />
-                            DELETED
-                          </span>
-                        ) : blog.status === "PUBLISHED" ? (
-                          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                            PUBLISHED
-                          </span>
-                        ) : (
-                          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-medium bg-amber-500/10 text-amber-400 border border-amber-500/20">
-                            <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
-                            DRAFT
-                          </span>
-                        )}
+                        <div className="flex flex-col gap-1 items-start">
+                          {isDeleted ? (
+                            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-medium bg-rose-500/10 text-rose-400 border border-rose-500/20">
+                              <span className="w-1.5 h-1.5 rounded-full bg-rose-400" />
+                              DELETED
+                            </span>
+                          ) : blog.status === "PUBLISHED" ? (
+                            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                              PUBLISHED
+                            </span>
+                          ) : (
+                            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-medium bg-amber-500/10 text-amber-400 border border-amber-500/20">
+                              <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
+                              DRAFT
+                            </span>
+                          )}
+
+                          {blog.isFeatured && (
+                            <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
+                              ★ FEATURED
+                            </span>
+                          )}
+                        </div>
                       </td>
 
                       {/* Author Email */}
@@ -385,6 +422,20 @@ export default function BlogsManagerPage() {
                                 : blog.status === "PUBLISHED"
                                 ? "Unpublish"
                                 : "Publish"}
+                            </button>
+
+                            {/* Feature / Unfeature Button */}
+                            <button
+                              disabled={isActionLoading}
+                              onClick={() => handleToggleFeature(blog)}
+                              className={`px-2.5 py-1.5 rounded-lg border text-xs font-medium transition-all disabled:opacity-50 ${
+                                blog.isFeatured
+                                  ? "bg-indigo-500/20 border-indigo-500/40 text-indigo-200 hover:bg-indigo-500/30"
+                                  : "bg-white/5 border-white/10 hover:bg-white/10 text-white/70"
+                              }`}
+                              title={blog.isFeatured ? "Unfeature blog" : "Make featured blog"}
+                            >
+                              {blog.isFeatured ? "★ Featured" : "☆ Feature"}
                             </button>
 
                             {/* Soft Delete Button */}

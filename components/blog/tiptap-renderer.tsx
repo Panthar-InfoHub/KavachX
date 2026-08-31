@@ -29,8 +29,8 @@ export function TiptapRenderer({ content, className = "" }: TiptapRendererProps)
   // Fallback for raw text/HTML if content is not JSON AST
   if (!doc || doc.type !== "doc" || !Array.isArray(doc.content)) {
     return (
-      <div className={`prose prose-invert max-w-none text-white/90 ${className}`}>
-        <p className="whitespace-pre-wrap leading-relaxed">{content}</p>
+      <div className={`prose prose-slate max-w-none text-gray-800 ${className}`}>
+        <p className="whitespace-pre-wrap leading-relaxed font-jakarta text-gray-800 text-[17px] leading-8">{content}</p>
       </div>
     );
   }
@@ -41,22 +41,22 @@ export function TiptapRenderer({ content, className = "" }: TiptapRendererProps)
     return marks.reduce((acc: React.ReactNode, mark) => {
       switch (mark.type) {
         case "bold":
-          return <strong className="font-bold text-white">{acc}</strong>;
+          return <strong className="font-bold text-black font-jakarta">{acc}</strong>;
         case "italic":
-          return <em className="italic">{acc}</em>;
+          return <em className="italic text-slate-900 font-instrument font-normal text-[105%]">{acc}</em>;
         case "underline":
-          return <u className="underline underline-offset-4">{acc}</u>;
+          return <u className="underline underline-offset-4 decoration-black/40">{acc}</u>;
         case "strike":
-          return <s className="line-through text-white/50">{acc}</s>;
+          return <s className="line-through text-gray-400">{acc}</s>;
         case "code":
           return (
-            <code className="px-1.5 py-0.5 rounded bg-white/10 text-violet-300 font-mono text-xs">
+            <code className="px-2 py-0.5 rounded-md bg-gray-100 border border-black/5 text-black font-mono text-xs font-semibold">
               {acc}
             </code>
           );
         case "highlight":
           return (
-            <mark className="bg-amber-400/30 text-amber-200 px-1 py-0.5 rounded">
+            <mark className="bg-amber-100 text-amber-950 px-2 py-0.5 rounded border border-amber-200 font-medium">
               {acc}
             </mark>
           );
@@ -78,7 +78,7 @@ export function TiptapRenderer({ content, className = "" }: TiptapRendererProps)
               href={safeHref}
               target={safeHref.startsWith("http") ? "_blank" : undefined}
               rel={safeHref.startsWith("http") ? "noopener noreferrer" : undefined}
-              className="text-violet-400 underline underline-offset-4 hover:text-violet-300 transition-colors font-medium"
+              className="text-black underline underline-offset-4 hover:text-slate-700 transition-colors font-semibold"
             >
               {acc}
             </a>
@@ -98,7 +98,7 @@ export function TiptapRenderer({ content, className = "" }: TiptapRendererProps)
         const align = node.attrs?.textAlign;
         const alignClass = align ? `text-${align}` : "";
         return (
-          <p key={index} className={`leading-relaxed text-white/80 my-4 text-base ${alignClass}`}>
+          <p key={index} className={`text-gray-800 text-[17px] leading-8 font-jakarta font-normal my-6 ${alignClass}`}>
             {node.content?.map(renderNode)}
           </p>
         );
@@ -111,19 +111,19 @@ export function TiptapRenderer({ content, className = "" }: TiptapRendererProps)
 
         if (level === 1) {
           return (
-            <h1 key={index} className={`text-2xl sm:text-3xl font-bold text-white font-syne mt-8 mb-4 ${alignClass}`}>
+            <h1 key={index} className={`text-3xl sm:text-4xl font-bold text-black font-syne mt-10 mb-4 tracking-tight leading-tight ${alignClass}`}>
               {node.content?.map(renderNode)}
             </h1>
           );
         } else if (level === 2) {
           return (
-            <h2 key={index} className={`text-xl sm:text-2xl font-bold text-white font-syne mt-7 mb-3 ${alignClass}`}>
+            <h2 key={index} className={`text-2xl sm:text-3xl font-bold text-black font-syne mt-8 mb-4 tracking-tight leading-tight ${alignClass}`}>
               {node.content?.map(renderNode)}
             </h2>
           );
         } else {
           return (
-            <h3 key={index} className={`text-lg sm:text-xl font-bold text-white font-syne mt-6 mb-2 ${alignClass}`}>
+            <h3 key={index} className={`text-xl sm:text-2xl font-bold text-black font-syne mt-6 mb-3 tracking-tight leading-tight ${alignClass}`}>
               {node.content?.map(renderNode)}
             </h3>
           );
@@ -132,24 +132,24 @@ export function TiptapRenderer({ content, className = "" }: TiptapRendererProps)
 
       case "bulletList":
         return (
-          <ul key={index} className="list-disc pl-6 space-y-2 text-white/80 my-4">
+          <ul key={index} className="list-disc pl-6 space-y-2.5 text-gray-800 my-6 font-jakarta text-[17px] leading-8">
             {node.content?.map(renderNode)}
           </ul>
         );
 
       case "orderedList":
         return (
-          <ol key={index} className="list-decimal pl-6 space-y-2 text-white/80 my-4">
+          <ol key={index} className="list-decimal pl-6 space-y-2.5 text-gray-800 my-6 font-jakarta text-[17px] leading-8">
             {node.content?.map(renderNode)}
           </ol>
         );
 
       case "listItem":
-        return <li key={index}>{node.content?.map(renderNode)}</li>;
+        return <li key={index} className="leading-relaxed">{node.content?.map(renderNode)}</li>;
 
       case "taskList":
         return (
-          <ul key={index} className="space-y-2 my-4 list-none pl-1">
+          <ul key={index} className="space-y-2.5 my-6 list-none pl-1 font-jakarta text-[17px] leading-8">
             {node.content?.map(renderNode)}
           </ul>
         );
@@ -157,14 +157,14 @@ export function TiptapRenderer({ content, className = "" }: TiptapRendererProps)
       case "taskItem": {
         const checked = node.attrs?.checked || false;
         return (
-          <li key={index} className="flex items-start gap-2.5 text-white/90 my-1">
+          <li key={index} className="flex items-start gap-2.5 text-gray-800 my-1 font-jakarta">
             <input
               type="checkbox"
               checked={checked}
               readOnly
-              className="mt-1 accent-violet-600 rounded cursor-default"
+              className="mt-1.5 accent-black rounded border-slate-300 cursor-default"
             />
-            <div className={checked ? "line-through text-white/50" : ""}>
+            <div className={checked ? "line-through text-gray-400" : ""}>
               {node.content?.map(renderNode)}
             </div>
           </li>
@@ -175,7 +175,7 @@ export function TiptapRenderer({ content, className = "" }: TiptapRendererProps)
         return (
           <blockquote
             key={index}
-            className="border-l-4 border-violet-500/60 pl-4 py-2 my-6 italic text-white/70 bg-violet-600/5 rounded-r-2xl"
+            className="border-l-4 border-black pl-6 py-5 my-8 text-black bg-[#f4f4f4] rounded-r-3xl border-y border-r border-black/5 font-instrument text-xl sm:text-2xl italic leading-relaxed"
           >
             {node.content?.map(renderNode)}
           </blockquote>
@@ -185,14 +185,14 @@ export function TiptapRenderer({ content, className = "" }: TiptapRendererProps)
         return (
           <pre
             key={index}
-            className="bg-black/80 border border-white/10 p-4 rounded-xl font-mono text-xs text-emerald-400 overflow-x-auto my-6 leading-relaxed"
+            className="bg-[#111] border border-white/10 p-6 rounded-2xl font-mono text-xs sm:text-sm text-emerald-400 overflow-x-auto my-8 leading-relaxed shadow-xl"
           >
             <code>{node.content?.map(renderNode)}</code>
           </pre>
         );
 
       case "horizontalRule":
-        return <hr key={index} className="border-white/10 my-8" />;
+        return <hr key={index} className="border-gray-200 my-10" />;
 
       case "image": {
         const src = node.attrs?.src || "";
@@ -207,24 +207,24 @@ export function TiptapRenderer({ content, className = "" }: TiptapRendererProps)
           return null;
         }
 
-        let layoutClasses = "w-full my-6 rounded-2xl border border-white/10 shadow-2xl";
+        let layoutClasses = "w-full my-8 rounded-3xl border border-black/5 shadow-md overflow-hidden bg-gray-50";
 
         if (layout === "left") {
           // Desktop: Float left with text wrapping. Mobile: Full width stack.
           layoutClasses =
-            "md:float-left md:mr-6 md:mb-4 md:max-w-[45%] w-full my-4 rounded-2xl border border-white/10 shadow-2xl overflow-hidden";
+            "md:float-left md:mr-6 md:mb-4 md:max-w-[45%] w-full my-4 rounded-3xl border border-black/5 shadow-md overflow-hidden bg-gray-50";
         } else if (layout === "right") {
           // Desktop: Float right with text wrapping. Mobile: Full width stack.
           layoutClasses =
-            "md:float-right md:ml-6 md:mb-4 md:max-w-[45%] w-full my-4 rounded-2xl border border-white/10 shadow-2xl overflow-hidden";
+            "md:float-right md:ml-6 md:mb-4 md:max-w-[45%] w-full my-4 rounded-3xl border border-black/5 shadow-md overflow-hidden bg-gray-50";
         } else if (layout === "center") {
           // Centered block
           layoutClasses =
-            "mx-auto block max-w-2xl my-6 rounded-2xl border border-white/10 shadow-2xl overflow-hidden";
+            "mx-auto block max-w-2xl my-8 rounded-3xl border border-black/5 shadow-md overflow-hidden bg-gray-50";
         } else {
           // Full width block
           layoutClasses =
-            "w-full my-6 rounded-2xl border border-white/10 shadow-2xl overflow-hidden";
+            "w-full my-8 rounded-3xl border border-black/5 shadow-md overflow-hidden bg-gray-50";
         }
 
         return (
@@ -236,7 +236,7 @@ export function TiptapRenderer({ content, className = "" }: TiptapRendererProps)
               className="w-full h-auto object-cover"
             />
             {alt && (
-              <figcaption className="p-2 text-center text-xs text-white/50 italic bg-black/60 border-t border-white/5">
+              <figcaption className="p-3 text-center text-xs text-gray-500 italic bg-gray-50 border-t border-black/5 font-jakarta">
                 {alt}
               </figcaption>
             )}
@@ -246,8 +246,8 @@ export function TiptapRenderer({ content, className = "" }: TiptapRendererProps)
 
       case "table":
         return (
-          <div key={index} className="overflow-x-auto my-6 clear-both">
-            <table className="w-full border-collapse border border-white/20 text-xs">
+          <div key={index} className="overflow-x-auto my-8 clear-both rounded-2xl border border-black/5 shadow-xs">
+            <table className="w-full border-collapse text-xs sm:text-sm font-jakarta">
               <tbody>{node.content?.map(renderNode)}</tbody>
             </table>
           </div>
@@ -258,14 +258,14 @@ export function TiptapRenderer({ content, className = "" }: TiptapRendererProps)
 
       case "tableHeader":
         return (
-          <th key={index} className="border border-white/20 bg-white/10 p-3 font-bold text-left text-white">
+          <th key={index} className="border border-black/5 bg-gray-100 p-3.5 font-bold text-left text-black font-syne">
             {node.content?.map(renderNode)}
           </th>
         );
 
       case "tableCell":
         return (
-          <td key={index} className="border border-white/20 p-3 text-white/80">
+          <td key={index} className="border border-black/5 p-3.5 text-gray-800 bg-white">
             {node.content?.map(renderNode)}
           </td>
         );
@@ -276,7 +276,7 @@ export function TiptapRenderer({ content, className = "" }: TiptapRendererProps)
   };
 
   return (
-    <div className={`space-y-2 font-sans ${className}`}>
+    <div className={`space-y-3 font-jakarta ${className}`}>
       {doc.content.map(renderNode)}
       <div className="clear-both" />
     </div>

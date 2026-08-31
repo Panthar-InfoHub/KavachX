@@ -2,15 +2,17 @@ import type { Metadata } from "next";
 import { connectDB } from "@/lib/mongodb";
 import Blog from "@/models/Blog";
 import { BlogCard } from "@/components/blog/blog-card";
+import { FeaturedBlogCard } from "@/components/blog/featured-blog-card";
+import FadeIn from "@/components/FadeIn";
 
 export const metadata: Metadata = {
-  title: "Latest Blogs & AI Safety Insights",
+  title: "KavachX Intelligence — AI, ML & Robotics Publication",
   description:
-    "Discover the latest security news, AI home surveillance articles, Kairos updates, and personal safety guides from Kavach X.",
+    "Explore authoritative articles, research notes, and engineering insights on Artificial Intelligence, Machine Learning, Autonomous Robotics, Computer Vision, and IoT security from KavachX.",
   openGraph: {
-    title: "Kavach X Blogs & Insights",
+    title: "KavachX Intelligence — AI, ML & Robotics Publication",
     description:
-      "Discover the latest security news, AI home surveillance articles, Kairos updates, and personal safety guides from Kavach X.",
+      "Explore authoritative articles, research notes, and engineering insights on Artificial Intelligence, Machine Learning, Autonomous Robotics, Computer Vision, and IoT security from KavachX.",
     type: "website",
   },
 };
@@ -34,61 +36,124 @@ export default async function PublicBlogsPage() {
     excerpt: doc.excerpt || "",
     coverImage: doc.coverImage || "",
     publishedAt: doc.publishedAt || doc.createdAt,
+    isFeatured: Boolean(doc.isFeatured),
   }));
 
+  // Only display featured hero section if a published blog is explicitly marked as featured by admin
+  const featuredBlog = blogs.find((blog) => blog.isFeatured) || null;
+  const regularBlogs = featuredBlog
+    ? blogs.filter((blog) => blog.id !== featuredBlog.id)
+    : blogs;
+
   return (
-    <div className="min-h-screen bg-black text-white relative overflow-hidden py-16 px-4 sm:px-6 lg:px-8">
-      {/* Ambient Glow background */}
-      <div aria-hidden="true" className="pointer-events-none fixed inset-0 overflow-hidden z-0">
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[600px] rounded-full bg-violet-600/10 blur-[160px]" />
-      </div>
-
+    <div className="w-full bg-linear-to-b from-[#fdfdfd] via-[#f4f7fc] to-[#eef4ff] text-black font-syne min-h-screen py-16 sm:py-24 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto space-y-12 relative z-10">
-        {/* Page Hero Header */}
-        <div className="text-center space-y-4 max-w-2xl mx-auto">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-violet-600/10 border border-violet-500/20 text-violet-400 text-xs font-mono uppercase tracking-wider">
-            <span>● Official Blog</span>
-          </div>
-          <h1 className="text-3xl sm:text-5xl font-extrabold text-white font-syne tracking-tight">
-            Safety, Security & AI Insights
-          </h1>
-          <p className="text-sm sm:text-base text-white/60 leading-relaxed font-sans">
-            Explore articles on smart personal safety, AI CCTV integration, crash detection, and the future of emergency response technology.
-          </p>
-        </div>
+        {/* Header Container (matching SurakshaKavachSection style) */}
+        <FadeIn direction="up" delay={0}>
+          <div className="max-w-4xl mx-auto text-center flex flex-col items-center">
+            <span className="inline-block px-4 py-1.5 bg-gray-100/90 rounded-full text-[10px] font-bold uppercase tracking-widest text-gray-600 mb-6 font-sans border border-black/5">
+              KavachX Intelligence
+            </span>
 
-        {/* Blog Grid */}
-        {blogs.length === 0 ? (
-          <div className="max-w-md mx-auto p-12 text-center rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl space-y-4">
-            <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-violet-600/20 text-violet-400 mb-2">
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"
-                />
-              </svg>
-            </div>
-            <h2 className="text-lg font-bold text-white font-syne">No Articles Published Yet</h2>
-            <p className="text-xs text-white/50">
-              Check back soon for new articles, security guides, and technology updates!
+            <h1 className="text-4xl md:text-5xl font-bold mb-6 tracking-tight text-black font-syne">
+              Ideas shaping intelligent systems
+            </h1>
+
+            <p className="text-sm md:text-base text-gray-600 mb-8 max-w-2xl font-medium leading-relaxed font-jakarta">
+              Authoritative articles, technical breakdowns, and vision at the intersection of machine learning, computer vision, autonomous systems, and physical security.
             </p>
+
+            <div className="flex flex-wrap items-center justify-center gap-3 text-[11px] font-mono font-medium text-gray-500 uppercase tracking-widest">
+              <span>AI</span>
+              <span>•</span>
+              <span>Machine Learning</span>
+              <span>•</span>
+              <span>Robotics</span>
+              <span>•</span>
+              <span>Computer Vision</span>
+              <span>•</span>
+              <span>IoT</span>
+            </div>
           </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-            {blogs.map((blog) => (
-              <BlogCard
-                key={blog.id}
-                title={blog.title}
-                slug={blog.slug}
-                excerpt={blog.excerpt}
-                coverImage={blog.coverImage}
-                publishedAt={blog.publishedAt}
+        </FadeIn>
+
+        {/* Featured Article Bento Hero */}
+        {featuredBlog && (
+          <FadeIn direction="up" delay={150}>
+            <section className="space-y-4">
+              <div className="flex items-center justify-between px-2">
+                <span className="text-xs font-mono font-bold uppercase tracking-widest text-gray-600 flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-black" />
+                  Featured Story
+                </span>
+                <span className="text-xs font-mono text-gray-500">Editor&apos;s Pick</span>
+              </div>
+              <FeaturedBlogCard
+                title={featuredBlog.title}
+                slug={featuredBlog.slug}
+                excerpt={featuredBlog.excerpt}
+                coverImage={featuredBlog.coverImage}
+                publishedAt={featuredBlog.publishedAt}
               />
-            ))}
-          </div>
+            </section>
+          </FadeIn>
         )}
+
+        {/* Bento Grid Publications Section */}
+        <section className="space-y-6">
+          <FadeIn direction="up" delay={200}>
+            <div className="flex items-center justify-between px-2">
+              <div>
+                <h2 className="text-2xl md:text-3xl font-bold text-black font-syne tracking-tight">
+                  Latest Publications
+                </h2>
+                <p className="text-xs sm:text-sm text-gray-500 font-jakarta mt-0.5">
+                  Deep dives into intelligence systems, robotics engineering, and AI safety
+                </p>
+              </div>
+              <span className="text-xs font-mono text-gray-500 font-medium hidden sm:inline-block">
+                Showing {blogs.length} {blogs.length === 1 ? "article" : "articles"}
+              </span>
+            </div>
+          </FadeIn>
+
+          {blogs.length === 0 ? (
+            <FadeIn direction="up" delay={250}>
+              <div className="max-w-md mx-auto p-12 text-center rounded-[2.5rem] border border-black/5 bg-white shadow-[0_4px_20px_rgb(0,0,0,0.03)] space-y-4">
+                <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gray-100 border border-black/5 text-black mb-2 shadow-xs">
+                  <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={1.5}
+                      d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18c-2.305 0-4.408.867-6 2.292m0-14.25v14.25"
+                    />
+                  </svg>
+                </div>
+                <h3 className="text-xl font-bold text-black font-syne">No Stories Published Yet</h3>
+                <p className="text-xs sm:text-sm text-gray-600 leading-relaxed font-jakarta">
+                  We&apos;re preparing technical research notes, engineering breakdowns, and product updates. Check back soon!
+                </p>
+              </div>
+            </FadeIn>
+          ) : (
+            <div className="bg-[#f4f4f4] rounded-[2.5rem] p-4 md:p-8">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
+                {regularBlogs.map((blog, idx) => (
+                  <FadeIn key={blog.id} direction="up" delay={100 + (idx % 3) * 80}>
+                    <BlogCard
+                      title={blog.title}
+                      slug={blog.slug}
+                      excerpt={blog.excerpt}
+                      coverImage={blog.coverImage}
+                      publishedAt={blog.publishedAt}
+                    />
+                  </FadeIn>
+                ))}
+              </div>
+            </div>
+          )}
+        </section>
       </div>
     </div>
   );

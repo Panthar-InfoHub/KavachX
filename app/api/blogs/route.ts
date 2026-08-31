@@ -64,6 +64,7 @@ export async function GET(req: Request) {
       createdAt: doc.createdAt,
       updatedAt: doc.updatedAt,
       publishedAt: doc.publishedAt || null,
+      isFeatured: Boolean(doc.isFeatured),
       isDeleted: Boolean(doc.isDeleted),
       deletedAt: doc.deletedAt || null,
     }));
@@ -111,7 +112,7 @@ export async function POST(req: Request) {
       );
     }
 
-    const { title, slug, excerpt, content, coverImage, status } = body || {};
+    const { title, slug, excerpt, content, coverImage, status, isFeatured } = body || {};
 
     if (!title || typeof title !== "string" || !title.trim()) {
       return NextResponse.json(
@@ -161,6 +162,11 @@ export async function POST(req: Request) {
 
     const initialStatus = status === "PUBLISHED" ? "PUBLISHED" : "DRAFT";
     const initialPublishedAt = initialStatus === "PUBLISHED" ? new Date() : null;
+    const shouldBeFeatured = Boolean(isFeatured);
+
+    if (shouldBeFeatured) {
+      await Blog.updateMany({ isFeatured: true }, { isFeatured: false });
+    }
 
     if (coverImage && typeof coverImage === "string" && coverImage.trim()) {
       const trimmedUrl = coverImage.trim();
@@ -184,6 +190,7 @@ export async function POST(req: Request) {
       status: initialStatus,
       authorEmail,
       publishedAt: initialPublishedAt,
+      isFeatured: shouldBeFeatured,
       isDeleted: false,
       deletedAt: null,
     });
@@ -203,6 +210,7 @@ export async function POST(req: Request) {
           createdAt: newBlog.createdAt,
           updatedAt: newBlog.updatedAt,
           publishedAt: newBlog.publishedAt,
+          isFeatured: newBlog.isFeatured,
           isDeleted: newBlog.isDeleted,
           deletedAt: newBlog.deletedAt,
         },
