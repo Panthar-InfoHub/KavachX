@@ -6,7 +6,6 @@ import Testimonial from "@/components/testimonial";
 import Faq from "@/components/faq";
 import CTA from "@/components/cta";
 import TestimonialsEditorial from "./testimonial-slider";
-
 const HomeComponent = () => {
     return (
         <LenisDiv>

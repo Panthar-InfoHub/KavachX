@@ -31,10 +31,15 @@ export function Footer() {
           {/* Links */}
           <div className="flex flex-col gap-3 shrink-0">
             <h4 className="text-base font-bold tracking-[0.2em] mb-3 uppercase text-gray-500">VISIT</h4>
-            <Link href="/suraksha-kavach" className="text-2xl text-white hover:text-gray-300 transition-colors font-semibold tracking-wide">Suraksha Kavach</Link>
-            <Link href="/kairos" className="text-2xl text-white hover:text-gray-300 transition-colors font-semibold tracking-wide">Kairos</Link>
-            <Link href="/resources" className="text-2xl text-white hover:text-gray-300 transition-colors font-semibold tracking-wide">Resources</Link>
-            <Link href="/vendor" className="text-2xl text-white hover:text-gray-300 transition-colors font-semibold tracking-wide">Become a Vendor</Link>
+            <div className="flex flex-col gap-3">
+              <Link href="/suraksha-kavach" className="text-sm text-gray-400 hover:text-white transition-colors font-medium tracking-wide">Suraksha Kavach</Link>
+              <Link href="/kairos" className="text-sm text-gray-400 hover:text-white transition-colors font-medium tracking-wide">Kairos</Link>
+              <Link href="/resources" className="text-sm text-gray-400 hover:text-white transition-colors font-medium tracking-wide">Resources</Link>
+              <Link href="/vendor" className="text-sm text-gray-400 hover:text-white transition-colors font-medium tracking-wide">Become a Vendor</Link>
+              <Link href="/blog" className="text-sm text-gray-400 hover:text-white transition-colors font-medium tracking-wide">Blog</Link>
+              <Link href="/achievements" className="text-sm text-gray-400 hover:text-white transition-colors font-medium tracking-wide">Achievements</Link>
+              <Link href="/team" className="text-sm text-gray-400 hover:text-white transition-colors font-medium tracking-wide">Team</Link>
+            </div>
           </div>
 
           {/* Socials */}

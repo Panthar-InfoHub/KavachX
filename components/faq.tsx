@@ -51,7 +51,7 @@ const FaqItemCard = ({ faq, isOpen, onToggle }: { faq: FAQItem, isOpen: boolean,
               <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14" />
             </svg>
           ) : (
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="text-[#888]">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="text-[#888]">
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 5v14M5 12h14" />
             </svg>
           )}
@@ -85,7 +85,7 @@ export default function Faq() {
   const [openId, setOpenId] = useState<string | null>(null);
 
   return (
-    <section className="w-full bg-black py-24 px-4 md:px-8"> 
+    <section className="w-full bg-black py-24 px-4 md:px-8">
       <div className="max-w-7xl mx-auto">
         <h2 className="text-3xl md:text-4xl text-center font-medium text-white mb-16">
           Frequently Asked Questions
@@ -96,11 +96,11 @@ export default function Faq() {
             {faqsLeft.map((faq, idx) => {
               const id = `left-${idx}`;
               return (
-                <FaqItemCard 
-                  key={id} 
-                  faq={faq} 
-                  isOpen={openId === id} 
-                  onToggle={() => setOpenId(openId === id ? null : id)} 
+                <FaqItemCard
+                  key={id}
+                  faq={faq}
+                  isOpen={openId === id}
+                  onToggle={() => setOpenId(openId === id ? null : id)}
                 />
               );
             })}
@@ -110,11 +110,11 @@ export default function Faq() {
             {faqsRight.map((faq, idx) => {
               const id = `right-${idx}`;
               return (
-                <FaqItemCard 
-                  key={id} 
-                  faq={faq} 
-                  isOpen={openId === id} 
-                  onToggle={() => setOpenId(openId === id ? null : id)} 
+                <FaqItemCard
+                  key={id}
+                  faq={faq}
+                  isOpen={openId === id}
+                  onToggle={() => setOpenId(openId === id ? null : id)}
                 />
               );
             })}

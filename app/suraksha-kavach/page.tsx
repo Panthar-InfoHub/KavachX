@@ -10,7 +10,7 @@ import { Testimonials } from "@/components/testimonial";
 
 export const metadata: Metadata = {
   title: "Suraksha Kavach | Safety App with SOS, Crash & Voice Alerts",
-  description: "Suraksha Kavach by Kavach X – India's smartest safety app with offline SOS, crash detection, voice commands & live location sharing. Download now.",
+  description: "Suraksha Kavach by KavachX – India's smartest safety app with offline SOS, crash detection, voice commands & live location sharing. Download now.",
   keywords: [
     "suraksha kavach app",
     "SOS safety app India",
@@ -23,8 +23,17 @@ export const metadata: Metadata = {
   ],
   openGraph: {
     title: "Suraksha Kavach | Safety App with SOS, Crash & Voice Alerts",
-    description: "Suraksha Kavach by Kavach X – India's smartest safety app with offline SOS, crash detection, voice commands & live location sharing. Download now.",
-    url: "/suraksha-kavach",
+    description: "Suraksha Kavach by KavachX – India's smartest safety app with offline SOS, crash detection, voice commands & live location sharing. Download now.",
+    url: "https://kavachx.io/suraksha-kavach",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Suraksha Kavach | Safety App with SOS, Crash & Voice Alerts",
+    description: "Suraksha Kavach by KavachX – India's smartest safety app with offline SOS, crash detection, voice commands & live location sharing. Download now.",
+  },
+  alternates: {
+    canonical: "https://kavachx.io/suraksha-kavach",
   },
 };
 

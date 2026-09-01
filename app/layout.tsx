@@ -6,6 +6,7 @@ import { SiteHeader } from "@/components/site-header";
 import { Footer } from "@/components/footer";
 import { Toaster } from "@/components/ui/sonner";
 import { Navbar } from "@/components/navbar";
+import ParticleObject from "@/components/canvasui/ParticleObject";
 
 const FontSyne = Syne({
   variable: "--font-syne",
@@ -33,13 +34,22 @@ const FontJakarta = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://kavachx.io"),
   title: {
-    default: "Kavach X | Smart Personal Safety App & AI Security",
-    template: "%s | Kavach X",
+    default: "KavachX | Safety Infrastructure for Organizations & AI Edge Box",
+    template: "%s | KavachX",
   },
-  description: "Stay safe with Kavach X – India's intelligent safety platform. SOS alerts, real-time location tracking, crash detection & Kairos for home security.",
+  description: "Intelligent Home Security and Enterprise Safety Infrastructure. Monitor your home, family, and spaces from anywhere with the KAIROS AI edge box.",
   keywords: [
+    "Safety Infrastructure for Organizations",
+    "KAIROS AI edge box",
+    "Intelligent Home Security",
+    "real-time CCTV analytics",
+    "AI-driven security",
+    "edge computing safety",
+    "KavachX",
+    "smart surveillance India",
+    "enterprise security infrastructure",
     "personal safety app India",
     "SOS alert app",
     "real-time location tracking",
@@ -55,9 +65,9 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: "/",
-    siteName: "Kavach X",
-    title: "Kavach X | Smart Personal Safety App & AI Security",
-    description: "Stay safe with Kavach X – India's intelligent safety platform. SOS alerts, real-time location tracking, crash detection & Kairos for home security.",
+    siteName: "KavachX",
+    title: "KavachX | Safety Infrastructure for Organizations & AI Edge Box",
+    description: "Intelligent Home Security and Enterprise Safety Infrastructure. Monitor your home, family, and spaces from anywhere with the KAIROS AI edge box.",
     images: [
       {
         url: "/images/og-default.png", // Recommended to place a default OG image here in public/images
@@ -101,7 +111,17 @@ export default function RootLayout({
         <main className="flex-1 w-full relative z-0">
           {children}
         </main>
-        <div className="relative z-30">
+
+        <div className="relative z-30 bg-black">
+          {/* Global Particle Component placed just above the footer */}
+          <div className="w-full max-w-6xl mx-auto h-[400px] md:h-[500px]">
+            <ParticleObject
+              className="w-full h-full bg-black"
+              src="/images/logo.png"
+              scale={6}
+              cameraDistance={3.5}
+            />
+          </div>
           <Footer />
         </div>
         <Toaster position="top-center" richColors />

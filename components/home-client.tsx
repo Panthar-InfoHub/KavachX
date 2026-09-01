@@ -209,7 +209,7 @@ export default function Home() {
 
           {/* Solutions Bento Grid */}
           <div className="w-full max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 items-stretch auto-rows-[minmax(450px,auto)]">
-            
+
             <BentoCard
               title="Suraksha Kavach"
               description="Your Personal Safety Shield. A smart safety app designed for India. Instant SOS alerts, automatic crash detection, real-time location sharing, and voice commands that work even when you're offline. Because safety can't wait for a signal."
@@ -224,8 +224,8 @@ export default function Home() {
               </div>
 
               <div className="flex justify-start mt-8">
-                <Link 
-                  href="/suraksha-kavach" 
+                <Link
+                  href="/suraksha-kavach"
                   className="group inline-flex h-14 w-full sm:w-auto items-center justify-between gap-4 rounded-full bg-white pl-8 pr-2 text-[15px] font-medium text-black transition-all hover:bg-gray-100 active:scale-[0.98]"
                 >
                   Explore Kavach
@@ -250,8 +250,8 @@ export default function Home() {
               </div>
 
               <div className="flex justify-start mt-8">
-                <Link 
-                  href="/kairos" 
+                <Link
+                  href="/kairos"
                   className="group inline-flex h-14 w-full sm:w-auto items-center justify-between gap-4 rounded-full bg-white pl-8 pr-2 text-[15px] font-medium text-black transition-all hover:bg-gray-100 active:scale-[0.98]"
                 >
                   View KAIROS

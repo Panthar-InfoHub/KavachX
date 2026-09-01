@@ -96,7 +96,7 @@ export function KairosBentoGrid() {
             className="text-5xl md:text-[5.5rem] lg:text-[6.5rem] font-bold tracking-tighter mb-8 leading-[1.05] text-slate-900"
           >
             Powerful Features <br />
-            <span className="text-slate-400">at the Edge.</span>
+            <span className="bg-clip-text text-transparent bg-gradient-to-br from-black to-slate-400">at the Edge.</span>
           </motion.h2>
 
           <motion.p
