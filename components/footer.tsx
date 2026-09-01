@@ -1,8 +1,14 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export function Footer() {
+  const pathname = usePathname();
+
+  if (pathname?.startsWith("/admin")) {
+    return null;
+  }
   return (
     <footer className="w-full bg-black text-white pt-16 pb-4 font-syne relative z-20 flex flex-col justify-between overflow-hidden">
 

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Syne, Poppins, Geist, Instrument_Serif } from "next/font/google";
+import { Syne, Poppins, Geist, Instrument_Serif, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { SiteHeader } from "@/components/site-header";
@@ -24,6 +24,12 @@ const FontInstrument = Instrument_Serif({
   variable: "--font-instrument",
   weight: ["400"],
   style: ["normal", "italic"],
+  subsets: ["latin"],
+});
+
+const FontJakarta = Plus_Jakarta_Sans({
+  variable: "--font-jakarta",
+  weight: ["300", "400", "500", "600", "700", "800"],
   subsets: ["latin"],
 });
 
@@ -98,7 +104,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={cn("min-h-screen", "antialiased", FontSyne.variable, FontPoppins.variable, FontInstrument.variable)}
+      className={cn("min-h-screen", "antialiased", FontSyne.variable, FontPoppins.variable, FontInstrument.variable, FontJakarta.variable)}
     >
       <body className="min-h-screen flex flex-col font-sans bg-black text-white relative">
         <Navbar />
