@@ -2,7 +2,7 @@ import { MetadataRoute } from 'next';
 import { connectDB } from '@/lib/mongodb';
 import Blog from '@/models/Blog';
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://kavachx.io';
 
   const staticRoutes: MetadataRoute.Sitemap = [
