@@ -1,27 +1,30 @@
 import { betterAuth } from "better-auth";
-import { memoryAdapter } from "better-auth/adapters/memory";
+import { mongodbAdapter } from "better-auth/adapters/mongodb";
+import { MongoClient } from "mongodb";
 
-type MemoryStore = Record<string, any[]>;
+const MONGODB_URI = process.env.MONGODB_URI;
 
+if (!MONGODB_URI) {
+  throw new Error("Please define the MONGODB_URI environment variable inside .env or .env.local");
+}
+
+// Cache the MongoClient across Next.js hot-reloads in development
 declare global {
   // eslint-disable-next-line no-var
-  var authDb: MemoryStore | undefined;
+  var _authMongoClient: MongoClient | undefined;
 }
 
-// Preserve the in-memory data store across Next.js dev server hot-reloads
-const db: MemoryStore = globalThis.authDb || {
-  user: [],
-  session: [],
-  account: [],
-  verification: [],
-};
+const client: MongoClient =
+  globalThis._authMongoClient || new MongoClient(MONGODB_URI);
 
-if (!globalThis.authDb) {
-  globalThis.authDb = db;
+if (!globalThis._authMongoClient) {
+  globalThis._authMongoClient = client;
 }
+
+const db = client.db();
 
 export const auth = betterAuth({
-  database: memoryAdapter(db),
+  database: mongodbAdapter(db, { client }),
   secret:
     process.env.BETTER_AUTH_SECRET ||
     "47a8276cc132f05213112fa5d6d74479bb33226dd1ee16dc84860496304fd4c0",
@@ -37,9 +40,11 @@ export async function seedAdminUser() {
 
   if (!adminEmail || !adminPassword) return;
 
-  const existing = db.user?.find(
-    (u: any) => u.email?.toLowerCase() === adminEmail.toLowerCase()
-  );
+  // Check if admin user already exists in the database
+  const usersCollection = db.collection("user");
+  const existing = await usersCollection.findOne({
+    email: adminEmail.toLowerCase(),
+  });
 
   if (!existing) {
     try {
@@ -60,3 +65,4 @@ export async function getAuth() {
   await seedAdminUser();
   return auth;
 }
+

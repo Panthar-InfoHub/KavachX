@@ -90,9 +90,9 @@ export default async function DashboardPage() {
           <div className="flex items-center gap-2">
             <span className="w-3 h-3 rounded-full bg-emerald-400 animate-pulse" />
             <span className="text-lg font-bold text-white font-syne">{dbStatus}</span>
+            </div>
+            <p className="text-xs text-white/40 mt-2">Better Auth + MongoDB Engine</p>
           </div>
-          <p className="text-xs text-white/40 mt-2">Better Auth + MongoDB Engine</p>
-        </div>
       </div>
 
       {/* Quick Actions & Empty State Section */}
