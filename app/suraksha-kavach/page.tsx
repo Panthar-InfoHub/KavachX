@@ -91,7 +91,7 @@ export default function SurakshaKavachPage() {
             We focus on providing features like drive and crash detection, in-app SOS, and voice commands to enhance your safety.
           </p>
           <button className="bg-[#00A3FF] hover:bg-[#008bdd] text-white px-8 py-3 rounded-full text-sm font-semibold transition-colors duration-200 shadow-md">
-            Try Kavach for Free
+            Coming on Play Store soon
           </button>
         </div>
 

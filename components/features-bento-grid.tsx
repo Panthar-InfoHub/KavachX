@@ -57,7 +57,7 @@ export function FeaturesBentoGrid() {
               </p>
             </div>
             {/* Aryan notification badge */}
-            <div className="absolute top-6 right-6 flex items-center gap-3 z-10 bg-white/90 backdrop-blur-sm rounded-full pl-1 pr-4 py-1 shadow-md">
+            <div className="hidden md:flex absolute top-6 right-6 items-center gap-3 z-10 bg-white/90 backdrop-blur-sm rounded-full pl-1 pr-4 py-1 shadow-md">
               <div className="w-9 h-9 rounded-full overflow-hidden relative shrink-0">
                 <Image
                   src="/feature/aryan_avatar.png"
@@ -73,7 +73,7 @@ export function FeaturesBentoGrid() {
               </div>
             </div>
             {/* Voice wave visualization */}
-            <div className="absolute bottom-0 right-0 w-[65%] h-[55%] overflow-hidden">
+            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 md:translate-x-0 md:left-auto md:right-0 w-full md:w-[65%] h-[55%] overflow-hidden">
               <Image
                 src="/wave.png"
                 alt="Voice wave visualization"

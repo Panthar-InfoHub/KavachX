@@ -34,7 +34,7 @@ import { AIIcon } from "./icons";
 // ==========================================
 const HeroSection = () => {
   return (
-    <section className="relative flex min-h-[90vh] w-full flex-col items-center justify-center overflow-hidden bg-[#F6F6F6] font-sans text-black pt-32 pb-24">
+    <section className="relative flex w-full flex-col items-center justify-center overflow-hidden bg-[#F6F6F6] font-sans text-black pt-28 md:pt-36 pb-12 md:pb-16">
 
       <main className="container mx-auto flex w-full flex-col items-center px-6 text-center z-10 relative">
 
@@ -46,7 +46,7 @@ const HeroSection = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="mb-8 max-w-5xl text-balance text-6xl font-medium tracking-tight text-slate-900 md:text-7xl lg:text-[6rem] leading-[1.05]"
+          className="mb-6 max-w-5xl text-balance text-6xl font-medium tracking-tight text-slate-900 md:text-7xl lg:text-[6rem] leading-[1.05]"
         >
           Sell Smarter Security. <br className="hidden sm:block" />
           <span className="bg-clip-text text-transparent bg-gradient-to-br from-black to-slate-400">Keep Earning</span> Tomorrow.
@@ -56,20 +56,20 @@ const HeroSection = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-          className="mx-auto mb-12 max-w-[650px] text-balance text-lg leading-relaxed text-slate-600 md:text-xl"
+          className="mx-auto mb-8 max-w-[650px] text-balance text-lg leading-relaxed text-slate-600 md:text-xl"
         >
           All partnerships here are designed to deliver impact—not just impressions. Earn 20% on every installation, plus recurring revenue.
         </motion.p>
 
         {/* Call to Actions - Marklab style pill buttons */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-          className="flex w-full flex-col items-center justify-center gap-4 sm:flex-row mb-12"
+          className="flex w-full flex-col items-center justify-center gap-4 sm:flex-row mb-4"
         >
-          <Link 
-            href="/contact" 
+          <Link
+            href="/contact"
             className="group flex h-14 w-full sm:w-auto items-center justify-between gap-4 rounded-full bg-black pl-8 pr-2 text-[15px] font-medium text-white transition-all hover:bg-slate-800 active:scale-[0.98]"
           >
             Become a Partner
@@ -120,8 +120,8 @@ import { Marquee } from "./ui/marquee";
 
 const MarqueeSection = () => {
   return (
-    <section className="py-20 bg-white border-b border-slate-100 overflow-hidden">
-      <div className="container mx-auto px-6 mb-10 text-center">
+    <section className="py-10 md:py-14 bg-white border-b border-slate-100 overflow-hidden">
+      <div className="container mx-auto px-6 mb-6 text-center">
         <p className="text-sm font-semibold text-slate-500 tracking-widest uppercase">
           Be part of the 100+ businesses transforming their digital presence.
         </p>
@@ -148,12 +148,12 @@ const MarqueeSection = () => {
 // ==========================================
 const EarningModelSection = () => {
   return (
-    <section id="earning-model" className="py-32 bg-[#FDFDFD] text-slate-900 relative overflow-hidden">
+    <section id="earning-model" className="py-14 md:py-20 bg-[#FDFDFD] text-slate-900 relative overflow-hidden">
       {/* Subtle ambient light */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-[1000px] h-[400px] bg-gradient-to-b from-slate-100/50 to-transparent blur-3xl pointer-events-none" />
 
       <div className="container mx-auto px-6 max-w-[1200px] relative z-10">
-        <div className="flex flex-col lg:flex-row gap-16 lg:gap-24 items-center">
+        <div className="flex flex-col lg:flex-row gap-10 lg:gap-16 items-center">
 
           {/* Left Side - Editorial Content */}
           <motion.div
@@ -163,21 +163,21 @@ const EarningModelSection = () => {
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             className="flex-1 w-full flex flex-col justify-center"
           >
-            <div className="inline-flex items-center gap-2 border border-slate-200/80 bg-white/50 backdrop-blur-sm px-4 py-1.5 rounded-full text-slate-500 text-[11px] font-bold tracking-[0.2em] uppercase mb-8 shadow-sm self-start">
+            <div className="inline-flex items-center gap-2 border border-slate-200/80 bg-white/50 backdrop-blur-sm px-4 py-1.5 rounded-full text-slate-500 text-[11px] font-bold tracking-[0.2em] uppercase mb-6 shadow-sm self-start">
               <span className="w-1.5 h-1.5 rounded-full bg-slate-900 animate-pulse" />
               Partner Economics
             </div>
 
-            <h2 className="text-4xl md:text-6xl font-bold font-syne tracking-tight text-slate-900 leading-[1.05] mb-6">
+            <h2 className="text-4xl md:text-6xl font-bold font-syne tracking-tight text-slate-900 leading-[1.05] mb-5">
               One Install. <br />
               <span className="bg-clip-text text-transparent bg-gradient-to-br from-black to-slate-400">Endless Returns.</span>
             </h2>
 
-            <p className="text-xl text-slate-600 mb-10 leading-relaxed max-w-lg font-medium">
+            <p className="text-xl text-slate-600 mb-8 leading-relaxed max-w-lg font-medium">
               Transform single transactions into a compounding portfolio. Earn a robust upfront margin, then secure your future with ongoing monthly revenue.
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-4 mb-12">
+            <div className="flex flex-col sm:flex-row gap-4 mb-8">
               <Link
                 href="/contact"
                 className="group relative flex h-14 w-full sm:w-auto items-center justify-center gap-3 rounded-full bg-slate-900 px-8 text-[15px] font-medium text-white transition-all hover:bg-slate-800 hover:shadow-[0_8px_30px_rgba(0,0,0,0.12)] active:scale-[0.98] overflow-hidden"
@@ -189,7 +189,7 @@ const EarningModelSection = () => {
             </div>
 
             {/* Premium Metrics List */}
-            <div className="grid sm:grid-cols-2 gap-8 border-t border-slate-200/60 pt-10">
+            <div className="grid sm:grid-cols-2 gap-6 border-t border-slate-200/60 pt-8">
               <div>
                 <div className="text-3xl font-bold font-syne text-slate-900 mb-1">20%</div>
                 <div className="text-sm font-medium text-slate-500 uppercase tracking-widest">Upfront Margin</div>
@@ -288,10 +288,10 @@ const HowYouEarnSection = () => {
   ];
 
   return (
-    <section className="py-24 bg-slate-50 text-slate-900">
+    <section className="py-14 md:py-18 bg-slate-50 text-slate-900">
       <div className="container mx-auto px-6 max-w-6xl">
-        <div className="mb-16">
-          <div className="text-slate-900 text-sm font-bold tracking-widest uppercase mb-4">YOUR EARNING JOURNEY</div>
+        <div className="mb-10 md:mb-12">
+          <div className="text-slate-900 text-sm font-bold tracking-widest uppercase mb-3">YOUR EARNING JOURNEY</div>
           <h2 className="text-4xl font-bold font-syne">From One Introduction to Long-Term Opportunity</h2>
         </div>
 
@@ -327,7 +327,7 @@ const HowYouEarnSection = () => {
           </div>
         </div>
 
-        <div className="mt-20 text-center">
+        <div className="mt-12 md:mt-14 text-center">
           <p className="text-xl md:text-2xl font-syne font-medium text-slate-500">
             <span className="text-slate-900">One customer.</span> Two revenue opportunities. <span className="text-slate-900">Long-term growth potential.</span>
           </p>
@@ -371,12 +371,12 @@ const WhyKairosSection = () => {
   ];
 
   return (
-    <section className="py-24 md:py-32 bg-white text-slate-900 overflow-hidden">
+    <section className="py-14 md:py-20 bg-white text-slate-900 overflow-hidden">
       <div className="container mx-auto px-6 max-w-7xl">
         {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 md:mb-20 gap-8">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 md:mb-14 gap-8">
           <div className="max-w-2xl">
-            <h2 className="text-4xl md:text-5xl lg:text-[3.5rem] font-bold font-syne tracking-tight leading-[1.1] mb-6">
+            <h2 className="text-4xl md:text-5xl lg:text-[3.5rem] font-bold font-syne tracking-tight leading-[1.1] mb-5">
               Smart <span className="bg-clip-text text-transparent bg-gradient-to-br from-black to-slate-400">Service</span> <br />
               That Real <span className="bg-clip-text text-transparent bg-gradient-to-br from-black to-slate-400">Impact.</span>
             </h2>
@@ -435,14 +435,14 @@ const WhyKairosSection = () => {
 // ==========================================
 const BenefitsSection = () => {
   return (
-    <section className="py-24 md:py-32 bg-[#fafbfc] relative overflow-hidden">
+    <section className="py-14 md:py-20 bg-[#fafbfc] relative overflow-hidden">
       {/* Soft Background Effects */}
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-50/50 blur-[100px] rounded-full pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-indigo-50/50 blur-[100px] rounded-full pointer-events-none" />
 
       <div className="container mx-auto px-4 sm:px-6 max-w-6xl relative z-10">
-        <div className="mb-16 md:mb-24 text-center">
-          <div className="inline-block border border-slate-200 bg-white/60 backdrop-blur-md px-5 py-2 rounded-full text-slate-500 text-[11px] font-bold tracking-[0.2em] uppercase mb-8 shadow-sm">
+        <div className="mb-10 md:mb-14 text-center">
+          <div className="inline-block border border-slate-200 bg-white/60 backdrop-blur-md px-5 py-2 rounded-full text-slate-500 text-[11px] font-bold tracking-[0.2em] uppercase mb-6 shadow-sm">
             Built for Partner Success
           </div>
           <h2 className="text-3xl md:text-5xl font-bold font-syne text-slate-900 tracking-tight">
@@ -519,8 +519,6 @@ const BenefitsSection = () => {
   );
 };
 
-
-
 // ==========================================
 // 7. & 8. Who Can Join & Industries
 // ==========================================
@@ -544,16 +542,16 @@ const AudienceAndIndustriesSection = () => {
   ];
 
   return (
-    <section className="py-24 md:py-32 bg-[#fafbfc] relative overflow-hidden text-slate-900">
+    <section className="py-14 md:py-20 bg-[#fafbfc] relative overflow-hidden text-slate-900">
       {/* Soft Ambient Background */}
       <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-indigo-50/50 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-blue-50/50 rounded-full blur-[120px] pointer-events-none" />
 
       <div className="container mx-auto px-4 sm:px-6 max-w-7xl relative z-10">
         {/* Who Can Join */}
-        <div className="mb-24 md:mb-32">
-          <div className="text-center mb-12 md:mb-16">
-            <div className="inline-block border border-slate-200 bg-white/60 backdrop-blur-md px-5 py-2 rounded-full text-slate-500 text-[11px] font-bold tracking-[0.2em] uppercase mb-8 shadow-sm">
+        <div className="mb-14 md:mb-18">
+          <div className="text-center mb-8 md:mb-10">
+            <div className="inline-block border border-slate-200 bg-white/60 backdrop-blur-md px-5 py-2 rounded-full text-slate-500 text-[11px] font-bold tracking-[0.2em] uppercase mb-6 shadow-sm">
               Built for Ambitious Partners
             </div>
             <h2 className="text-3xl md:text-5xl font-bold font-syne max-w-4xl mx-auto tracking-tight leading-tight">
@@ -572,8 +570,8 @@ const AudienceAndIndustriesSection = () => {
 
         {/* Industries */}
         <div>
-          <div className="text-center mb-16 md:mb-20">
-            <div className="inline-block border border-slate-200 bg-white/60 backdrop-blur-md px-5 py-2 rounded-full text-slate-500 text-[11px] font-bold tracking-[0.2em] uppercase mb-8 shadow-sm">
+          <div className="text-center mb-10 md:mb-12">
+            <div className="inline-block border border-slate-200 bg-white/60 backdrop-blur-md px-5 py-2 rounded-full text-slate-500 text-[11px] font-bold tracking-[0.2em] uppercase mb-6 shadow-sm">
               One Product. Multiple Markets.
             </div>
             <h2 className="text-3xl md:text-5xl font-bold font-syne tracking-tight">Take Intelligent Security <span className="bg-clip-text text-transparent bg-gradient-to-br from-black to-slate-400">Across Industries.</span></h2>
@@ -600,7 +598,6 @@ const AudienceAndIndustriesSection = () => {
   );
 };
 
-
 // ==========================================
 // 12. FAQs
 // ==========================================
@@ -617,9 +614,9 @@ const FaqSection = () => {
   const [open, setOpen] = useState<number | null>(0);
 
   return (
-    <section className="py-24 bg-white text-slate-900">
+    <section className="py-14 md:py-18 bg-white text-slate-900">
       <div className="container mx-auto px-6 max-w-3xl">
-        <div className="text-center mb-16">
+        <div className="text-center mb-10 md:mb-12">
           <h2 className="text-4xl font-bold font-syne">Frequently Asked Questions</h2>
         </div>
         <div className="space-y-4">
@@ -660,7 +657,7 @@ const FaqSection = () => {
 const CtaSection = () => {
   return (
     <div className="relative bg-white pb-6 md:pb-8">
-      <section className="py-24 md:py-32 px-6 relative overflow-hidden bg-[#111] rounded-[3rem] mx-2 md:mx-4 border border-white/5 shadow-2xl">
+      <section className="py-14 md:py-20 px-6 relative overflow-hidden bg-[#111] rounded-[3rem] mx-2 md:mx-4 border border-white/5 shadow-2xl">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(255,255,255,0.1)_0%,transparent_70%)]" />
         <div className="relative z-10 max-w-5xl mx-auto text-center">
           <p className="text-sm font-semibold text-slate-400 tracking-widest uppercase mb-6">

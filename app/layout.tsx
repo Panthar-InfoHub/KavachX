@@ -6,7 +6,7 @@ import { SiteHeader } from "@/components/site-header";
 import { Footer } from "@/components/footer";
 import { Toaster } from "@/components/ui/sonner";
 import { Navbar } from "@/components/navbar";
-import ParticleObject from "@/components/canvasui/ParticleObject";
+import ResponsiveParticleSection from "@/components/responsive-particle-section";
 
 const FontSyne = Syne({
   variable: "--font-syne",
@@ -114,14 +114,7 @@ export default function RootLayout({
 
         <div className="relative z-30 bg-black">
           {/* Global Particle Component placed just above the footer */}
-          <div className="w-full max-w-6xl mx-auto h-[400px] md:h-[500px]">
-            <ParticleObject
-              className="w-full h-full bg-black"
-              src="/images/logo.png"
-              scale={6}
-              cameraDistance={3.5}
-            />
-          </div>
+          <ResponsiveParticleSection />
           <Footer />
         </div>
         <Toaster position="top-center" richColors />

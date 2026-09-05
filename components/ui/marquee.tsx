@@ -79,11 +79,11 @@ export function Marquee({
       onTouchMove={onTouchMove}
       onTouchEnd={onTouchEnd}
       className={cn(
-        "group flex overflow-x-auto p-2 [--duration:40s] [--gap:1rem] [flex-direction:row]",
+        "group flex overflow-hidden p-2 [--duration:40s] [--gap:1rem] [flex-direction:row]",
         "cursor-grab active:cursor-grabbing select-none",
         "scrollbar-hide",
         {
-          "[flex-direction:column] overflow-x-hidden overflow-y-auto": vertical,
+          "[flex-direction:column] overflow-y-hidden": vertical,
         },
         className,
       )}

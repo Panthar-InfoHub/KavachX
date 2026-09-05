@@ -140,7 +140,7 @@ export default async function PublicBlogsPage() {
             <div className="bg-[#f4f4f4] rounded-[2.5rem] p-4 md:p-8">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
                 {regularBlogs.map((blog, idx) => (
-                  <FadeIn key={blog.id} direction="up" delay={100 + (idx % 3) * 80}>
+                  <FadeIn key={blog.id} direction="up" delay={100 + (idx % 3) * 80} className="h-full">
                     <BlogCard
                       title={blog.title}
                       slug={blog.slug}

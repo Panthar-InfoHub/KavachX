@@ -294,8 +294,7 @@ export function KairosBentoGrid() {
             </div>
             <div className="grid grid-cols-2 gap-x-1 gap-y-2.5">
               {[
-                "Fire Detection", "Intrusion", "Falls",
-                "Weapons", "Loitering", "Crowds"
+                "Fire Detection", "Intrusion"
               ].map((cap, i) => (
                 <div key={i} className="flex items-center gap-1.5">
                   <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500/70 shrink-0" />
@@ -409,83 +408,24 @@ export function KairosBentoGrid() {
 
           {/* ==================== ROW 4 ==================== */}
 
-          {/* 12. Dimensions */}
-          <motion.div
-            {...fadeUp(0.24)}
-            className="col-span-1 lg:col-span-5 bg-white rounded-[2.5rem] border border-slate-200/60 shadow-[0_4px_20px_rgba(0,0,0,0.03)] pt-6 px-6 flex flex-col relative overflow-hidden min-h-[240px]"
-          >
-            <div className="relative z-20 flex flex-col mb-4">
-              <h4 className="font-bold text-[16px] text-black leading-tight mb-3">
-                Compact. Powerful. Uncompromising.
-              </h4>
-              <div className="grid grid-cols-3 gap-x-4 gap-y-3">
-                <div>
-                  <p className="text-[10px] text-black/40 uppercase font-bold tracking-wider mb-1">Dimensions</p>
-                  <p className="text-[12px] text-black font-semibold">120 x 45 mm</p>
-                </div>
-                <div>
-                  <p className="text-[10px] text-black/40 uppercase font-bold tracking-wider mb-1">Weight</p>
-                  <p className="text-[12px] text-black font-semibold">335 gms</p>
-                </div>
-                <div>
-                  <p className="text-[10px] text-black/40 uppercase font-bold tracking-wider mb-1">Build</p>
-                  <p className="text-[12px] text-black font-semibold">Premium Aluminum</p>
-                </div>
-              </div>
-            </div>
-            
-            <div className="relative w-full h-[120px] mt-auto">
-              <Image
-                src="/images/edgebox.png"
-                alt="Edgebox side"
-                fill
-                className="object-contain object-bottom scale-[1.2] origin-bottom"
-              />
-            </div>
-          </motion.div>
-
           {/* 13. Future-Ready */}
           <motion.div
-            {...fadeUp(0.26)}
-            className="col-span-1 md:col-span-2 lg:col-span-3 bg-slate-950 rounded-[2.5rem] shadow-[0_10px_40px_rgba(0,0,0,0.08)] border border-white/5 pt-6 px-6 flex flex-col relative overflow-hidden min-h-[240px]"
+            {...fadeUp(0.24)}
+            className="col-span-1 md:col-span-2 lg:col-span-12 bg-slate-950 rounded-[2.5rem] shadow-[0_10px_40px_rgba(0,0,0,0.08)] border border-white/5 p-8 flex flex-col md:flex-row items-center justify-between relative overflow-hidden min-h-[180px]"
           >
-            <div className="relative z-10 mb-4">
-              <h4 className="font-bold text-[16px] text-white leading-tight mb-3">
-                Secure. Reliable.<br />Future-Ready.
+            <div className="relative z-10 mb-4 md:mb-0">
+              <h4 className="font-bold text-xl md:text-2xl text-white leading-tight mb-2">
+                Secure. Reliable. Future-Ready.
               </h4>
-              <p className="text-white/60 text-[12px] leading-relaxed">
-                Regular updates.<br />New features.<br />Stronger protection.
+              <p className="text-white/60 text-sm leading-relaxed">
+                Regular updates. New features. Stronger protection.
               </p>
             </div>
             
-            <div className="relative w-full h-[100px] mt-auto flex items-center justify-center opacity-20">
+            <div className="relative w-28 h-28 md:w-32 md:h-32 shrink-0 flex items-center justify-center opacity-20">
               <div className="absolute inset-0 border border-white rounded-full scale-[0.6]" />
               <div className="absolute inset-0 border border-white rounded-full scale-[0.85]" />
               <ShieldCheck className="w-12 h-12 text-white relative z-10" />
-            </div>
-          </motion.div>
-
-          {/* 14. Blend In */}
-          <motion.div
-            {...fadeUp(0.28)}
-            className="col-span-1 lg:col-span-4 bg-white rounded-[2.5rem] border border-slate-200/60 shadow-[0_4px_20px_rgba(0,0,0,0.03)] pt-6 px-6 pb-2 flex flex-col relative overflow-hidden min-h-[240px]"
-          >
-            <div className="relative z-20 flex flex-col mb-4">
-              <h4 className="font-bold text-[16px] text-black leading-tight mb-3">
-                Designed to Blend In.<br />Built to Stand Out.
-              </h4>
-              <p className="text-black/60 text-[12px] leading-relaxed max-w-[200px]">
-                Premium aluminum body with a minimalist design that fits anywhere.
-              </p>
-            </div>
-            
-            <div className="relative w-full h-[100px] mt-auto">
-              <Image
-                src="/images/edgebox.png"
-                alt="Edgebox grille detail"
-                fill
-                className="object-contain object-bottom scale-100 origin-bottom"
-              />
             </div>
           </motion.div>
 
