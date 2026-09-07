@@ -7,6 +7,9 @@ import { Footer } from "@/components/footer";
 import { Toaster } from "@/components/ui/sonner";
 import { Navbar } from "@/components/navbar";
 import ResponsiveParticleSection from "@/components/responsive-particle-section";
+import { GoogleAnalytics } from "@next/third-parties/google";
+import { ClarityAnalytics } from "@/components/clarity-analytics";
+import { MetaPixel } from "@/components/meta-pixel";
 
 const FontSyne = Syne({
   variable: "--font-syne",
@@ -101,6 +104,8 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const gaMeasurementId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID?.trim();
+
   return (
     <html
       lang="en"
@@ -118,6 +123,9 @@ export default function RootLayout({
           <Footer />
         </div>
         <Toaster position="top-center" richColors />
+        <ClarityAnalytics />
+        <MetaPixel />
+        {gaMeasurementId ? <GoogleAnalytics gaId={gaMeasurementId} /> : null}
       </body>
     </html>
   );

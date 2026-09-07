@@ -28,6 +28,7 @@ import {
 } from "lucide-react";
 import LenisDiv from "@/components/LenisDiv";
 import Link from "next/link";
+import { trackEvent } from "@/lib/analytics";
 import { KairosBentoGrid } from "@/components/kairos-bento-grid";
 import Faq from "@/components/faq";
 
@@ -872,7 +873,17 @@ export default function KairosPageClient() {
                       Partner with KavachX to distribute state-of-the-art security solutions and grow your business.
                     </p>
                     <div className="flex flex-wrap items-center gap-3">
-                      <Link href="/vendor">
+                      <Link
+                        href="/vendor"
+                        onClick={() => trackEvent({
+                          name: "cta_click",
+                          params: {
+                            cta_name: "become_vendor",
+                            cta_location: "kairos_partner_card",
+                            destination: "/vendor",
+                          },
+                        })}
+                      >
                         <button
                           // onClick={() => router.push("/vendor")}
                           className="px-6 py-2.5 rounded-full text-white text-[13px] font-semibold transition-all duration-200 hover:brightness-110 active:scale-95"
@@ -1013,7 +1024,18 @@ export default function KairosPageClient() {
               <p className="text-xl text-gray-400 mb-10 max-w-2xl mx-auto font-medium">
                 Upgrade your security today. Get KAIROS- AI edge box and experience the peace of mind that comes with 3-second response times.
               </p>
-              <Link href="/contact" className="group inline-flex h-14 w-full sm:w-auto items-center justify-between gap-4 rounded-full bg-white pl-8 pr-2 text-[15px] font-medium text-black transition-all hover:bg-gray-100 active:scale-[0.98] mx-auto mt-6 shadow-[0_0_40px_rgba(255,255,255,0.2)]">
+              <Link
+                href="/contact"
+                onClick={() => trackEvent({
+                  name: "cta_click",
+                  params: {
+                    cta_name: "preorder_kairos",
+                    cta_location: "kairos_final_cta",
+                    destination: "/contact",
+                  },
+                })}
+                className="group inline-flex h-14 w-full sm:w-auto items-center justify-between gap-4 rounded-full bg-white pl-8 pr-2 text-[15px] font-medium text-black transition-all hover:bg-gray-100 active:scale-[0.98] mx-auto mt-6 shadow-[0_0_40px_rgba(255,255,255,0.2)]"
+              >
                 Pre-order KAIROS Today
                 <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-black text-white transition-transform group-hover:scale-[1.05]">
                   <ArrowRight className="h-4 w-4 -rotate-45 transition-transform group-hover:rotate-0" />

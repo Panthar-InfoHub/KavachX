@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { trackEvent } from "@/lib/analytics";
 
 const STEPS = [
   {
@@ -118,6 +119,14 @@ export function CtaSteps() {
         {/* Google Play Button */}
         <a
           href="#"
+          onClick={() => trackEvent({
+            name: "app_download_intent",
+            params: {
+              platform: "google_play",
+              status: "coming_soon",
+              source_location: "suraksha_kavach_steps",
+            },
+          })}
           className="inline-flex items-center gap-3 bg-black hover:bg-gray-900 text-white px-6 py-3 rounded-xl transition-colors duration-200 shadow-md"
         >
           <svg className="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">

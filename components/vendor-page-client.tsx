@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from "react";
 import LenisDiv from "@/components/LenisDiv";
 import { motion, AnimatePresence, useScroll, useTransform } from "motion/react";
 import Link from "next/link";
+import { trackEvent } from "@/lib/analytics";
 import {
   Shield,
   Activity,
@@ -70,6 +71,14 @@ const HeroSection = () => {
         >
           <Link
             href="/contact"
+            onClick={() => trackEvent({
+              name: "cta_click",
+              params: {
+                cta_name: "become_partner",
+                cta_location: "vendor_hero",
+                destination: "/contact",
+              },
+            })}
             className="group flex h-14 w-full sm:w-auto items-center justify-between gap-4 rounded-full bg-black pl-8 pr-2 text-[15px] font-medium text-white transition-all hover:bg-slate-800 active:scale-[0.98]"
           >
             Become a Partner
@@ -180,6 +189,14 @@ const EarningModelSection = () => {
             <div className="flex flex-col sm:flex-row gap-4 mb-8">
               <Link
                 href="/contact"
+                onClick={() => trackEvent({
+                  name: "cta_click",
+                  params: {
+                    cta_name: "become_partner",
+                    cta_location: "vendor_earning_model",
+                    destination: "/contact",
+                  },
+                })}
                 className="group relative flex h-14 w-full sm:w-auto items-center justify-center gap-3 rounded-full bg-slate-900 px-8 text-[15px] font-medium text-white transition-all hover:bg-slate-800 hover:shadow-[0_8px_30px_rgba(0,0,0,0.12)] active:scale-[0.98] overflow-hidden"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
@@ -623,7 +640,19 @@ const FaqSection = () => {
           {faqs.map((faq, i) => (
             <div key={i} className="border border-slate-200 rounded-2xl overflow-hidden bg-slate-50">
               <button
-                onClick={() => setOpen(open === i ? null : i)}
+                onClick={() => {
+                  const nextOpen = open === i ? null : i;
+                  setOpen(nextOpen);
+                  if (nextOpen !== null) {
+                    trackEvent({
+                      name: "faq_toggle",
+                      params: {
+                        faq_question: faq.q,
+                        faq_section: "vendor_page",
+                      },
+                    });
+                  }
+                }}
                 className="w-full px-6 py-5 flex items-center justify-between font-semibold text-left focus:outline-none"
               >
                 <span>{faq.q}</span>
@@ -674,6 +703,14 @@ const CtaSection = () => {
           <div className="flex justify-center">
             <Link
               href="/contact"
+              onClick={() => trackEvent({
+                name: "cta_click",
+                params: {
+                  cta_name: "become_vendor_partner",
+                  cta_location: "vendor_final_cta",
+                  destination: "/contact",
+                },
+              })}
               className="group inline-flex h-16 w-full sm:w-auto items-center justify-between gap-6 rounded-full bg-white pl-10 pr-2 text-[17px] font-medium text-black transition-all hover:bg-gray-100 active:scale-[0.98] shadow-[0_0_40px_rgba(255,255,255,0.2)]"
             >
               Become a Vendor Partner

@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { TestimonialStrip } from "./testimonial-strip";
+import { trackEvent } from "@/lib/analytics";
 
 export function KairosSection() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -30,7 +31,18 @@ export function KairosSection() {
         <p className="text-sm md:text-base text-gray-600 mb-8 max-w-2xl font-medium leading-relaxed">
           Distance may challenge connections, but with the Kavach Kairos for CCTV, you can keep an eye on your loved ones and favorite spots effortlessly. Our technology ensures you stay linked, no matter the miles.
         </p>
-        <Link href="/kairos" className="group inline-flex h-14 w-full sm:w-auto items-center justify-between gap-4 rounded-full bg-black pl-8 pr-2 text-[15px] font-medium text-white transition-all hover:bg-slate-800 active:scale-[0.98]">
+        <Link
+          href="/kairos"
+          onClick={() => trackEvent({
+            name: "cta_click",
+            params: {
+              cta_name: "check_more_kairos",
+              cta_location: "home_kairos_section",
+              destination: "/kairos",
+            },
+          })}
+          className="group inline-flex h-14 w-full sm:w-auto items-center justify-between gap-4 rounded-full bg-black pl-8 pr-2 text-[15px] font-medium text-white transition-all hover:bg-slate-800 active:scale-[0.98]"
+        >
           Check More
           <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white text-black transition-transform group-hover:scale-[1.05]">
             <ArrowRight className="h-4 w-4 -rotate-45 transition-transform group-hover:rotate-0" />

@@ -6,6 +6,7 @@ import { ArrowRight, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useTransition } from "react";
 import { toast } from "sonner";
+import { trackEvent } from "@/lib/analytics";
 
 export default function CTA() {
   const [isPending, startTransition] = useTransition();
@@ -31,11 +32,32 @@ export default function CTA() {
           })
 
           if (res.success) {
+            trackEvent({
+              name: "generate_lead",
+              params: {
+                form_name: "contact_form",
+                status: "success",
+              },
+            });
             toast("Message Sent Successfully!!")
           } else {
+            trackEvent({
+              name: "form_error",
+              params: {
+                form_name: "contact_form",
+                error_type: "submission_failed",
+              },
+            });
             toast.warning("Something went wrong!")
           }
         } catch (error) {
+          trackEvent({
+            name: "form_error",
+            params: {
+              form_name: "contact_form",
+              error_type: "network_or_server_error",
+            },
+          });
           toast.error("Something went wrong!")
           console.log(error);
         }
@@ -57,16 +79,36 @@ export default function CTA() {
           </div>
 
           <div className="flex md:flex-col gap-4 pt-4 md:pt-0">
-            <Link href="https://www.facebook.com/profile.php?id=61589563642066" target="_blank" className="w-10 h-10 md:w-12 md:h-12 rounded-full border border-gray-200 flex items-center justify-center hover:bg-gray-50 transition-colors">
+            <Link
+              href="https://www.facebook.com/profile.php?id=61589563642066"
+              target="_blank"
+              onClick={() => trackEvent({ name: "social_link_click", params: { platform: "facebook", location: "connect_us" } })}
+              className="w-10 h-10 md:w-12 md:h-12 rounded-full border border-gray-200 flex items-center justify-center hover:bg-gray-50 transition-colors"
+            >
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-gray-700"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" /></svg>
             </Link>
-            <Link href="https://www.instagram.com/kavachx/" target="_blank" className="w-10 h-10 md:w-12 md:h-12 rounded-full border border-gray-200 flex items-center justify-center hover:bg-gray-50 transition-colors">
+            <Link
+              href="https://www.instagram.com/kavachx/"
+              target="_blank"
+              onClick={() => trackEvent({ name: "social_link_click", params: { platform: "instagram", location: "connect_us" } })}
+              className="w-10 h-10 md:w-12 md:h-12 rounded-full border border-gray-200 flex items-center justify-center hover:bg-gray-50 transition-colors"
+            >
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-gray-700"><rect width="20" height="20" x="2" y="2" rx="5" ry="5" /><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" /><line x1="17.5" x2="17.51" y1="6.5" y2="6.5" /></svg>
             </Link>
-            <Link href="https://x.com/KavachX" target="_blank" className="w-10 h-10 md:w-12 md:h-12 rounded-full border border-gray-200 flex items-center justify-center hover:bg-gray-50 transition-colors">
+            <Link
+              href="https://x.com/KavachX"
+              target="_blank"
+              onClick={() => trackEvent({ name: "social_link_click", params: { platform: "x", location: "connect_us" } })}
+              className="w-10 h-10 md:w-12 md:h-12 rounded-full border border-gray-200 flex items-center justify-center hover:bg-gray-50 transition-colors"
+            >
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" className="text-gray-700"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.253 5.622 5.911-5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z" /></svg>
             </Link>
-            <Link href="https://www.linkedin.com/company/suraksha-kawach1/?viewAsMember=true" target="_blank" className="w-10 h-10 md:w-12 md:h-12 rounded-full border border-gray-200 flex items-center justify-center hover:bg-gray-50 transition-colors">
+            <Link
+              href="https://www.linkedin.com/company/suraksha-kawach1/?viewAsMember=true"
+              target="_blank"
+              onClick={() => trackEvent({ name: "social_link_click", params: { platform: "linkedin", location: "connect_us" } })}
+              className="w-10 h-10 md:w-12 md:h-12 rounded-full border border-gray-200 flex items-center justify-center hover:bg-gray-50 transition-colors"
+            >
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-gray-700"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" /><rect width="4" height="12" x="2" y="9" /><circle cx="4" cy="4" r="2" /></svg>
             </Link>
           </div>

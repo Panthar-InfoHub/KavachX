@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
+import { trackEvent } from "@/lib/analytics";
 
 interface FAQItem {
   question: string;
@@ -91,7 +92,19 @@ export default function Faq() {
               key={idx}
               faq={faq}
               isOpen={openId === idx}
-              onToggle={() => setOpenId(openId === idx ? null : idx)}
+              onToggle={() => {
+                const nextOpen = openId === idx ? null : idx;
+                setOpenId(nextOpen);
+                if (nextOpen !== null) {
+                  trackEvent({
+                    name: "faq_toggle",
+                    params: {
+                      faq_question: faq.question,
+                      faq_section: "homepage_faq",
+                    },
+                  });
+                }
+              }}
             />
           ))}
         </div>

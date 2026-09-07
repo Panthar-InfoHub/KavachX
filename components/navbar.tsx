@@ -8,6 +8,7 @@ import Image from "next/image";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { trackEvent } from "@/lib/analytics";
 
 const NAVBAR_CONFIG: NavbarConfig = {
     logo: <Image src="/images/logo.png" alt="KavachX Logo" width={140} height={40} className="h-8 w-auto object-contain" />,
@@ -51,10 +52,6 @@ const NAVBAR_CONFIG: NavbarConfig = {
         {
             label: "Become a Vendor",
             href: "vendor"
-        },
-        {
-            label: "Blog",
-            href: "blog"
         },
         {
             label: "Achievements",
@@ -214,12 +211,20 @@ export const Navbar: React.FC = () => {
                 <div className="hidden md:flex items-center gap-4">
                     {
                         config.cta.one && (
-                            <a
+                            <Link
                                 href={config.cta.one?.href}
+                                onClick={() => trackEvent({
+                                    name: "cta_click",
+                                    params: {
+                                        cta_name: "contact_us",
+                                        cta_location: "navbar_desktop",
+                                        destination: config.cta.one?.href || "/contact",
+                                    },
+                                })}
                                 className={cn("text-sm text-white/70  transition", config.cta.one?.variant === "primary" ? "bg-white text-black px-4 py-1.5 rounded-full font-medium" : "")}
                             >
                                 {config.cta.one?.text}
-                            </a>
+                            </Link>
                         )
                     }
                     {
@@ -327,12 +332,20 @@ export const Navbar: React.FC = () => {
 
                             <div className="mt-auto pt-8 border-t border-white/10 mb-4">
                                 {config.cta.one && (
-                                    <a
+                                    <Link
                                         href={config.cta.one.href}
+                                        onClick={() => trackEvent({
+                                            name: "cta_click",
+                                            params: {
+                                                cta_name: "contact_us",
+                                                cta_location: "navbar_mobile",
+                                                destination: config.cta.one?.href || "/contact",
+                                            },
+                                        })}
                                         className="block w-full text-center bg-white text-black py-4 rounded-full font-bold uppercase tracking-widest text-sm"
                                     >
                                         {config.cta.one.text}
-                                    </a>
+                                    </Link>
                                 )}
                             </div>
                         </motion.div>
