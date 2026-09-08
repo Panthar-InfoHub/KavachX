@@ -1,194 +1,357 @@
-// "use client";
+"use client";
 
-// import { useState } from "react";
-// import { motion } from "motion/react";
-// import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { motion, useScroll, useTransform, useSpring, useMotionValue, useMotionTemplate, AnimatePresence } from "motion/react";
+import { MapPin, Navigation, Compass, Crosshair, Target, ShieldCheck, Zap } from "lucide-react";
+import LenisDiv from "@/components/LenisDiv";
+import FadeIn from "@/components/FadeIn";
+import CTA from "@/components/cta";
+import ParticleObject from "@/components/canvasui/ParticleObject";
+import { cn } from "@/lib/utils";
 
-// import LenisDiv from "@/components/LenisDiv";
-// import FadeIn from "@/components/FadeIn";
-// import Testimonial from "@/components/testimonial";
-// import CTA from "@/components/cta";
-// import { DraggableContainer, GridBody, GridItem } from "@/components/ui/infinite-drag-scroll";
+const TIMELINE_DATA = [
+  {
+    id: 1,
+    // year: "",
+    // coords: "26.5123° N, 80.2329° E",
+    title: "Youngest CEO of IT Company",
+    description: "His entrepreneurial journey began at a young age, focusing on technology, AI-driven solutions, and public safety innovations, including the development of Suraksha Kawach.",
+    src: "/Achivements/news paper 2.png",
+    icon: Compass,
+  },
+  {
+    id: 2,
+    // year: "Phase II",
+    // coords: "Research Sector 7",
+    title: "International World of Records",
+    description: "Kavach X (Kavach AI) has been honored with the prestigious International World of Records Award for its innovative contributions to safety and technology.",
+   src: "/Achivements/world record-1.png",
+    icon: Target,
+  },
+  {
+    id: 3,
+    // year: "Phase III",
+    // coords: "Deployment Alpha",
+    title: "Bundelkhand Hackathon Runner-Up",
+    description: "Secured the Runner-Up position at the prestigious Bundelkhand Hackathon, showcasing excellence in innovation and technology.",
+    src: "/Achivements/runner-up.jpg",
+    icon: Zap,
+  },
+  {
+    id: 4,
+    // year: "Phase IV",
+    // coords: "Industry Accolades",
+    title: "Invited by Google",
+    description: "Invited By Google India Office for collaboration with suraksha kavach"  ,
+    src: "/Achivements/google.webp",
+    icon: Navigation,
+  },
+  {
+    id: 5,
+    // year: "Phase V",
+    // coords: "Scale 100K",
+    title: "Visit IIT Kanpur",
+    description: "Suraksha Kavach visited IIT Kanpur for collaboration with IIT Kanpur",
+    src: "/Achivements/iit.jpeg",
+    icon: ShieldCheck,
+  },
+  {
+    id: 6,
+    // year: "Phase VI",
+    // coords: "Global Expansion",
+    title: "Raise a Investment from Russian investors",
+    description: "Successfully raised a investment from Russian investors",
+    src: "/Achivements/investment.webp",
+    icon: MapPin,
+  }
+];
 
-// const ACHIEVEMENT_IMAGES = [
-//   { id: 1, alt: "KAIROS AI Edge Box", description: "Our flagship edge AI device delivering zero-latency threat detection at the source.", src: "/Achivement/iit.jpg" },
-//   { id: 2, alt: "KavachX Award Ceremony", description: "Celebrated at the National Innovation Summit for groundbreaking AI security solutions.", src: "/Achivements/new paper 1.jpg" },
-//   { id: 2, alt: "KavachX Award Ceremony", description: "Celebrated at the National Innovation Summit for groundbreaking AI security solutions.", src: "/Achivements/news paper 2" },
-//   { id: 3, alt: "Smart Security Infrastructure", description: "End-to-end security infrastructure deployed across factories, offices & homes.", src: "" },
-//   { id: 4, alt: "Enterprise Security Solutions", description: "Tailored AI surveillance solutions for large-scale enterprise environments.", src: "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=600&q=80" },
-//   { id: 5, alt: "Tech Innovation Summit", description: "Featured at India's top technology summit, showcasing the future of smart safety.", src: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=600&q=80" },
-//   { id: 6, alt: "100K Households Protected", description: "Over 100,000 families across India now live safer lives with KavachX.", src: "https://images.unsplash.com/photo-1524250502761-1ac6f2e30d43?auto=format&fit=crop&w=600&q=80" },
-//   { id: 7, alt: "Safety Innovation Prize", description: "Awarded the Safety Innovation Prize for our real-time SOS alert ecosystem.", src: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600&q=80" },
-//   { id: 8, alt: "IIT Kanpur Incubation", description: "Incubated at the prestigious IIT Kanpur startup accelerator program.", src: "https://images.unsplash.com/photo-1488161628813-04466f872be2?auto=format&fit=crop&w=600&q=80" },
-//   { id: 9, alt: "National Tech Council Award", description: "Recognised by the National Tech Council for best AI security product of the year.", src: "https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?auto=format&fit=crop&w=600&q=80" },
-//   { id: 10, alt: "Startup of the Year", description: "Named Startup of the Year by RAMP for transforming personal safety with AI.", src: "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?auto=format&fit=crop&w=600&q=80" },
-//   { id: 11, alt: "Smart City Partner", description: "Official security infrastructure partner for 3 smart city projects in India.", src: "https://images.unsplash.com/photo-1550614000-4b95d4ed798a?auto=format&fit=crop&w=600&q=80" },
-//   { id: 12, alt: "AI Research Grant", description: "Received a prestigious grant to advance edge-based AI threat detection models.", src: "https://images.unsplash.com/photo-1573455494057-12684d151bf4?auto=format&fit=crop&w=600&q=80" },
-//   { id: 13, alt: "Gov-Tech Innovator", description: "Top 10 Gov-Tech Innovator for seamless integration with law enforcement systems.", src: "https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=600&q=80" },
-//   { id: 14, alt: "B2B Platform Growth", description: "Ranked #1 in year-over-year B2B growth among security infrastructure providers.", src: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=600&q=80" },
-//   { id: 15, alt: "Women Safety Champion", description: "Recognised for our gesture-based SOS system that empowers women's personal safety.", src: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=600&q=80" },
-//   { id: 16, alt: "Global Enterprise Expansion", description: "Successfully expanded KavachX into 5 international markets in 2026.", src: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=600&q=80" },
-//   { id: 17, alt: "Press & Media Coverage", description: "Featured in Aaj Tak, News18, and Dainik Jagran for revolutionising home security.", src: "https://images.unsplash.com/photo-1554797589-7241bb691973?auto=format&fit=crop&w=600&q=80" },
-//   { id: 18, alt: "Community Milestone", description: "Celebrated reaching 1 million safety alerts processed for communities across India.", src: "https://images.unsplash.com/photo-1596713109885-c94bdfd7f19d?auto=format&fit=crop&w=600&q=80" },
-// ];
+// Generates the winding SVG path based on number of items
+function generateWindingPath(itemCount: number) {
+  // viewBox is 0 0 100 100
+  let d = "M 50 0 ";
+  const step = 100 / itemCount;
+  for (let i = 0; i < itemCount; i++) {
+    const startY = i * step;
+    const endY = (i + 1) * step;
+    // Alternate curving left and right
+    const curveX = i % 2 === 0 ? 80 : 20;
+    d += `C ${curveX} ${startY + step / 4}, ${curveX} ${endY - step / 4}, 50 ${endY} `;
+  }
+  return d;
+}
 
+export default function AchievementsClient() {
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const pathRef = useRef<SVGPathElement>(null);
+  const logoX = useMotionValue(50);
+  const logoY = useMotionValue(0);
 
-// const quotes = [
-//   {
-//     quote: "KavachX is fundamentally redefining how edge computing can be used to save lives in real-time.",
-//     author: "Tech Innovations Quarterly",
-//     role: "Global Tech Review",
-//   },
-//   {
-//     quote: "The speed of the KAIROS box combined with the Suraksha app creates an unprecedented safety net.",
-//     author: "Global Security Review",
-//     role: "Industry Standard",
-//   }
-// ];
+  useEffect(() => {
+    document.body.classList.add("bg-[#FBFBFD]", "text-slate-900");
+    document.body.classList.remove("bg-black", "text-white");
+    return () => {
+      document.body.classList.remove("bg-[#FBFBFD]", "text-slate-900");
+      document.body.classList.add("bg-black", "text-white");
+    };
+  }, []);
 
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start center", "end 70%"],
+  });
 
-// export default function AchievementsClient() {
+  const pathLength = useSpring(scrollYProgress, {
+    stiffness: 70,
+    damping: 20,
+    restDelta: 0.001
+  });
 
-  
-//   // Quote slider state
-//   const [activeQuote, setActiveQuote] = useState(0);
-//   const [isQuoteTransitioning, setIsQuoteTransitioning] = useState(false);
+  // Track the SVG path length to move the logo
+  useEffect(() => {
+    return pathLength.on("change", (latest) => {
+      if (pathRef.current) {
+        try {
+          const length = pathRef.current.getTotalLength();
+          const point = pathRef.current.getPointAtLength(latest * length);
+          logoX.set(point.x);
+          logoY.set(point.y);
+        } catch (e) {
+          // Ignore errors in environments where SVG methods might fail initially
+        }
+      }
+    });
+  }, [pathLength, logoX, logoY]);
 
-//   const handleQuoteChange = (index: number) => {
-//     if (index === activeQuote || isQuoteTransitioning) return;
-//     setIsQuoteTransitioning(true);
-//     setTimeout(() => {
-//       setActiveQuote(index);
-//       setTimeout(() => setIsQuoteTransitioning(false), 50);
-//     }, 300);
-//   };
+  const svgPathD = generateWindingPath(TIMELINE_DATA.length);
+  const logoLeft = useMotionTemplate`${logoX}%`;
+  const logoTop = useMotionTemplate`${logoY}%`;
 
-//   const handleQuotePrev = () => {
-//     const newIndex = activeQuote === 0 ? quotes.length - 1 : activeQuote - 1;
-//     handleQuoteChange(newIndex);
-//   };
+  return (
+    <>
+    <LenisDiv>
+      <div className="bg-[#F0F2F5] min-h-screen font-jakarta selection:bg-slate-900 selection:text-white overflow-hidden relative">
 
-//   const handleQuoteNext = () => {
-//     const newIndex = activeQuote === quotes.length - 1 ? 0 : activeQuote + 1;
-//     handleQuoteChange(newIndex);
-//   };
-//   const currentQuote = quotes[activeQuote];
+        {/* TOPOGRAPHICAL BACKGROUND */}
+        <div className="fixed inset-0 pointer-events-none z-0 opacity-[0.15]">
+          <div className="absolute inset-0"
+            style={{
+              backgroundImage: `
+                repeating-radial-gradient(circle at 0% 0%, transparent 0, transparent 40px, rgba(15, 23, 42, 0.4) 40px, rgba(15, 23, 42, 0.4) 41px),
+                repeating-radial-gradient(circle at 100% 100%, transparent 0, transparent 40px, rgba(15, 23, 42, 0.4) 40px, rgba(15, 23, 42, 0.4) 41px)
+              `,
+              backgroundSize: '100% 100%'
+            }}
+          />
+        </div>
 
+        <div className="fixed inset-0 pointer-events-none z-0 opacity-20 blog-grid-pattern" />
 
+        {/* Map UI Accents (Corners) */}
+        <div className="fixed top-24 left-8 text-[10px] font-mono text-slate-400 opacity-60 z-10 tracking-widest hidden md:block">LAT 26.5123° N <br /> LON 80.2329° E</div>
+        <div className="fixed top-24 right-8 opacity-60 z-10 hidden md:block"><Crosshair className="w-6 h-6 text-slate-400 animate-[spin_10s_linear_infinite]" /></div>
 
-//   return (
-//     <LenisDiv>
-//       <div className="bg-[#FBFBFD] font-poppins selection:bg-slate-200 text-slate-900">
-        
-//         {/* Premium Grid Background & Accents */}
-//         <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
-//           {/* Grid Pattern */}
-//           <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808015_1px,transparent_1px),linear-gradient(to_bottom,#80808015_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_80%_60%_at_50%_40%,#000_40%,transparent_100%)]" />
-          
-//           {/* Soft Top Glow (Gray/Black) */}
-//           <div className="absolute -top-[200px] left-1/2 -translate-x-1/2 w-full max-w-[1000px] h-[600px] bg-[conic-gradient(at_top,_var(--tw-gradient-stops))] from-slate-200/50 via-white/0 to-slate-100/50 blur-[100px] opacity-80" />
-//         </div>
-        
-//         {/* Intro Hero Section */}
-//         <section className="relative z-10 pt-28 md:pt-32 pb-32 px-4 md:px-[5%] flex flex-col items-center text-center">
-//           <FadeIn direction="up">
-//             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-100/80 border border-slate-200 mb-8 backdrop-blur-md shadow-sm">
-//               <span className="w-2 h-2 rounded-full bg-black animate-pulse" />
-//               <span className="text-xs font-bold tracking-widest uppercase text-black">Our Track Record</span>
-//             </div>
-//           </FadeIn>
-          
-//           <FadeIn direction="up" delay={0.1}>
-//             <h1 className="font-syne text-7xl md:text-8xl lg:text-[10rem] font-bold tracking-tighter mb-8 text-black leading-[0.85]">
-//               The Gallery of<br/>
-//               <span className="bg-clip-text text-transparent bg-gradient-to-br from-black to-slate-400">Milestones.</span>
-//             </h1>
-//           </FadeIn>
-          
-//           <FadeIn direction="up" delay={0.2}>
-//             <p className="max-w-2xl text-xl md:text-2xl text-slate-500 font-light mb-8 leading-relaxed">
-//               Scroll down to explore a visual journey of the awards, recognitions, and massive milestones that define KavachX.
-//             </p>
-//             <div className="animate-bounce mt-10">
-//                <div className="w-8 h-12 rounded-full border border-slate-200 bg-white shadow-sm flex justify-center p-1 mx-auto">
-//                  <div className="w-1.5 h-3 bg-gradient-to-b from-black to-slate-500 rounded-full animate-pulse" />
-//                </div>
-//             </div>
-//           </FadeIn>
-//         </section>
+        {/* Hero Section */}
+        <section className="relative z-10 pt-32 md:pt-40 pb-4 px-4 md:px-[5%] flex flex-col items-center text-center">
+          <FadeIn direction="up">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/40 backdrop-blur-md border border-white shadow-[0_8px_30px_rgb(0,0,0,0.04)] mb-6">
+              <Compass className="w-4 h-4 text-slate-900 animate-pulse" />
+              <span className="text-xs font-bold tracking-widest uppercase text-slate-800">Expedition Log</span>
+            </div>
+          </FadeIn>
 
-//         {/* Infinite Drag Scroll Gallery */}
-//         <section className="relative z-20 bg-[#030303]">
-//           <div className="text-center pt-16 pb-6 px-4">
-//             <p className="text-xs font-bold tracking-widest uppercase text-white/30 mb-3">Visual Journey</p>
-//             <h2 className="font-syne text-4xl md:text-6xl font-bold text-white tracking-tighter">Achivements  .</h2>
-//             <p className="text-white/40 text-sm mt-3 font-light">Drag or scroll to explore &mdash; it&apos;s infinite.</p>
-//           </div>
-//           <DraggableContainer variant="masonry">
-//             <GridBody>
-//               {ACHIEVEMENT_IMAGES.map((image) => (
-//                 <GridItem
-//                   key={image.id}
-//                   className="relative h-54 w-36 md:h-96 md:w-64"
-//                 >
-//                   <img
-//                     src={image.src}
-//                     alt={image.alt}
-//                     className="pointer-events-none absolute h-full w-full object-cover"
-//                   />
-//                   {/* Hover overlay with title + description */}
-//                   <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent opacity-0 hover:opacity-100 transition-all duration-300 flex flex-col justify-end p-4 gap-1.5">
-//                     <span className="text-white text-sm font-bold leading-snug font-syne">{image.alt}</span>
-//                     <span className="text-white/70 text-[11px] font-light leading-snug line-clamp-2">{image.description}</span>
-//                   </div>
-//                 </GridItem>
-//               ))}
-//             </GridBody>
-//           </DraggableContainer>
-//         </section>
+          <FadeIn direction="up" delay={0.1}>
+            <h1 className="font-syne text-5xl md:text-7xl lg:text-[7rem] font-bold tracking-tighter mb-6 text-slate-900 leading-[0.9]">
+              Mapping Our<br />
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-slate-900 via-slate-600 to-slate-400">Journey.</span>
+            </h1>
+          </FadeIn>
 
-//         {/* Featured In Marquee Section */}
-//         <section className="relative z-20 py-24 bg-white overflow-hidden border-b border-slate-100">
-//           <FadeIn direction="up">
-//             <div className="text-center mb-12">
-//               <p className="text-sm font-bold tracking-widest uppercase text-slate-400">
-//                 Featured In Leading Publications
-//               </p>
-//             </div>
-//           </FadeIn>
-          
-//           <div className="relative flex overflow-hidden">
-//             <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-white to-transparent z-10" />
-//             <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-white to-transparent z-10" />
-            
-//             <motion.div
-//               animate={{ x: ["0%", "-50%"] }}
-//               transition={{
-//                 duration: 25,
-//                 ease: "linear",
-//                 repeat: Infinity,
-//               }}
-//               className="flex items-center gap-24 whitespace-nowrap px-12"
-//             >
-//               {[...Array(2)].map((_, i) => (
-//                 <div key={i} className="flex items-center gap-24">
-//                   <span className="font-syne text-4xl font-bold text-slate-300 hover:text-black transition-colors cursor-pointer">Aaj Tak</span>
-//                   <span className="font-syne text-4xl font-bold text-slate-300 hover:text-black transition-colors cursor-pointer">New 18</span>
-//                   <span className="font-syne text-4xl font-bold text-slate-300 hover:text-black transition-colors cursor-pointer">Danik Jagran</span>
-//                   <span className="font-syne text-4xl font-bold text-slate-300 hover:text-black transition-colors cursor-pointer">RAMP</span>
-//                   <span className="font-syne text-4xl font-bold text-slate-300 hover:text-black transition-colors cursor-pointer">IIT Kanpur</span>
-//                   <span className="font-syne text-4xl font-bold text-slate-300 hover:text-black transition-colors cursor-pointer">Google</span>
-//                 </div>
-//               ))}
-//             </motion.div>
-//           </div>
-//         </section>
+          <FadeIn direction="up" delay={0.2}>
+            <p className="max-w-2xl text-lg md:text-xl text-slate-600 font-light mb-8 leading-relaxed">
+              Trace the coordinates of our mission. From the incubation labs to global expansion, explore the terrain of KavachX's evolution.
+            </p>
+          </FadeIn>
 
-//         <Testimonial />
+          <FadeIn direction="up" delay={0.3}>
+            <div className="w-full max-w-xl mx-auto h-[150px] md:h-[200px] relative pointer-events-auto -mt-4">
+              <ParticleObject
+                className="w-full h-full"
+                src="/images/logo.png"
+                scale={4.5}
+                cameraDistance={4}
+                color="#0f172a"
+                background=""
+              />
+            </div>
+          </FadeIn>
+        </section>
 
-//         <CTA />
+        {/* The Map Timeline */}
+        <section className="relative z-10 px-4 md:px-[5%] max-w-7xl mx-auto pt-0 pb-20 -mt-10" ref={containerRef}>
 
-//       </div>
-//     </LenisDiv>
-//   );
-// }
+          {/* SVG Winding Route Background */}
+          <div className="absolute inset-y-0 left-8 md:left-0 md:right-0 pointer-events-none z-0 flex justify-center w-12 md:w-full">
+            <svg
+              className="w-full h-full drop-shadow-md"
+              viewBox="0 0 100 100"
+              preserveAspectRatio="none"
+              style={{ overflow: 'visible' }}
+            >
+              {/* Dashed background path */}
+              <path
+                d={svgPathD}
+                fill="none"
+                stroke="rgba(15, 23, 42, 0.15)"
+                strokeWidth="2"
+                strokeDasharray="4 4"
+                vectorEffect="non-scaling-stroke"
+              />
+              {/* Glowing animated path */}
+              <motion.path
+                ref={pathRef}
+                d={svgPathD}
+                fill="none"
+                stroke="url(#mono-grad)"
+                strokeWidth="4"
+                vectorEffect="non-scaling-stroke"
+                style={{ pathLength }}
+                className="filter drop-shadow-[0_0_8px_rgba(15,23,42,0.4)]"
+              />
+              <defs>
+                <linearGradient id="mono-grad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="#0f172a" />
+                  <stop offset="50%" stopColor="#475569" />
+                  <stop offset="100%" stopColor="#0f172a" />
+                </linearGradient>
+              </defs>
+            </svg>
+
+            {/* The Moving KavachX Logo */}
+            <motion.div
+              className="absolute -translate-x-1/2 -translate-y-1/2 z-30 bg-black rounded-full px-4 py-2 shadow-[0_0_20px_rgba(15,23,42,0.6)] border border-slate-700 flex items-center justify-center pointer-events-none transition-opacity duration-300"
+              style={{ left: logoLeft, top: logoTop }}
+            >
+              <img src="/images/logo.png" alt="KavachX" className="h-4 md:h-5 w-auto object-contain" />
+            </motion.div>
+          </div>
+
+          <div className="flex flex-col gap-24 md:gap-32 relative z-10">
+            {TIMELINE_DATA.map((item, index) => {
+              const isEven = index % 2 === 0;
+              return (
+                <TimelineItem
+                  key={item.id}
+                  data={item}
+                  isEven={isEven}
+                  onImageClick={() => setSelectedImage(item.src)}
+                />
+              );
+            })}
+          </div>
+        </section>
+
+        {/* Call To Action - Floating Card to seamlessly transition to global dark footer */}
+        <div className="mt-20 px-4 md:px-8 pb-10 relative z-20">
+          <div className="bg-white rounded-[3rem] shadow-2xl overflow-hidden border border-slate-100 max-w-7xl mx-auto">
+            <CTA />
+          </div>
+        </div>
+      </div>
+    </LenisDiv>
+
+      <AnimatePresence>
+        {selectedImage && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 cursor-zoom-out"
+            onClick={() => setSelectedImage(null)}
+          >
+            <motion.img
+              initial={{ scale: 0.9 }}
+              animate={{ scale: 1 }}
+              exit={{ scale: 0.9 }}
+              src={selectedImage}
+              className="max-w-[95vw] max-h-[95vh] object-contain rounded-xl shadow-2xl"
+              alt="Achievement Full View"
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
+  );
+}
+
+function TimelineItem({ data, isEven, onImageClick }: { data: any, isEven: boolean, onImageClick?: () => void }) {
+  const Icon = data.icon;
+
+  return (
+    <div className={cn(
+      "relative flex items-center justify-between md:justify-normal w-full group",
+      isEven ? "md:flex-row-reverse" : "md:flex-row"
+    )}>
+      <div className="hidden md:block w-[45%]" />
+
+      {/* Glassmorphism Content Card */}
+      <div className={cn(
+        "w-[calc(100%-4rem)] md:w-[45%] pl-12 md:pl-0 relative mx-auto",
+        isEven ? "text-left md:text-right" : "text-left"
+      )}>
+        <motion.div
+          initial={{ opacity: 0, x: isEven ? -50 : 50, filter: "blur(10px)" }}
+          whileInView={{ opacity: 1, x: 0, filter: "blur(0px)" }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+          className="relative bg-white/60 backdrop-blur-xl p-6 md:p-8 rounded-3xl border border-white shadow-[0_8px_30px_rgba(15,23,42,0.06)] hover:shadow-[0_20px_40px_rgba(15,23,42,0.12)] transition-all duration-500 mt-6"
+        >
+          {/* Stick Pin (Top Middle of Card) */}
+          <div className="absolute -top-5 left-1/2 -translate-x-1/2 w-10 h-10 flex items-center justify-center z-30 drop-shadow-md">
+            {/* The physical 'pin' head */}
+            <div className="absolute top-1 w-6 h-6 rounded-full bg-gradient-to-b from-red-500 to-red-700 border border-red-800 shadow-[inset_0_-2px_4px_rgba(0,0,0,0.3),0_4px_6px_rgba(0,0,0,0.3)] flex items-center justify-center z-10">
+              <div className="w-2 h-2 rounded-full bg-white/60 -mt-2 -ml-2" />
+            </div>
+            {/* The 'needle' going into the paper */}
+            <div className="absolute top-6 w-[2px] h-3 bg-slate-600 rounded-b-full shadow-sm z-0" />
+          </div>
+
+          {/* Map Coordinate Accent */}
+          <div className={cn(
+            "flex items-center gap-2 mb-4 mt-2 opacity-60 font-mono text-[10px] tracking-widest text-slate-600 uppercase",
+            isEven && "md:justify-end"
+          )}>
+            <Icon className="w-3 h-3" />
+            <span>{data.coords}</span>
+          </div>
+
+          <div className={cn(
+            "inline-block px-3 py-1 bg-slate-900/5 border border-slate-900/10 rounded-full text-xs font-bold tracking-wider text-slate-900 mb-4",
+          )}>
+            {data.year}
+          </div>
+
+          <h3 className="font-syne text-2xl md:text-3xl font-bold text-slate-900 mb-3">{data.title}</h3>
+          <p className="text-slate-600 text-sm md:text-base leading-relaxed mb-6">{data.description}</p>
+
+          <div 
+            className="overflow-hidden rounded-2xl relative border border-white/50 cursor-zoom-in bg-slate-50/50"
+            onClick={onImageClick}
+          >
+            <div className="absolute inset-0 bg-slate-900/10 group-hover:bg-transparent transition-colors duration-500 z-10 pointer-events-none" />
+            <img
+              src={data.src}
+              alt={data.title}
+              className="w-full h-auto max-h-[400px] object-contain transform group-hover:scale-[1.02] transition-transform duration-1000 ease-out"
+              onError={(e) => {
+                e.currentTarget.src = "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=600&q=80";
+              }}
+            />
+          </div>
+        </motion.div>
+      </div>
+    </div>
+  );
+}
+

@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-// import AchievementsClient from "./achievements-client";
+import AchievementsClient from "./achievements-client";
 
 export const metadata: Metadata = {
   title: "Our Achievements | KavachX",
@@ -12,6 +12,5 @@ export const metadata: Metadata = {
 };
 
 export default function AchievementsPage() {
-  return <></>
-  // return <AchievementsClient />;
+  return <AchievementsClient />;
 }
