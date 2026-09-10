@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { trackEvent } from "@/lib/analytics";
 
 export function SurakshaKavachSection() {
   return (
@@ -17,7 +18,18 @@ export function SurakshaKavachSection() {
         <p className="text-sm md:text-base text-gray-600 mb-8 max-w-2xl font-medium leading-relaxed">
           Suraksha Kavach is a smart safety tool that protects users in emergencies. A single tap alerts trusted contacts, shares your location, and activates safety features for a quick response and peace of mind.
         </p>
-        <Link href="/suraksha-kavach" className="group inline-flex h-14 w-full sm:w-auto items-center justify-between gap-4 rounded-full bg-black pl-8 pr-2 text-[15px] font-medium text-white transition-all hover:bg-slate-800 active:scale-[0.98]">
+        <Link
+          href="/suraksha-kavach"
+          onClick={() => trackEvent({
+            name: "cta_click",
+            params: {
+              cta_name: "explore_features",
+              cta_location: "home_suraksha_kavach_section",
+              destination: "/suraksha-kavach",
+            },
+          })}
+          className="group inline-flex h-14 w-full sm:w-auto items-center justify-between gap-4 rounded-full bg-black pl-8 pr-2 text-[15px] font-medium text-white transition-all hover:bg-slate-800 active:scale-[0.98]"
+        >
           Explore Features
           <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white text-black transition-transform group-hover:scale-[1.05]">
             <ArrowRight className="h-4 w-4 -rotate-45 transition-transform group-hover:rotate-0" />

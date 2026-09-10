@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { trackEvent } from "@/lib/analytics";
 
 interface BlogCardProps {
   title: string;
@@ -34,11 +35,19 @@ export function BlogCard({
   return (
     <Link
       href={`/blogs/${slug}`}
-      className="group relative flex flex-col justify-between rounded-3xl bg-white p-6 md:p-8 shadow-[0_4px_20px_rgb(0,0,0,0.03)] border border-black/5 hover:border-black/15 transition-all duration-300 overflow-hidden hover:-translate-y-1 font-syne"
+      onClick={() => trackEvent({
+        name: "select_content",
+        params: {
+          content_type: "article",
+          item_id: slug,
+          item_name: title,
+        },
+      })}
+      className="group relative flex h-full w-full flex-col justify-between rounded-3xl bg-white p-6 md:p-8 shadow-[0_4px_20px_rgb(0,0,0,0.03)] border border-black/5 hover:border-black/15 transition-all duration-300 overflow-hidden hover:-translate-y-1 font-syne"
     >
-      <div className="space-y-4">
+      <div className="flex flex-col space-y-4 flex-1">
         {/* Cover Image Container */}
-        <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl bg-gray-100 border border-black/5 flex items-center justify-center">
+        <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl bg-gray-100 border border-black/5 flex items-center justify-center shrink-0">
           {coverImage && !imageError ? (
             /* eslint-disable-next-line @next/next/no-img-element */
             <img
@@ -74,7 +83,7 @@ export function BlogCard({
         </div>
 
         {/* Content Area */}
-        <div className="space-y-3">
+        <div className="flex flex-col space-y-3 flex-1">
           {formattedDate && (
             <div className="text-[11px] font-mono text-gray-500 font-medium">
               {formattedDate}
@@ -94,7 +103,7 @@ export function BlogCard({
       </div>
 
       {/* Signature KavachX Button Action */}
-      <div className="pt-6 mt-6 border-t border-gray-100 flex items-center justify-between">
+      <div className="pt-6 mt-6 border-t border-gray-100 flex items-center justify-between shrink-0">
         <div className="group/btn inline-flex h-11 items-center justify-between gap-3 rounded-full bg-black pl-5 pr-1.5 text-xs font-medium text-white transition-all hover:bg-slate-800 active:scale-[0.98]">
           <span>Read Article</span>
           <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white text-black transition-transform group-hover/btn:scale-110">

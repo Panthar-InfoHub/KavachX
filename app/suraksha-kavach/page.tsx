@@ -7,6 +7,7 @@ import Image from "next/image";
 import { SchemaMarkup } from "@/components/seo/schema-markup";
 import { Metadata } from "next";
 import { Testimonials } from "@/components/testimonial";
+import { SurakshaHeroButton } from "@/components/suraksha-hero-button";
 
 export const metadata: Metadata = {
   title: "Suraksha Kavach | Safety App with SOS, Crash & Voice Alerts",
@@ -90,9 +91,7 @@ export default function SurakshaKavachPage() {
           <p className="text-gray-600 max-w-lg text-sm md:text-[15px] mb-8 leading-relaxed">
             We focus on providing features like drive and crash detection, in-app SOS, and voice commands to enhance your safety.
           </p>
-          <button className="bg-[#00A3FF] hover:bg-[#008bdd] text-white px-8 py-3 rounded-full text-sm font-semibold transition-colors duration-200 shadow-md">
-            Try Kavach for Free
-          </button>
+          <SurakshaHeroButton />
         </div>
 
         {/* Phone Showcase */}

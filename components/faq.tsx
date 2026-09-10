@@ -2,125 +2,114 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
+import { trackEvent } from "@/lib/analytics";
 
 interface FAQItem {
   question: string;
   answer: string;
 }
 
-const faqsLeft: FAQItem[] = [
+const faqs: FAQItem[] = [
   {
-    question: "What is Suraksha Kavach and how does it keep me safe?",
-    answer: "Suraksha Kavach is a smart safety app by Kavach X that protects you in emergencies. With one tap, it alerts your trusted contacts, shares your location, and activates safety features like SOS alerts and crash detection. Your personal safety shield is always on and ready.",
+    question: "What is Kairos?",
+    answer: "Kairos is an AI-powered video intelligence platform that helps you search, understand, and analyze CCTV footage using natural language—making it easier to find specific incidents, people, objects, or activities without manually watching hours of video.",
   },
   {
-    question: "Does Suraksha Kavach work without an internet connection?",
-    answer: "Yes. Suraksha Kavach is built with offline functionality so your safety is never dependent on a strong internet signal. Even in low-connectivity or no-network areas, the app can still send alerts and share your location with your emergency contacts — because emergencies don't wait for Wi-Fi.",
+    question: "How does Kairos work with my existing CCTV cameras?",
+    answer: "Kairos is designed to work with your existing CCTV infrastructure. It can connect with your NVR and edge devices to process and analyze video footage while securely storing relevant data for investigation and retrieval.",
   },
   {
-    question: "When will the Kairos be available and how can I stay updated?",
-    answer: "The Kavach Kairos is currently in its final stages and will be launching soon. It's an intelligent home security device powered by AI-driven edge computing, real-time CCTV analytics, and smart surveillance — designed to keep your home and loved ones safe from anywhere in the world. To be among the first to know when it launches, click 'Stay Tuned' on our Kairos page and we'll notify you the moment it's live.",
-  }
+    question: "How can I find a specific incident in hours of CCTV footage?",
+    answer: "Simply describe what you’re looking for in natural language—for example, “Find the person who entered the warehouse around 2 PM wearing a red shirt.” Kairos analyzes the footage and helps identify the relevant time and video segment, significantly reducing investigation time.",
+  },
 ];
 
-const faqsRight: FAQItem[] = [
-  {
-    question: "How does the crash detection feature work?",
-    answer: "Suraksha Kavach uses intelligent sensors to automatically detect sudden impact or abnormal movement patterns associated with a road accident. When a crash is detected, the app immediately triggers an SOS alert and shares your real-time location with your pre-set emergency contacts — without you needing to do anything. It acts fast, so help can reach you even if you're unable to respond.",
-  },
-  {
-    question: "Who receives my SOS alert and what information is shared with them?",
-    answer: "You are fully in control. Before using the app, you set up your own list of trusted emergency contacts — family members, friends, or anyone you choose. When an SOS is triggered, only those contacts receive an alert along with your real-time location. No data is shared with strangers or third parties without your consent. Your safety, your circle, your control.",
-  },
-  {
-    question: "Is my location and personal data private and secure with Kavach X?",
-    answer: "Absolutely. Kavach X is built on a foundation of strong security and user privacy. Your location data is only shared with the trusted contacts you personally configure — never sold, never exposed. We follow strict data protection practices to ensure your personal information stays private at all times. Your trust is the most important feature we protect.",
-  }
-];
-
-const FaqItemCard = ({ faq, isOpen, onToggle }: { faq: FAQItem, isOpen: boolean, onToggle: () => void }) => {
+const FaqItemCard = ({ faq, isOpen, onToggle }: { faq: FAQItem; isOpen: boolean; onToggle: () => void }) => {
   return (
-    <div className="bg-[#111111] rounded-[16px] overflow-hidden border border-[#333333] transition-all duration-300 cursor-pointer">
+    <div
+      className={`rounded-2xl border transition-all duration-300 overflow-hidden ${
+        isOpen
+          ? "bg-[#161616] border-white/20 shadow-lg shadow-black/40"
+          : "bg-[#111111] border-[#2a2a2a] hover:border-[#444444] hover:bg-[#141414]"
+      }`}
+    >
       <button
-        className="w-full text-left px-6 py-6 flex items-start gap-5 focus:outline-none"
+        type="button"
+        className="w-full text-left px-6 py-6 flex items-start justify-between gap-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/20 rounded-2xl"
         onClick={onToggle}
+        aria-expanded={isOpen}
       >
-        <div className="mt-0.5 shrink-0">
-          {isOpen ? (
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="text-[#888]">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14" />
+        <h3 className="text-base sm:text-lg font-medium text-white transition-colors duration-200 pr-2">
+          {faq.question}
+        </h3>
+        <div className="mt-0.5 shrink-0 flex items-center justify-center w-7 h-7 rounded-full bg-white/5 border border-white/10 text-gray-300 transition-colors">
+          <motion.div
+            animate={{ rotate: isOpen ? 45 : 0 }}
+            transition={{ duration: 0.25, ease: "easeInOut" }}
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="12" y1="5" x2="12" y2="19" />
+              <line x1="5" y1="12" x2="19" y2="12" />
             </svg>
-          ) : (
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="text-[#888]">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M12 5v14M5 12h14" />
-            </svg>
-          )}
-        </div>
-        <div className="flex-1">
-          <h3 className={`text-base md:text-lg font-medium transition-colors duration-200 text-white`}>
-            {faq.question}
-          </h3>
-          <AnimatePresence initial={false}>
-            {isOpen && (
-              <motion.div
-                initial={{ height: 0, opacity: 0, marginTop: 0 }}
-                animate={{ height: "auto", opacity: 1, marginTop: 12 }}
-                exit={{ height: 0, opacity: 0, marginTop: 0 }}
-                transition={{ duration: 0.3, ease: "easeInOut" }}
-                className="overflow-hidden"
-              >
-                <p className="text-gray-500 text-sm md:text-base leading-relaxed pr-4">
-                  {faq.answer}
-                </p>
-              </motion.div>
-            )}
-          </AnimatePresence>
+          </motion.div>
         </div>
       </button>
+
+      <AnimatePresence initial={false}>
+        {isOpen && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            className="overflow-hidden"
+          >
+            <div className="px-6 pb-6 pt-0 border-t border-white/5">
+              <p className="text-gray-400 text-sm sm:text-base leading-relaxed pt-4">
+                {faq.answer}
+              </p>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
 
 export default function Faq() {
-  const [openId, setOpenId] = useState<string | null>(null);
+  const [openId, setOpenId] = useState<number | null>(null);
 
   return (
-    <section className="w-full bg-black py-24 px-4 md:px-8">
-      <div className="max-w-7xl mx-auto">
-        <h2 className="text-3xl md:text-4xl text-center font-medium text-white mb-16">
+    <section className="w-full bg-black py-20 px-4 sm:px-6 md:px-8">
+      <div className="max-w-4xl mx-auto">
+        <h2 className="text-3xl md:text-4xl text-center font-medium text-white mb-12 sm:mb-16">
           Frequently Asked Questions
         </h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4">
-          <div className="flex flex-col gap-4">
-            {faqsLeft.map((faq, idx) => {
-              const id = `left-${idx}`;
-              return (
-                <FaqItemCard
-                  key={id}
-                  faq={faq}
-                  isOpen={openId === id}
-                  onToggle={() => setOpenId(openId === id ? null : id)}
-                />
-              );
-            })}
-          </div>
-
-          <div className="flex flex-col gap-4">
-            {faqsRight.map((faq, idx) => {
-              const id = `right-${idx}`;
-              return (
-                <FaqItemCard
-                  key={id}
-                  faq={faq}
-                  isOpen={openId === id}
-                  onToggle={() => setOpenId(openId === id ? null : id)}
-                />
-              );
-            })}
-          </div>
+        <div className="flex flex-col gap-4">
+          {faqs.map((faq, idx) => (
+            <FaqItemCard
+              key={idx}
+              faq={faq}
+              isOpen={openId === idx}
+              onToggle={() => {
+                const nextOpen = openId === idx ? null : idx;
+                setOpenId(nextOpen);
+                if (nextOpen !== null) {
+                  trackEvent({
+                    name: "faq_toggle",
+                    params: {
+                      faq_question: faq.question,
+                      faq_section: "homepage_faq",
+                    },
+                  });
+                }
+              }}
+            />
+          ))}
         </div>
       </div>
     </section>
   );
 }
+

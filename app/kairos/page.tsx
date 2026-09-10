@@ -50,10 +50,26 @@ export default function KairosPage() {
         "mainEntity": [
           {
             "@type": "Question",
-            "name": "What does the KAIROS AI Edge Box do?",
+            "name": "What is Kairos?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "The Kavach Kairos brings AI-driven CCTV analytics and real-time intelligence directly to your front door, providing Intelligent Home Security."
+              "text": "Kairos is an AI-powered video intelligence platform that helps you search, understand, and analyze CCTV footage using natural language—making it easier to find specific incidents, people, objects, or activities without manually watching hours of video."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How does Kairos work with my existing CCTV cameras?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Kairos is designed to work with your existing CCTV infrastructure. It can connect with your NVR and edge devices to process and analyze video footage while securely storing relevant data for investigation and retrieval."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How can I find a specific incident in hours of CCTV footage?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Simply describe what you’re looking for in natural language—for example, “Find the person who entered the warehouse around 2 PM wearing a red shirt.” Kairos analyzes the footage and helps identify the relevant time and video segment, significantly reducing investigation time."
             }
           }
         ]

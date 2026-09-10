@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { trackEvent } from "@/lib/analytics";
 
 interface FeaturedBlogCardProps {
   title: string;
@@ -34,6 +35,14 @@ export function FeaturedBlogCard({
   return (
     <Link
       href={`/blogs/${slug}`}
+      onClick={() => trackEvent({
+        name: "select_content",
+        params: {
+          content_type: "article",
+          item_id: slug,
+          item_name: title,
+        },
+      })}
       className="group relative block rounded-[2.5rem] bg-white p-6 md:p-8 shadow-[0_4px_20px_rgb(0,0,0,0.03)] border border-black/5 hover:border-black/15 transition-all duration-300 overflow-hidden font-syne"
     >
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
