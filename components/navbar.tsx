@@ -170,7 +170,7 @@ export const Navbar: React.FC = () => {
     };
 
     return (
-        <motion.nav className="relative w-full z-50 font-syne bg-black border-none text-white">
+        <motion.nav className="fixed top-0 left-0 right-0 w-full z-[100] font-syne bg-black/90 backdrop-blur-md border-b border-white/10 text-white transition-all duration-300">
             <div className="flex items-center justify-between h-16 max-w-7xl  mx-auto px-4">
                 {/* Logo */}
                 <div className="relative max-w-32 h-full w-full flex justify-center items-center">

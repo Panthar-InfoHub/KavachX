@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
@@ -33,41 +33,13 @@ import { KairosBentoGrid } from "@/components/kairos-bento-grid";
 import Faq from "@/components/faq";
 
 const features = [
-  {
-    title: "Threat Detection",
-    description: "Intelligent AI continuously scans for unauthorized access and suspicious behavior, instantly flagging potential risks.",
-    icon: ShieldAlert,
-  },
-  {
-    title: "Gesture Detection",
-    description: "Recognizes distress signals and abnormal movements, automatically triggering alerts even if no one can speak or access a phone.",
-    icon: ScanFace,
-  },
+  
   {
     title: "Fire Detection",
     description: "Early-warning detection spots fire and smoke instantly, potentially saving lives and minimizing property damage.",
     icon: Flame,
   },
-  {
-    title: "Perimeter Security",
-    description: "Monitors property boundaries to detect unauthorized access before intruders reach critical areas.",
-    icon: ShieldAlert,
-  },
-  {
-    title: "Fall Detection",
-    description: "Detects falls instantly and alerts for quick response, crucial for safety monitoring of vulnerable individuals.",
-    icon: Activity,
-  },
-  {
-    title: "Weapon Detection",
-    description: "Identifies weapons and dangerous objects in real time to prevent armed incidents and enhance security.",
-    icon: Target,
-  },
-  {
-    title: "Crowd Detection",
-    description: "Monitors crowd density and alerts on unusual gatherings or potential stampedes for public safety.",
-    icon: Users,
-  },
+ 
   {
     title: "Intrusion Detection",
     description: "Identifies unauthorized access and potential intrusions into restricted areas with high accuracy.",
@@ -123,8 +95,19 @@ const audiences = [
 
 export default function KairosPageClient() {
   const [activeAudience, setActiveAudience] = useState(audiences[0]);
+  const [isBoxActive, setIsBoxActive] = useState(false);
   const heroRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsBoxActive(false);
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   return (
     <LenisDiv>
@@ -216,7 +199,7 @@ export default function KairosPageClient() {
               <p className="text-gray-600 max-w-2xl mx-auto text-lg font-medium">Because in an emergency, every single second counts.</p>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
               {/* Feature Cards */}
               {features.filter(f => !f.featured).map((feature, idx) => (
                 <motion.div
@@ -266,7 +249,7 @@ export default function KairosPageClient() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: "-50px" }}
                     transition={{ duration: 0.6, delay: 0.4 }}
-                    className="col-span-1 sm:col-span-2 lg:col-span-4 bg-[#09090b] rounded-[2rem] p-8 md:p-12 relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-10 group mt-2 md:mt-4"
+                    className="col-span-1 md:col-span-2 bg-[#09090b] rounded-[2rem] p-8 md:p-12 relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-10 group mt-2 md:mt-4"
                   >
                     {/* Background Effects */}
                     <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.1)_0%,transparent_50%)]" />
@@ -904,7 +887,7 @@ export default function KairosPageClient() {
           </section>
 
           {/* LAUNCHING SOON SECTION */}
-          <section className="py-24 md:py-32 px-6 bg-white relative overflow-hidden flex flex-col items-center justify-center text-center rounded-[3rem] mx-2 md:mx-4 shadow-[0_8px_40px_rgba(0,0,0,0.03)] border border-black/[0.03]">
+          <section className="py-14 md:py-20 px-6 bg-white relative overflow-hidden flex flex-col items-center justify-center text-center rounded-[3rem] mx-2 md:mx-4 shadow-[0_8px_40px_rgba(0,0,0,0.03)] border border-black/[0.03]">
 
             {/* Concentric Circles Background */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full border border-black/[0.04] pointer-events-none" />
@@ -948,74 +931,70 @@ export default function KairosPageClient() {
               </button>
             </motion.div>
 
-               <motion.div
+            <motion.div
               initial={{ opacity: 0, scale: 0.95, y: 40 }}
               whileInView={{ opacity: 1, scale: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, ease: "easeOut", delay: 0.3 }}
-              className="relative w-full max-w-6xl mx-auto h-[400px] md:h-[500px] lg:h-[600px] z-10 mt-8"
+              onMouseEnter={() => setIsBoxActive(true)}
+              onMouseLeave={() => setIsBoxActive(false)}
+              onTouchStart={() => setIsBoxActive(true)}
+              className="relative w-full max-w-6xl mx-auto h-[440px] sm:h-[400px] md:h-[420px] lg:h-[480px] z-10 mt-6 group cursor-pointer"
             >
               <div 
-                className="absolute inset-0 lg:inset-x-48 xl:inset-x-64 z-30"
+                className="absolute inset-x-0 top-[65px] bottom-[65px] md:top-0 md:bottom-0 lg:inset-x-48 xl:inset-x-64 z-30"
               >
                 <Image
                   src="/images/edgebox.png"
                   alt="Kairos Edge Box"
                   fill
-                  className="object-contain drop-shadow-[0_20px_50px_rgba(0,0,0,0.15)] scale-110 md:scale-100 transition-transform duration-700 hover:scale-105"
+                  className="object-contain drop-shadow-[0_20px_50px_rgba(0,0,0,0.15)] scale-100 transition-transform duration-700 group-hover:scale-105"
                 />
               </div>
 
-              {/* 1. Fire Detection (Left Top) */}
-              <div className="absolute top-[20%] left-0 xl:left-8 w-[240px] xl:w-[260px] hidden lg:flex flex-row-reverse items-start gap-4 opacity-100 transition-all duration-500 ease-out text-right z-20">
-                <div className="absolute top-7 left-[calc(100%-1.75rem)] w-[80px] xl:w-[120px] h-px bg-gray-300 -z-10" />
-                <div className="absolute top-[1.6rem] left-[calc(100%-1.75rem+80px)] xl:left-[calc(100%-1.75rem+120px)] w-1.5 h-1.5 rounded-full bg-gray-400" />
+              {/* 1. Fire Detection (Top/Above on Mobile, Left Side on Desktop) */}
+              <div className={`absolute top-0 left-1/2 -translate-x-1/2 md:top-[20%] md:left-4 xl:left-8 md:translate-x-0 w-[90%] max-w-[280px] sm:w-[250px] md:w-[230px] xl:w-[260px] flex flex-row md:flex-row-reverse items-center md:items-start gap-2.5 sm:gap-4 transition-all duration-500 ease-out text-left md:text-right z-40 ${
+                isBoxActive
+                  ? "opacity-100 pointer-events-auto translate-y-0 md:translate-x-0"
+                  : "opacity-0 pointer-events-none -translate-y-2 md:translate-y-0 md:-translate-x-2 group-hover:opacity-100 group-hover:pointer-events-auto group-hover:translate-y-0 group-hover:md:translate-x-0"
+              }`}>
+                <div className="hidden md:block absolute top-7 left-[calc(100%-1.75rem)] w-[50px] sm:w-[80px] xl:w-[120px] h-px bg-gray-300 -z-10" />
+                <div className="hidden md:block absolute top-[1.6rem] left-[calc(100%-1.75rem+50px)] sm:left-[calc(100%-1.75rem+80px)] xl:left-[calc(100%-1.75rem+120px)] w-1.5 h-1.5 rounded-full bg-gray-400" />
 
-                <div className="w-14 h-14 rounded-full bg-white/80 backdrop-blur-md shadow-[0_8px_30px_rgba(0,0,0,0.08)] flex items-center justify-center shrink-0 z-10 border border-white relative">
-                  <Flame className="w-6 h-6 text-[#111]" strokeWidth={1.5} />
+                <div className="w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14 rounded-full bg-white/90 backdrop-blur-md shadow-[0_8px_30px_rgba(0,0,0,0.1)] flex items-center justify-center shrink-0 z-10 border border-white relative">
+                  <Flame className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 text-[#111]" strokeWidth={1.5} />
                 </div>
-                <div className="py-2.5 px-3 z-10 bg-white/50 backdrop-blur-xl border border-white/60 rounded-xl shadow-[0_10px_40px_rgba(0,0,0,0.06)] transition-transform duration-500 ease-out origin-right">
-                  <h5 className="text-[11.5px] font-bold text-[#111] uppercase tracking-wider mb-1">Fire Detection</h5>
-                  <p className="text-[10.5px] text-gray-600 leading-relaxed font-medium">Detects smoke and fire incidents in real time.</p>
+                <div className="py-2 px-2.5 sm:py-2.5 sm:px-3 z-10 bg-white/70 backdrop-blur-xl border border-white/80 rounded-xl shadow-[0_10px_40px_rgba(0,0,0,0.08)] transition-transform duration-500 ease-out origin-left md:origin-right">
+                  <h5 className="text-[10px] sm:text-[11px] lg:text-[11.5px] font-bold text-[#111] uppercase tracking-wider mb-0.5 sm:mb-1">Fire Detection</h5>
+                  <p className="text-[9px] sm:text-[10px] lg:text-[10.5px] text-gray-600 leading-relaxed font-medium">Detects smoke and fire incidents in real time.</p>
                 </div>
               </div>
 
-              {/* 2. Intrusion Detection (Left Bottom) */}
-              <div className="absolute bottom-[20%] left-0 xl:left-8 w-[240px] xl:w-[260px] hidden lg:flex flex-row-reverse items-start gap-4 opacity-100 transition-all duration-500 ease-out text-right z-20">
-                <div className="absolute top-7 left-[calc(100%-1.75rem)] w-[60px] xl:w-[100px] h-px bg-gray-300 -z-10" />
-                <div className="absolute top-[1.6rem] left-[calc(100%-1.75rem+60px)] xl:left-[calc(100%-1.75rem+100px)] w-1.5 h-1.5 rounded-full bg-gray-400" />
+              {/* 2. Intrusion Detection (Bottom/Below on Mobile, Right Side on Desktop) */}
+              <div className={`absolute bottom-0 left-1/2 -translate-x-1/2 md:bottom-auto md:top-[20%] md:right-4 xl:right-8 md:translate-x-0 w-[90%] max-w-[280px] sm:w-[250px] md:w-[230px] xl:w-[260px] flex flex-row items-center md:items-start gap-2.5 sm:gap-4 transition-all duration-500 ease-out text-left z-40 ${
+                isBoxActive
+                  ? "opacity-100 pointer-events-auto translate-y-0 md:translate-x-0"
+                  : "opacity-0 pointer-events-none translate-y-2 md:translate-y-0 md:translate-x-2 group-hover:opacity-100 group-hover:pointer-events-auto group-hover:translate-y-0 group-hover:md:translate-x-0"
+              }`}>
+                <div className="hidden md:block absolute top-7 right-[calc(100%-1.75rem)] w-[50px] sm:w-[80px] xl:w-[120px] h-px bg-gray-300 -z-10" />
+                <div className="hidden md:block absolute top-[1.6rem] right-[calc(100%-1.75rem+50px)] sm:right-[calc(100%-1.75rem+80px)] xl:right-[calc(100%-1.75rem+120px)] w-1.5 h-1.5 rounded-full bg-gray-400" />
 
-                <div className="w-14 h-14 rounded-full bg-white/80 backdrop-blur-md shadow-[0_8px_30px_rgba(0,0,0,0.08)] flex items-center justify-center shrink-0 z-10 border border-white relative">
-                  <UserX className="w-6 h-6 text-[#111]" strokeWidth={1.5} />
+                <div className="w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14 rounded-full bg-white/90 backdrop-blur-md shadow-[0_8px_30px_rgba(0,0,0,0.1)] flex items-center justify-center shrink-0 z-10 border border-white relative">
+                  <UserX className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 text-[#111]" strokeWidth={1.5} />
                 </div>
-                <div className="py-2.5 px-3 z-10 bg-white/50 backdrop-blur-xl border border-white/60 rounded-xl shadow-[0_10px_40px_rgba(0,0,0,0.06)] transition-transform duration-500 ease-out origin-right">
-                  <h5 className="text-[11.5px] font-bold text-[#111] uppercase tracking-wider mb-1">Intrusion Detection</h5>
-                  <p className="text-[10.5px] text-gray-600 leading-relaxed font-medium">Identifies unauthorized access and potential intrusions.</p>
+                <div className="py-2 px-2.5 sm:py-2.5 sm:px-3 z-10 bg-white/70 backdrop-blur-xl border border-white/80 rounded-xl shadow-[0_10px_40px_rgba(0,0,0,0.08)] transition-transform duration-500 ease-out origin-left">
+                  <h5 className="text-[10px] sm:text-[11px] lg:text-[11.5px] font-bold text-[#111] uppercase tracking-wider mb-0.5 sm:mb-1">Intrusion Detection</h5>
+                  <p className="text-[9px] sm:text-[10px] lg:text-[10.5px] text-gray-600 leading-relaxed font-medium">Identifies unauthorized access and potential intrusions.</p>
                 </div>
               </div>
 
-              {/* 3. Weapon Detection (Right Center) */}
-              <div className="absolute top-[38%] right-0 xl:right-8 w-[240px] xl:w-[260px] hidden lg:flex items-start gap-4 opacity-100 transition-all duration-500 ease-out text-left z-20">
-                <div className="absolute top-7 right-[calc(100%-1.75rem)] w-[80px] xl:w-[120px] h-px bg-gray-300 -z-10" />
-                <div className="absolute top-[1.6rem] right-[calc(100%-1.75rem+80px)] xl:right-[calc(100%-1.75rem+120px)] w-1.5 h-1.5 rounded-full bg-gray-400" />
-
-                <div className="w-14 h-14 rounded-full bg-white/80 backdrop-blur-md shadow-[0_8px_30px_rgba(0,0,0,0.08)] flex items-center justify-center shrink-0 z-10 border border-white relative">
-                  <Target className="w-6 h-6 text-[#111]" strokeWidth={1.5} />
-                </div>
-                <div className="py-2.5 px-3 z-10 bg-white/50 backdrop-blur-xl border border-white/60 rounded-xl shadow-[0_10px_40px_rgba(0,0,0,0.06)] transition-transform duration-500 ease-out origin-left">
-                  <h5 className="text-[11.5px] font-bold text-[#111] uppercase tracking-wider mb-1">Weapon Detection</h5>
-                  <p className="text-[10.5px] text-gray-600 leading-relaxed font-medium">Identifies weapons and dangerous objects in real time.</p>
-                </div>
-              </div>
+           
 
             </motion.div>
           </section>
 
-          {/* FAQ SECTION */}
-          <Faq />
-
           {/* FINAL CTA */}
-          <section className="py-24 md:py-32 px-6 relative overflow-hidden bg-[#111] rounded-[3rem] mx-2 md:mx-4 border border-white/5 shadow-2xl">
+          <section className="py-14 md:py-20 px-6 relative overflow-hidden bg-[#111] rounded-[3rem] mx-2 md:mx-4 border border-white/5 shadow-2xl mt-6 mb-12">
             <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(255,255,255,0.1)_0%,transparent_70%)]" />
             <div className="absolute inset-0 bg-[url('/images/')] opacity-[0.05] mix-blend-overlay" />
 
@@ -1043,6 +1022,8 @@ export default function KairosPageClient() {
               </Link>
             </div>
           </section>
+
+         
         </div>
       </div>
     </LenisDiv>

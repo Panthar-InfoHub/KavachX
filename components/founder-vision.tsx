@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { Award } from "lucide-react";
 
 export default function FounderVision() {
     return (
@@ -20,14 +21,21 @@ export default function FounderVision() {
 
                     {/* Right — Content */}
                     <div className="w-full md:w-[55%] flex flex-col">
-                        {/* Badge */}
-                        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[#e0e0e0] bg-white w-fit mb-8">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-[#111]">
-                                <path d="M12 2L2 7l10 5 10-5-10-5Z" />
-                                <path d="M2 17l10 5 10-5" />
-                                <path d="M2 12l10 5 10-5" />
-                            </svg>
-                            <span className="text-[13px] font-medium text-[#111] tracking-wide">CEO & Founder</span>
+                        {/* Badges */}
+                        <div className="flex flex-wrap items-center gap-2.5 mb-6">
+                            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-[#e0e0e0] bg-white">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-[#111]">
+                                    <path d="M12 2L2 7l10 5 10-5-10-5Z" />
+                                    <path d="M2 17l10 5 10-5" />
+                                    <path d="M2 12l10 5 10-5" />
+                                </svg>
+                                <span className="text-[12.5px] font-medium text-[#111] tracking-wide">CEO & Founder</span>
+                            </div>
+
+                            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-amber-200/80 bg-amber-50/80 text-amber-900 shadow-[0_2px_10px_rgba(245,158,11,0.08)]">
+                                <Award className="w-4 h-4 text-amber-600 shrink-0" />
+                                <span className="text-[12.5px] font-semibold tracking-wide">Youngest CEO — International Book of Records</span>
+                            </div>
                         </div>
 
                         {/* Heading */}

@@ -779,10 +779,10 @@ export function createParticleObject(
   let shoveX = 0;
   let shoveY = 0;
 
-  function onPointerMove(event: PointerEvent) {
+  function updatePointerPosition(clientX: number, clientY: number) {
     const rect = canvas.getBoundingClientRect();
-    pointerX = event.clientX - rect.left;
-    pointerY = event.clientY - rect.top;
+    pointerX = clientX - rect.left;
+    pointerY = clientY - rect.top;
     const now = performance.now();
     if (pointerActive && lastPointerTime) {
       const dt = Math.max((now - lastPointerTime) / 1000, 1e-3);
@@ -802,15 +802,42 @@ export function createParticleObject(
     pointerActive = true;
   }
 
+  function onPointerDown(event: PointerEvent) {
+    updatePointerPosition(event.clientX, event.clientY);
+  }
+
+  function onPointerMove(event: PointerEvent) {
+    updatePointerPosition(event.clientX, event.clientY);
+  }
+
+  function onTouchStart(event: TouchEvent) {
+    if (event.touches.length > 0) {
+      updatePointerPosition(event.touches[0].clientX, event.touches[0].clientY);
+    }
+  }
+
+  function onTouchMove(event: TouchEvent) {
+    if (event.touches.length > 0) {
+      updatePointerPosition(event.touches[0].clientX, event.touches[0].clientY);
+    }
+  }
+
   function onPointerLeave() {
     pointerActive = false;
     pointerSpeed = 0;
     lastPointerTime = 0;
   }
 
+  canvas.addEventListener("pointerdown", onPointerDown, { passive: true });
   canvas.addEventListener("pointermove", onPointerMove, { passive: true });
+  canvas.addEventListener("pointerup", onPointerLeave, { passive: true });
   canvas.addEventListener("pointerleave", onPointerLeave, { passive: true });
   canvas.addEventListener("pointercancel", onPointerLeave, { passive: true });
+
+  canvas.addEventListener("touchstart", onTouchStart, { passive: true });
+  canvas.addEventListener("touchmove", onTouchMove, { passive: true });
+  canvas.addEventListener("touchend", onPointerLeave, { passive: true });
+  canvas.addEventListener("touchcancel", onPointerLeave, { passive: true });
 
   const raycaster = new THREE.Raycaster();
   const ndc = new THREE.Vector2();
@@ -998,9 +1025,15 @@ export function createParticleObject(
       observer.disconnect();
       viewObserver?.disconnect();
       motionQuery.removeEventListener("change", onMotionChange);
+      canvas.removeEventListener("pointerdown", onPointerDown);
       canvas.removeEventListener("pointermove", onPointerMove);
+      canvas.removeEventListener("pointerup", onPointerLeave);
       canvas.removeEventListener("pointerleave", onPointerLeave);
       canvas.removeEventListener("pointercancel", onPointerLeave);
+      canvas.removeEventListener("touchstart", onTouchStart);
+      canvas.removeEventListener("touchmove", onTouchMove);
+      canvas.removeEventListener("touchend", onPointerLeave);
+      canvas.removeEventListener("touchcancel", onPointerLeave);
       controls.dispose();
       clearAsset();
       material.dispose();

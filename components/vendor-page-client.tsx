@@ -468,30 +468,30 @@ const BenefitsSection = () => {
           </h2>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-4 md:gap-6 auto-rows-[minmax(220px,auto)] md:auto-rows-[240px]">
+        <div className="grid md:grid-cols-3 gap-4 md:gap-6">
           {/* Large Card 1 */}
-          <div className="md:col-span-2 md:row-span-2 bg-white border border-slate-100/80 rounded-[2rem] p-8 md:p-12 relative overflow-hidden group shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_20px_60px_rgb(0,0,0,0.08)] transition-all duration-500">
+          <div className="md:col-span-2 bg-white border border-slate-100/80 rounded-[2rem] p-8 md:p-10 relative overflow-hidden group shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_20px_60px_rgb(0,0,0,0.08)] transition-all duration-500 flex flex-col justify-between">
             <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-gradient-to-br from-blue-100/40 to-indigo-100/40 rounded-full blur-[60px] group-hover:scale-110 group-hover:bg-blue-100/60 transition-transform duration-700 pointer-events-none" />
-            <div className="relative z-10 h-full flex flex-col justify-between">
-              <div className="w-14 h-14 bg-slate-50 text-slate-900 rounded-2xl flex items-center justify-center mb-8 border border-slate-200 group-hover:scale-110 group-hover:-rotate-3 transition-transform duration-500 shadow-sm">
+            <div className="relative z-10 flex flex-col justify-between h-full">
+              <div className="w-14 h-14 bg-slate-50 text-slate-900 rounded-2xl flex items-center justify-center mb-6 border border-slate-200 group-hover:scale-110 group-hover:-rotate-3 transition-transform duration-500 shadow-sm">
                 <IndianRupee className="w-7 h-7" />
               </div>
               <div className="max-w-xl">
-                <h3 className="text-3xl md:text-4xl font-bold font-syne mb-4 text-slate-900 tracking-tight">20% Installation Commission</h3>
+                <h3 className="text-3xl md:text-4xl font-bold font-syne mb-3 text-slate-900 tracking-tight">20% Installation Commission</h3>
                 <p className="text-slate-500 text-base md:text-lg leading-relaxed">Earn a generous 20% commission on every successful eligible KAIROS installation. Grow your revenue directly with every deployment.</p>
               </div>
             </div>
           </div>
 
           {/* Large Card 2 */}
-          <div className="md:col-span-1 md:row-span-2 bg-white border border-slate-100/80 rounded-[2rem] p-8 md:p-10 relative overflow-hidden group shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_20px_60px_rgb(0,0,0,0.08)] transition-all duration-500">
+          <div className="md:col-span-1 bg-white border border-slate-100/80 rounded-[2rem] p-8 md:p-10 relative overflow-hidden group shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_20px_60px_rgb(0,0,0,0.08)] transition-all duration-500 flex flex-col justify-between">
             <div className="absolute bottom-0 right-0 w-[300px] h-[300px] bg-gradient-to-tl from-purple-100/40 to-pink-100/40 rounded-full blur-[60px] group-hover:scale-110 group-hover:bg-purple-100/60 transition-transform duration-700 pointer-events-none" />
-            <div className="relative z-10 h-full flex flex-col justify-between">
-              <div className="w-14 h-14 bg-slate-50 text-slate-900 rounded-2xl flex items-center justify-center mb-8 border border-slate-200 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500 shadow-sm">
+            <div className="relative z-10 flex flex-col justify-between h-full">
+              <div className="w-14 h-14 bg-slate-50 text-slate-900 rounded-2xl flex items-center justify-center mb-6 border border-slate-200 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500 shadow-sm">
                 <Activity className="w-7 h-7" />
               </div>
               <div>
-                <h3 className="text-2xl md:text-3xl font-bold font-syne mb-4 text-slate-900 tracking-tight">Recurring Revenue Opportunity</h3>
+                <h3 className="text-2xl md:text-3xl font-bold font-syne mb-3 text-slate-900 tracking-tight">Recurring Revenue Opportunity</h3>
                 <p className="text-slate-500 text-base leading-relaxed">Unlock recurring commission potential through eligible active customer subscriptions.</p>
               </div>
             </div>
