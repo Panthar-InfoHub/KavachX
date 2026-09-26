@@ -952,37 +952,37 @@ export default function KairosPageClient() {
                 />
               </div>
 
-              {/* 1. Fire Detection (Top/Above on Mobile, Left Side on Desktop) */}
-              <div className={`absolute top-0 left-1/2 -translate-x-1/2 md:top-[20%] md:left-4 xl:left-8 md:translate-x-0 w-[90%] max-w-[280px] sm:w-[250px] md:w-[230px] xl:w-[260px] flex flex-row md:flex-row-reverse items-center md:items-start gap-2.5 sm:gap-4 transition-all duration-500 ease-out text-left md:text-right z-40 ${
-                isBoxActive
-                  ? "opacity-100 pointer-events-auto translate-y-0 md:translate-x-0"
-                  : "opacity-0 pointer-events-none -translate-y-2 md:translate-y-0 md:-translate-x-2 group-hover:opacity-100 group-hover:pointer-events-auto group-hover:translate-y-0 group-hover:md:translate-x-0"
-              }`}>
-                <div className="hidden md:block absolute top-7 left-[calc(100%-1.75rem)] w-[50px] sm:w-[80px] xl:w-[120px] h-px bg-gray-300 -z-10" />
-                <div className="hidden md:block absolute top-[1.6rem] left-[calc(100%-1.75rem+50px)] sm:left-[calc(100%-1.75rem+80px)] xl:left-[calc(100%-1.75rem+120px)] w-1.5 h-1.5 rounded-full bg-gray-400" />
+              {/* 1. Fire Detection (Top on Mobile, Left Side on Desktop - Shown on Hover) */}
+              <div 
+                className={`absolute top-0 left-1/2 -translate-x-1/2 md:top-[22%] md:left-4 lg:left-8 xl:left-12 md:translate-x-0 w-[90%] max-w-[280px] sm:w-[250px] md:w-[240px] xl:w-[270px] flex flex-row md:flex-row-reverse items-center md:items-start gap-2.5 sm:gap-4 transition-all duration-500 ease-out text-left md:text-right z-40
+                  opacity-0 translate-y-3 group-hover:opacity-100 group-hover:translate-y-0 hover:!opacity-100 hover:!translate-y-0 ${isBoxActive ? '!opacity-100 !translate-y-0 pointer-events-auto' : 'pointer-events-none group-hover:pointer-events-auto'}
+                `}
+              >
+                <div className="hidden md:block absolute top-7 left-[calc(100%-1.75rem)] w-[40px] lg:w-[70px] xl:w-[110px] h-px bg-gray-300 group-hover:bg-slate-400 transition-colors duration-500 -z-10" />
+                <div className="hidden md:block absolute top-[1.6rem] left-[calc(100%-1.75rem+40px)] lg:left-[calc(100%-1.75rem+70px)] xl:left-[calc(100%-1.75rem+110px)] w-1.5 h-1.5 rounded-full bg-gray-400 group-hover:bg-black group-hover:scale-125 transition-all duration-500" />
 
-                <div className="w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14 rounded-full bg-white/90 backdrop-blur-md shadow-[0_8px_30px_rgba(0,0,0,0.1)] flex items-center justify-center shrink-0 z-10 border border-white relative">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14 rounded-full bg-white/95 backdrop-blur-md shadow-[0_8px_30px_rgba(0,0,0,0.1)] flex items-center justify-center shrink-0 z-10 border border-white group-hover:border-black/20 group-hover:shadow-[0_12px_35px_rgba(0,0,0,0.15)] transition-all duration-500">
                   <Flame className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 text-[#111]" strokeWidth={1.5} />
                 </div>
-                <div className="py-2 px-2.5 sm:py-2.5 sm:px-3 z-10 bg-white/70 backdrop-blur-xl border border-white/80 rounded-xl shadow-[0_10px_40px_rgba(0,0,0,0.08)] transition-transform duration-500 ease-out origin-left md:origin-right">
+                <div className="py-2 px-3 sm:py-2.5 sm:px-3.5 z-10 bg-white/80 backdrop-blur-xl border border-white/90 rounded-xl shadow-[0_10px_40px_rgba(0,0,0,0.08)] group-hover:bg-white/95 group-hover:border-black/10 transition-all duration-500 ease-out origin-left md:origin-right w-full">
                   <h5 className="text-[10px] sm:text-[11px] lg:text-[11.5px] font-bold text-[#111] uppercase tracking-wider mb-0.5 sm:mb-1">Fire Detection</h5>
                   <p className="text-[9px] sm:text-[10px] lg:text-[10.5px] text-gray-600 leading-relaxed font-medium">Detects smoke and fire incidents in real time.</p>
                 </div>
               </div>
 
-              {/* 2. Intrusion Detection (Bottom/Below on Mobile, Right Side on Desktop) */}
-              <div className={`absolute bottom-0 left-1/2 -translate-x-1/2 md:bottom-auto md:top-[20%] md:right-4 xl:right-8 md:translate-x-0 w-[90%] max-w-[280px] sm:w-[250px] md:w-[230px] xl:w-[260px] flex flex-row items-center md:items-start gap-2.5 sm:gap-4 transition-all duration-500 ease-out text-left z-40 ${
-                isBoxActive
-                  ? "opacity-100 pointer-events-auto translate-y-0 md:translate-x-0"
-                  : "opacity-0 pointer-events-none translate-y-2 md:translate-y-0 md:translate-x-2 group-hover:opacity-100 group-hover:pointer-events-auto group-hover:translate-y-0 group-hover:md:translate-x-0"
-              }`}>
-                <div className="hidden md:block absolute top-7 right-[calc(100%-1.75rem)] w-[50px] sm:w-[80px] xl:w-[120px] h-px bg-gray-300 -z-10" />
-                <div className="hidden md:block absolute top-[1.6rem] right-[calc(100%-1.75rem+50px)] sm:right-[calc(100%-1.75rem+80px)] xl:right-[calc(100%-1.75rem+120px)] w-1.5 h-1.5 rounded-full bg-gray-400" />
+              {/* 2. Intrusion Detection (Bottom on Mobile, Right Side on Desktop - Shown on Hover) */}
+              <div 
+                className={`absolute bottom-0 left-1/2 -translate-x-1/2 md:bottom-auto md:top-[22%] md:right-4 lg:right-8 xl:right-12 md:left-auto md:translate-x-0 w-[90%] max-w-[280px] sm:w-[250px] md:w-[240px] xl:w-[270px] flex flex-row items-center md:items-start gap-2.5 sm:gap-4 transition-all duration-500 ease-out text-left z-40
+                  opacity-0 translate-y-3 group-hover:opacity-100 group-hover:translate-y-0 hover:!opacity-100 hover:!translate-y-0 ${isBoxActive ? '!opacity-100 !translate-y-0 pointer-events-auto' : 'pointer-events-none group-hover:pointer-events-auto'}
+                `}
+              >
+                <div className="hidden md:block absolute top-7 right-[calc(100%-1.75rem)] w-[40px] lg:w-[70px] xl:w-[110px] h-px bg-gray-300 group-hover:bg-slate-400 transition-colors duration-500 -z-10" />
+                <div className="hidden md:block absolute top-[1.6rem] right-[calc(100%-1.75rem+40px)] lg:right-[calc(100%-1.75rem+70px)] xl:right-[calc(100%-1.75rem+110px)] w-1.5 h-1.5 rounded-full bg-gray-400 group-hover:bg-black group-hover:scale-125 transition-all duration-500" />
 
-                <div className="w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14 rounded-full bg-white/90 backdrop-blur-md shadow-[0_8px_30px_rgba(0,0,0,0.1)] flex items-center justify-center shrink-0 z-10 border border-white relative">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14 rounded-full bg-white/95 backdrop-blur-md shadow-[0_8px_30px_rgba(0,0,0,0.1)] flex items-center justify-center shrink-0 z-10 border border-white group-hover:border-black/20 group-hover:shadow-[0_12px_35px_rgba(0,0,0,0.15)] transition-all duration-500">
                   <UserX className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 text-[#111]" strokeWidth={1.5} />
                 </div>
-                <div className="py-2 px-2.5 sm:py-2.5 sm:px-3 z-10 bg-white/70 backdrop-blur-xl border border-white/80 rounded-xl shadow-[0_10px_40px_rgba(0,0,0,0.08)] transition-transform duration-500 ease-out origin-left">
+                <div className="py-2 px-3 sm:py-2.5 sm:px-3.5 z-10 bg-white/80 backdrop-blur-xl border border-white/90 rounded-xl shadow-[0_10px_40px_rgba(0,0,0,0.08)] group-hover:bg-white/95 group-hover:border-black/10 transition-all duration-500 ease-out origin-left w-full">
                   <h5 className="text-[10px] sm:text-[11px] lg:text-[11.5px] font-bold text-[#111] uppercase tracking-wider mb-0.5 sm:mb-1">Intrusion Detection</h5>
                   <p className="text-[9px] sm:text-[10px] lg:text-[10.5px] text-gray-600 leading-relaxed font-medium">Identifies unauthorized access and potential intrusions.</p>
                 </div>
