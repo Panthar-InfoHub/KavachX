@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Syne, Poppins, Geist, Instrument_Serif, Plus_Jakarta_Sans } from "next/font/google";
+import { Syne, Poppins, Instrument_Serif, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { SiteHeader } from "@/components/site-header";
@@ -25,8 +25,7 @@ const FontPoppins = Poppins({
 
 const FontInstrument = Instrument_Serif({
   variable: "--font-instrument",
-  weight: ["400"],
-  style: ["normal", "italic"],
+  weight: "400",
   subsets: ["latin"],
 });
 

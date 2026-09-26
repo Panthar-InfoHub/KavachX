@@ -367,24 +367,14 @@ const WhyKairosSection = () => {
       icon: <Flame className="w-5 h-5 text-slate-700" strokeWidth={1.5} />,
       image: "/images/Fire & Smoke Detection.png"
     },
-    {
-      title: "FootFall Detection",
-      desc: "Automatically detect human falls in real-time, enabling rapid medical response for workplace and healthcare safety.",
-      icon: <Activity className="w-5 h-5 text-slate-700" strokeWidth={1.5} />,
-      image: "/images/FootFall Detection.png"
-    },
+
     {
       title: "Intrusion Detection",
       desc: "Secure restricted areas by instantly flagging unauthorized human or vehicular entry in real-time.",
       icon: <UserX className="w-5 h-5 text-slate-700" strokeWidth={1.5} />,
       image: "/images/Intrusion Detection.png"
     },
-    {
-      title: "Weapon Detection",
-      desc: "Proactively identify visible weapons to preemptively secure high-risk commercial and educational zones.",
-      icon: <Target className="w-5 h-5 text-slate-700" strokeWidth={1.5} />,
-      image: "/images/Weapon Detection.png"
-    },
+  
   ];
 
   return (
@@ -415,7 +405,7 @@ const WhyKairosSection = () => {
         </div>
 
         {/* Services Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
           {services.map((service, idx) => (
             <motion.div
               key={idx}
@@ -423,19 +413,19 @@ const WhyKairosSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: idx * 0.1, duration: 0.6 }}
-              className="group bg-[#F6F6F6] border border-slate-100 rounded-[2rem] p-3 hover:bg-slate-50 hover:border-slate-200 transition-all duration-300 flex flex-col overflow-hidden"
+              className="group bg-[#F6F6F6] border border-slate-100 rounded-[2rem] p-3.5 sm:p-4 hover:bg-slate-50 hover:border-slate-200 transition-all duration-300 flex flex-col overflow-hidden shadow-sm hover:shadow-md"
             >
-              <div className="w-full aspect-[4/3] relative rounded-3xl overflow-hidden mb-6 bg-white border border-slate-100">
-                <Image src={service.image} alt={service.title} fill className="object-cover transition-transform duration-700 group-hover:scale-110" />
-                <div className="absolute top-4 left-4 w-10 h-10 bg-white/80 backdrop-blur-md rounded-full flex items-center justify-center shadow-sm border border-slate-100/50">
+              <div className="w-full aspect-[16/9] sm:aspect-[16/10] relative rounded-3xl overflow-hidden mb-6 bg-white border border-slate-100">
+                <Image src={service.image} alt={service.title} fill className="object-cover transition-transform duration-700 group-hover:scale-105" />
+                <div className="absolute top-4 left-4 w-11 h-11 bg-white/85 backdrop-blur-md rounded-full flex items-center justify-center shadow-sm border border-slate-100/50">
                   {service.icon}
                 </div>
               </div>
               <div className="px-4 pb-6 mt-auto">
-                <h4 className="text-xl font-bold font-syne text-slate-900 mb-2 mt-auto">
+                <h4 className="text-xl sm:text-2xl font-bold font-syne text-slate-900 mb-2.5">
                   {service.title}
                 </h4>
-                <p className="text-slate-500 text-sm leading-relaxed">
+                <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
                   {service.desc}
                 </p>
               </div>

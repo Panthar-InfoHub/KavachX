@@ -996,7 +996,6 @@ export default function KairosPageClient() {
           {/* FINAL CTA */}
           <section className="py-14 md:py-20 px-6 relative overflow-hidden bg-[#111] rounded-[3rem] mx-2 md:mx-4 border border-white/5 shadow-2xl mt-6 mb-12">
             <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(255,255,255,0.1)_0%,transparent_70%)]" />
-            <div className="absolute inset-0 bg-[url('/images/')] opacity-[0.05] mix-blend-overlay" />
 
             <div className="relative z-10 max-w-4xl mx-auto text-center">
               <h2 className="text-4xl md:text-6xl font-bold font-syne mb-6 text-white tracking-tighter">Don't wait for an emergency.</h2>
