@@ -35,16 +35,25 @@ export function Footer() {
             <div className="flex flex-col gap-3">
               <Link href="/suraksha-kavach" className="text-sm text-gray-400 hover:text-white transition-colors font-medium tracking-wide">Suraksha Kavach</Link>
               <Link href="/kairos" className="text-sm text-gray-400 hover:text-white transition-colors font-medium tracking-wide">Kairos</Link>
-              <Link href="/resources" className="text-sm text-gray-400 hover:text-white transition-colors font-medium tracking-wide">Resources</Link>
-              <Link href="/vendor" className="text-sm text-gray-400 hover:text-white transition-colors font-medium tracking-wide">Become a Vendor</Link>
-              <Link href="/blog" className="text-sm text-gray-400 hover:text-white transition-colors font-medium tracking-wide">Blog</Link>
-              <Link href="/achievements" className="text-sm text-gray-400 hover:text-white transition-colors font-medium tracking-wide">Achievements</Link>
+              <Link href="/blogs" className="text-sm text-gray-400 hover:text-white transition-colors font-medium tracking-wide">Blogs</Link>
               <Link href="/team" className="text-sm text-gray-400 hover:text-white transition-colors font-medium tracking-wide">Team</Link>
+              <Link href="/vendor" className="text-sm text-gray-400 hover:text-white transition-colors font-medium tracking-wide">Become a Vendor</Link>
+              <Link href="/achievements" className="text-sm text-gray-400 hover:text-white transition-colors font-medium tracking-wide">Achievements</Link>
+              <Link href="/resources" className="text-sm text-gray-400 hover:text-white transition-colors font-medium tracking-wide">Resources</Link>
             </div>
           </div>
 
           {/* Socials */}
           <div className="flex gap-6 sm:mt-1">
+             
+             <Link
+              href="https://www.facebook.com/profile.php?id=61589563642066"
+              target="_blank"
+              onClick={() => trackEvent({ name: "social_link_click", params: { platform: "facebook", location: "footer" } })}
+              className="text-gray-100 hover:text-white transition-colors"
+            >
+              <svg className="w-[18px] h-[18px]" fill="currentColor" viewBox="0 0 24 24"><path d="M9.101 23.691v-7.98H6.627v-3.667h2.474v-1.58c0-4.085 1.848-5.978 5.858-5.978.401 0 .955.042 1.468.103a8.68 8.68 0 0 1 1.141.195v3.325a8.623 8.623 0 0 0-.653-.036c-2.148 0-2.971.844-2.971 2.51v1.461h3.766l-.554 3.667h-3.212v7.98C20.301 22.84 24 17.848 24 12 24 5.373 18.627 0 12 0S0 5.373 0 12c0 5.848 3.699 10.84 9.101 11.691z" /></svg>
+            </Link>
             <Link
               href="https://x.com/KavachX"
               target="_blank"

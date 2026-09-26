@@ -19,43 +19,27 @@ const NAVBAR_CONFIG: NavbarConfig = {
     menu: [
         {
             label: "Suraksha Kavach",
-            href: "suraksha-kavach"
-            //   dropdown: [
-            //     {
-            //       heading: "Account",
-            //       links: [
-            //         { text: "Profile", href: "#" },
-            //         { text: "Security", href: "#" },
-            //       ],
-            //     },
-            //     {
-            //       heading: "Product",
-            //       links: [
-            //         { text: "Dashboard", href: "#" },
-            //         { text: "Templates", href: "#" },
-            //       ],
-            //     },
-            //   ],
+            href: "/suraksha-kavach"
         },
         {
             label: "Kairos",
-            href: "kairos"
+            href: "/kairos"
         },
         {
             label: "Blogs",
-            href: "blogs"
+            href: "/blogs"
         },
         {
             label: "Team",
-            href: "team"
+            href: "/team"
         },
         {
             label: "Become a Vendor",
-            href: "vendor"
+            href: "/vendor"
         },
         {
             label: "Achievements",
-            href: "achievements"
+            href: "/achievements"
         },
         {
             label: "Resources",
@@ -74,7 +58,7 @@ const NAVBAR_CONFIG: NavbarConfig = {
 
 /* =========================
    🔥 NAVBAR COMPONENT
-========================= */
+======================== */
 
 type AnimationDirection = "right-to-left" | "left-to-right";
 
@@ -99,6 +83,14 @@ export const Navbar: React.FC = () => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [mobileActiveDropdownIndex, setMobileActiveDropdownIndex] =
         useState<number | null>(null);
+
+    // Reset all menu states when route changes
+    useEffect(() => {
+        setIsMobileMenuOpen(false);
+        setIsDropdownOpen(false);
+        setActiveMenuItemIndex(null);
+        setMobileActiveDropdownIndex(null);
+    }, [pathname]);
 
     useEffect(() => {
         if (
@@ -286,15 +278,19 @@ export const Navbar: React.FC = () => {
                                             className="flex items-center justify-between group cursor-pointer"
                                             onClick={() => item.dropdown && toggleMobileDropdown(index)}
                                         >
-                                            <a
+                                            <Link
                                                 href={item.href || "#"}
                                                 className="text-2xl font-syne font-bold text-white hover:text-white/70 transition"
                                                 onClick={(e) => {
-                                                    if (item.dropdown) e.preventDefault();
+                                                    if (item.dropdown) {
+                                                        e.preventDefault();
+                                                    } else {
+                                                        setIsMobileMenuOpen(false);
+                                                    }
                                                 }}
                                             >
                                                 {item.label}
-                                            </a>
+                                            </Link>
                                             {item.dropdown && (
                                                 <span className={cn("text-xl transition-transform", mobileActiveDropdownIndex === index ? "rotate-180" : "")}>
                                                     ↓

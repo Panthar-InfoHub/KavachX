@@ -55,9 +55,9 @@ export default async function PublicBlogsPage() {
               KavachX Intelligence
             </span>
 
-            <h1 className="text-4xl md:text-5xl font-bold mb-6 tracking-tight text-black font-syne">
-              Ideas shaping intelligent systems
-            </h1>
+            <h1 className="text-4xl md:text-5xl font-bold mb-6 tracking-tight font-syne bg-clip-text text-transparent bg-gradient-to-br from-black to-slate-400">
+  Ideas shaping intelligent systems
+</h1>
 
             <p className="text-sm md:text-base text-gray-600 mb-8 max-w-2xl font-medium leading-relaxed font-jakarta">
               Authoritative articles, technical breakdowns, and vision at the intersection of machine learning, computer vision, autonomous systems, and physical security.
