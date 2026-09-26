@@ -31,6 +31,8 @@ import Link from "next/link";
 import { trackEvent } from "@/lib/analytics";
 import { KairosBentoGrid } from "@/components/kairos-bento-grid";
 import Faq from "@/components/faq";
+import { usePreBooking } from "@/components/pre-booking-context";
+import { useVendorRegistration } from "@/components/vendor-registration-context";
 
 const features = [
   
@@ -94,6 +96,8 @@ const audiences = [
 ];
 
 export default function KairosPageClient() {
+  const { openPreBooking } = usePreBooking();
+  const { openVendorRegistration } = useVendorRegistration();
   const [activeAudience, setActiveAudience] = useState(audiences[0]);
   const [isBoxActive, setIsBoxActive] = useState(false);
   const heroRef = useRef<HTMLDivElement>(null);
@@ -806,14 +810,23 @@ export default function KairosPageClient() {
                     </p>
                     <div className="flex flex-wrap items-center gap-3">
                       <button
-                        className="px-6 py-2.5 rounded-full text-white text-[13px] font-semibold transition-all duration-200 hover:brightness-110 active:scale-95"
+                        onClick={() => {
+                          trackEvent({
+                            name: "cta_click",
+                            params: {
+                              cta_name: "pre_order_early_access",
+                              cta_location: "kairos_early_access_card",
+                            },
+                          });
+                          openPreBooking();
+                        }}
+                        className="px-6 py-2.5 rounded-full text-white text-[13px] font-semibold transition-all duration-200 hover:brightness-110 active:scale-95 cursor-pointer"
                         style={{
                           background: 'linear-gradient(135deg, #00A3FF, #0082cc)',
                           boxShadow: '0 4px 20px rgba(0,163,255,0.35), 0 0 0 1px rgba(255,255,255,0.08) inset'
                         }}>
                         Pre-order now
                       </button>
-
                     </div>
                   </div>
                 </motion.div>
@@ -856,28 +869,24 @@ export default function KairosPageClient() {
                       Partner with KavachX to distribute state-of-the-art security solutions and grow your business.
                     </p>
                     <div className="flex flex-wrap items-center gap-3">
-                      <Link
-                        href="/vendor"
-                        onClick={() => trackEvent({
-                          name: "cta_click",
-                          params: {
-                            cta_name: "become_vendor",
-                            cta_location: "kairos_partner_card",
-                            destination: "/vendor",
-                          },
-                        })}
-                      >
-                        <button
-                          // onClick={() => router.push("/vendor")}
-                          className="px-6 py-2.5 rounded-full text-white text-[13px] font-semibold transition-all duration-200 hover:brightness-110 active:scale-95"
-                          style={{
-                            background: 'linear-gradient(135deg, #00A3FF, #0082cc)',
-                            boxShadow: '0 4px 20px rgba(0,163,255,0.35), 0 0 0 1px rgba(255,255,255,0.08) inset'
-                          }}>
-                          Join now
-                        </button>
-                      </Link>
-
+                      <button
+                        onClick={() => {
+                          trackEvent({
+                            name: "cta_click",
+                            params: {
+                              cta_name: "become_vendor_modal",
+                              cta_location: "kairos_partner_card",
+                            },
+                          });
+                          openVendorRegistration();
+                        }}
+                        className="px-6 py-2.5 rounded-full text-white text-[13px] font-semibold transition-all duration-200 hover:brightness-110 active:scale-95 cursor-pointer"
+                        style={{
+                          background: 'linear-gradient(135deg, #00A3FF, #0082cc)',
+                          boxShadow: '0 4px 20px rgba(0,163,255,0.35), 0 0 0 1px rgba(255,255,255,0.08) inset'
+                        }}>
+                        Join now
+                      </button>
                     </div>
                   </div>
                 </motion.div>
@@ -923,7 +932,19 @@ export default function KairosPageClient() {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="flex flex-col sm:flex-row items-center gap-4 z-10"
             >
-              <button className="group inline-flex h-14 w-full sm:w-auto items-center justify-between gap-4 rounded-full bg-black pl-8 pr-2 text-[15px] font-medium text-white transition-all hover:bg-slate-800 active:scale-[0.98] shadow-[0_10px_30px_rgba(0,0,0,0.1)] hover:shadow-[0_15px_40px_rgba(0,0,0,0.15)]">
+              <button 
+                onClick={() => {
+                  trackEvent({
+                    name: "cta_click",
+                    params: {
+                      cta_name: "join_waitlist",
+                      cta_location: "kairos_launching_soon",
+                    },
+                  });
+                  openPreBooking();
+                }}
+                className="group inline-flex h-14 w-full sm:w-auto items-center justify-between gap-4 rounded-full bg-black pl-8 pr-2 text-[15px] font-medium text-white transition-all hover:bg-slate-800 active:scale-[0.98] shadow-[0_10px_30px_rgba(0,0,0,0.1)] hover:shadow-[0_15px_40px_rgba(0,0,0,0.15)] cursor-pointer"
+              >
                 JOIN THE WAITLIST
                 <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white text-black transition-transform group-hover:scale-[1.05]">
                   <ArrowRight className="h-4 w-4 -rotate-45 transition-transform group-hover:rotate-0" />
@@ -1002,23 +1023,24 @@ export default function KairosPageClient() {
               <p className="text-xl text-gray-400 mb-10 max-w-2xl mx-auto font-medium">
                 Upgrade your security today. Get KAIROS- AI edge box and experience the peace of mind that comes with 3-second response times.
               </p>
-              <Link
-                href="/contact"
-                onClick={() => trackEvent({
-                  name: "cta_click",
-                  params: {
-                    cta_name: "preorder_kairos",
-                    cta_location: "kairos_final_cta",
-                    destination: "/contact",
-                  },
-                })}
-                className="group inline-flex h-14 w-full sm:w-auto items-center justify-between gap-4 rounded-full bg-white pl-8 pr-2 text-[15px] font-medium text-black transition-all hover:bg-gray-100 active:scale-[0.98] mx-auto mt-6 shadow-[0_0_40px_rgba(255,255,255,0.2)]"
+              <button
+                onClick={() => {
+                  trackEvent({
+                    name: "cta_click",
+                    params: {
+                      cta_name: "preorder_kairos_today",
+                      cta_location: "kairos_final_cta",
+                    },
+                  });
+                  openPreBooking();
+                }}
+                className="group inline-flex h-14 w-full sm:w-auto items-center justify-between gap-4 rounded-full bg-white pl-8 pr-2 text-[15px] font-medium text-black transition-all hover:bg-gray-100 active:scale-[0.98] mx-auto mt-6 shadow-[0_0_40px_rgba(255,255,255,0.2)] cursor-pointer"
               >
                 Pre-order KAIROS Today
                 <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-black text-white transition-transform group-hover:scale-[1.05]">
                   <ArrowRight className="h-4 w-4 -rotate-45 transition-transform group-hover:rotate-0" />
                 </div>
-              </Link>
+              </button>
             </div>
           </section>
 

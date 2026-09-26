@@ -98,6 +98,9 @@ export const metadata: Metadata = {
   },
 };
 
+import { PreBookingProvider } from "@/components/pre-booking-context";
+import { VendorRegistrationProvider } from "@/components/vendor-registration-context";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -111,20 +114,24 @@ export default function RootLayout({
       className={cn("min-h-screen", "antialiased", FontSyne.variable, FontPoppins.variable, FontInstrument.variable, FontJakarta.variable)}
     >
       <body className="min-h-screen flex flex-col font-sans bg-black text-white relative">
-        <Navbar />
-        <main className="flex-1 w-full relative z-0">
-          {children}
-        </main>
+        <PreBookingProvider>
+          <VendorRegistrationProvider>
+            <Navbar />
+            <main className="flex-1 w-full relative z-0">
+              {children}
+            </main>
 
-        <div className="relative z-30 bg-black">
-          {/* Global Particle Component placed just above the footer */}
-          <ResponsiveParticleSection />
-          <Footer />
-        </div>
-        <Toaster position="top-center" richColors />
-        <ClarityAnalytics />
-        <MetaPixel />
-        {gaMeasurementId ? <GoogleAnalytics gaId={gaMeasurementId} /> : null}
+            <div className="relative z-30 bg-black">
+              {/* Global Particle Component placed just above the footer */}
+              <ResponsiveParticleSection />
+              <Footer />
+            </div>
+            <Toaster position="top-center" richColors />
+            <ClarityAnalytics />
+            <MetaPixel />
+            {gaMeasurementId ? <GoogleAnalytics gaId={gaMeasurementId} /> : null}
+          </VendorRegistrationProvider>
+        </PreBookingProvider>
       </body>
     </html>
   );

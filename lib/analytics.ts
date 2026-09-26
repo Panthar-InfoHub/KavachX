@@ -18,7 +18,15 @@ export type AnalyticsEvent =
       params: {
         cta_name: string;
         cta_location: string;
-        destination: string;
+        destination?: string;
+      };
+    }
+  | {
+      name: "pre_booking_submitted";
+      params: {
+        property_type: string;
+        camera_count: string;
+        timeline: string;
       };
     }
   | {
@@ -168,6 +176,15 @@ export function trackEvent(event: AnalyticsEvent): void {
             },
             true
           );
+          break;
+
+        case "pre_booking_submitted":
+          trackMetaEvent("Lead", {
+            content_name: "Pre-Booking Form",
+            property_type: event.params.property_type,
+            camera_count: event.params.camera_count,
+            timeline: event.params.timeline,
+          });
           break;
 
         case "app_download_intent":

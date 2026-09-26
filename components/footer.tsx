@@ -3,9 +3,11 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { trackEvent } from "@/lib/analytics";
+import { useVendorRegistration } from "@/components/vendor-registration-context";
 
 export function Footer() {
   const pathname = usePathname();
+  const { openVendorRegistration } = useVendorRegistration();
 
   if (pathname?.startsWith("/admin")) {
     return null;
@@ -37,7 +39,18 @@ export function Footer() {
               <Link href="/kairos" className="text-sm text-gray-400 hover:text-white transition-colors font-medium tracking-wide">Kairos</Link>
               <Link href="/blogs" className="text-sm text-gray-400 hover:text-white transition-colors font-medium tracking-wide">Blogs</Link>
               <Link href="/team" className="text-sm text-gray-400 hover:text-white transition-colors font-medium tracking-wide">Team</Link>
-              <Link href="/vendor" className="text-sm text-gray-400 hover:text-white transition-colors font-medium tracking-wide">Become a Vendor</Link>
+              <button
+                onClick={() => {
+                  trackEvent({
+                    name: "cta_click",
+                    params: { cta_name: "become_vendor_modal", cta_location: "footer" },
+                  });
+                  openVendorRegistration();
+                }}
+                className="text-left text-sm text-gray-400 hover:text-white transition-colors font-medium tracking-wide cursor-pointer"
+              >
+                Become a Vendor
+              </button>
               <Link href="/achievements" className="text-sm text-gray-400 hover:text-white transition-colors font-medium tracking-wide">Achievements</Link>
               <Link href="/resources" className="text-sm text-gray-400 hover:text-white transition-colors font-medium tracking-wide">Resources</Link>
             </div>

@@ -191,7 +191,7 @@ export const sendMsgAction = async ({
         // Send Notification to Owner
         const notificationConfig = {
             from: process.env.EMAIL_USER,
-            to: process.env.EMAIL_USER,
+            to: process.env.ADMIN_EMAIL || "connect@kavachx.io",
             replyTo: data.email,
             subject: `New Contact Inquiry: ${data.name}`,
             html: notificationHtml

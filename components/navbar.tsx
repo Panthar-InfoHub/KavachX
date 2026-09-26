@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { trackEvent } from "@/lib/analytics";
+import { usePreBooking } from "@/components/pre-booking-context";
 
 const NAVBAR_CONFIG: NavbarConfig = {
     logo: <Image src="/images/logo.png" alt="KavachX Logo" width={140} height={40} className="h-8 w-auto object-contain" />,
@@ -64,6 +65,7 @@ type AnimationDirection = "right-to-left" | "left-to-right";
 
 export const Navbar: React.FC = () => {
     const pathname = usePathname();
+    const { openPreBooking } = usePreBooking();
     const config = NAVBAR_CONFIG;
 
     if (pathname?.startsWith("/admin")) {
@@ -213,21 +215,10 @@ export const Navbar: React.FC = () => {
                                         destination: config.cta.one?.href || "/contact",
                                     },
                                 })}
-                                className={cn("text-sm text-white/70  transition", config.cta.one?.variant === "primary" ? "bg-white text-black px-4 py-1.5 rounded-full font-medium" : "")}
+                                className={cn("text-sm text-white/70 transition", config.cta.one?.variant === "primary" ? "bg-white text-black px-4 py-1.5 rounded-full font-medium" : "")}
                             >
                                 {config.cta.one?.text}
                             </Link>
-                        )
-                    }
-                    {
-                        config.cta.two && (
-                            <a
-                                href={config.cta.two?.href}
-                                className={cn("text-sm text-white/70  transition", config.cta.two?.variant === "primary" ? "bg-white text-black px-4 py-1.5 rounded-full font-medium" : "")}
-
-                            >
-                                {config.cta.two?.text}
-                            </a>
                         )
                     }
                 </div>
