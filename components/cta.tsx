@@ -19,6 +19,27 @@ export default function CTA() {
       message: "",
     },
     onSubmit: async ({ value }) => {
+      const name = value.name?.trim();
+      const email = value.email?.trim();
+      const message = value.message?.trim();
+
+      if (!name) {
+        toast.warning("Please enter your name.");
+        return;
+      }
+      if (!email) {
+        toast.warning("Please enter your email address.");
+        return;
+      }
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        toast.warning("Please enter a valid email address.");
+        return;
+      }
+      if (!message) {
+        toast.warning("Please enter a message.");
+        return;
+      }
 
       startTransition(async () => {
         try {
@@ -28,8 +49,8 @@ export default function CTA() {
               name: value.name,
               phone: value.phone,
               message: value.message,
-            }
-          })
+            },
+          });
 
           if (res.success) {
             trackEvent({
@@ -39,7 +60,8 @@ export default function CTA() {
                 status: "success",
               },
             });
-            toast("Message Sent Successfully!!")
+            toast.success("Message Sent Successfully!");
+            form.reset();
           } else {
             trackEvent({
               name: "form_error",
@@ -48,7 +70,7 @@ export default function CTA() {
                 error_type: "submission_failed",
               },
             });
-            toast.warning("Something went wrong!")
+            toast.error(res.message || "Something went wrong!");
           }
         } catch (error) {
           trackEvent({
@@ -58,12 +80,10 @@ export default function CTA() {
               error_type: "network_or_server_error",
             },
           });
-          toast.error("Something went wrong!")
-          console.log(error);
+          toast.error("Something went wrong!");
+          console.error(error);
         }
-
-      })
-      form.reset();
+      });
     },
   });
 
@@ -122,33 +142,59 @@ export default function CTA() {
           }}
           className="space-y-12"
         >
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 text-black!">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 text-black font-normal">
             <form.Field
               name="name"
+              validators={{
+                onChange: ({ value }) => (!value?.trim() ? "Name is required" : undefined),
+              }}
               children={(field: any) => (
                 <div className="flex flex-col gap-3">
-                  <label htmlFor="name" className="text-[15px] font-medium text-gray-800">Your Name</label>
+                  <label htmlFor="name" className="text-[15px] font-medium text-gray-800">
+                    Your Name <span className="text-red-500">*</span>
+                  </label>
                   <input
                     id="name"
+                    required
+                    placeholder="Enter your name"
                     value={field.state.value}
                     onChange={(e) => field.handleChange(e.target.value)}
+                    onBlur={field.handleBlur}
                     className="w-full border-b border-gray-200 py-2 focus:outline-none focus:border-black transition-colors bg-transparent rounded-none placeholder-gray-400"
                   />
+                  {field.state.meta.isTouched && field.state.meta.errors.length > 0 && (
+                    <span className="text-xs text-red-500 mt-1">{field.state.meta.errors.join(", ")}</span>
+                  )}
                 </div>
               )}
             />
             <form.Field
               name="email"
+              validators={{
+                onChange: ({ value }) => {
+                  if (!value?.trim()) return "Email address is required";
+                  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim())) return "Enter a valid email address";
+                  return undefined;
+                },
+              }}
               children={(field: any) => (
                 <div className="flex flex-col gap-3">
-                  <label htmlFor="email" className="text-[15px] font-medium text-gray-800">Email Address</label>
+                  <label htmlFor="email" className="text-[15px] font-medium text-gray-800">
+                    Email Address <span className="text-red-500">*</span>
+                  </label>
                   <input
                     id="email"
                     type="email"
+                    required
+                    placeholder="name@example.com"
                     value={field.state.value}
                     onChange={(e) => field.handleChange(e.target.value)}
+                    onBlur={field.handleBlur}
                     className="w-full border-b border-gray-200 py-2 focus:outline-none focus:border-black transition-colors bg-transparent rounded-none placeholder-gray-400"
                   />
+                  {field.state.meta.isTouched && field.state.meta.errors.length > 0 && (
+                    <span className="text-xs text-red-500 mt-1">{field.state.meta.errors.join(", ")}</span>
+                  )}
                 </div>
               )}
             />
@@ -156,10 +202,13 @@ export default function CTA() {
               name="phone"
               children={(field: any) => (
                 <div className="flex flex-col gap-3">
-                  <label htmlFor="phone" className="text-[15px] font-medium text-gray-800">Phone Number (optional)</label>
+                  <label htmlFor="phone" className="text-[15px] font-medium text-gray-800">
+                    Phone Number (optional)
+                  </label>
                   <input
                     id="phone"
                     type="tel"
+                    placeholder="+91 98765 43210"
                     value={field.state.value}
                     onChange={(e) => field.handleChange(e.target.value)}
                     className="w-full border-b border-gray-200 py-2 focus:outline-none focus:border-black transition-colors bg-transparent rounded-none placeholder-gray-400"
@@ -171,34 +220,64 @@ export default function CTA() {
 
           <form.Field
             name="message"
+            validators={{
+              onChange: ({ value }) => (!value?.trim() ? "Message is required" : undefined),
+            }}
             children={(field: any) => (
               <div className="flex flex-col gap-3">
-                <label htmlFor="message" className="text-[15px] font-medium text-gray-800">Message</label>
+                <label htmlFor="message" className="text-[15px] font-medium text-gray-800">
+                  Message <span className="text-red-500">*</span>
+                </label>
                 <input
                   id="message"
+                  required
+                  placeholder="Tell us how we can help..."
                   value={field.state.value}
                   onChange={(e) => field.handleChange(e.target.value)}
+                  onBlur={field.handleBlur}
                   className="w-full border-b border-gray-200 text-gray-800 py-2 focus:outline-none focus:border-black transition-colors bg-transparent rounded-none placeholder-gray-400"
                 />
+                {field.state.meta.isTouched && field.state.meta.errors.length > 0 && (
+                  <span className="text-xs text-red-500 mt-1">{field.state.meta.errors.join(", ")}</span>
+                )}
               </div>
             )}
           />
 
           <form.Subscribe
-            selector={(state: any) => [state.canSubmit, state.isSubmitting]}
-            children={([canSubmit, isSubmitting]: any) => (
-              <button
-                type="submit"
-                disabled={!canSubmit || isSubmitting || isPending}
-                className="bg-black text-white px-8 py-4 rounded-full text-[15px] font-medium flex items-center gap-3 hover:bg-gray-900 transition-colors disabled:opacity-70 mt-4"
-              >
-                {isPending ? <> Processing... <Loader2 className="w-4 h-4 animate-spin" />  </> : "Leave us a Message"}
-                {!isSubmitting && <ArrowRight className="w-4 h-4" />}
-              </button>
-            )}
+            selector={(state: any) => [
+              state.canSubmit,
+              state.isSubmitting,
+              state.values,
+            ]}
+            children={([canSubmit, isSubmitting, values]: any) => {
+              const isValid = Boolean(
+                values?.name?.trim() &&
+                values?.email?.trim() &&
+                /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values?.email?.trim()) &&
+                values?.message?.trim()
+              );
+
+              return (
+                <button
+                  type="submit"
+                  disabled={!canSubmit || !isValid || isSubmitting || isPending}
+                  className="bg-black text-white px-8 py-4 rounded-full text-[15px] font-medium flex items-center gap-3 hover:bg-gray-900 transition-colors disabled:opacity-50 disabled:cursor-not-allowed mt-4"
+                >
+                  {isPending ? (
+                    <>
+                      Processing... <Loader2 className="w-4 h-4 animate-spin" />
+                    </>
+                  ) : (
+                    "Leave us a Message"
+                  )}
+                  {!isSubmitting && !isPending && <ArrowRight className="w-4 h-4" />}
+                </button>
+              );
+            }}
           />
         </form>
       </div>
-    </section >
+    </section>
   );
 }
