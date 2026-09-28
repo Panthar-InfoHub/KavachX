@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
@@ -31,43 +31,17 @@ import Link from "next/link";
 import { trackEvent } from "@/lib/analytics";
 import { KairosBentoGrid } from "@/components/kairos-bento-grid";
 import Faq from "@/components/faq";
+import { usePreBooking } from "@/components/pre-booking-context";
+import { useVendorRegistration } from "@/components/vendor-registration-context";
 
 const features = [
-  {
-    title: "Threat Detection",
-    description: "Intelligent AI continuously scans for unauthorized access and suspicious behavior, instantly flagging potential risks.",
-    icon: ShieldAlert,
-  },
-  {
-    title: "Gesture Detection",
-    description: "Recognizes distress signals and abnormal movements, automatically triggering alerts even if no one can speak or access a phone.",
-    icon: ScanFace,
-  },
+  
   {
     title: "Fire Detection",
     description: "Early-warning detection spots fire and smoke instantly, potentially saving lives and minimizing property damage.",
     icon: Flame,
   },
-  {
-    title: "Perimeter Security",
-    description: "Monitors property boundaries to detect unauthorized access before intruders reach critical areas.",
-    icon: ShieldAlert,
-  },
-  {
-    title: "Fall Detection",
-    description: "Detects falls instantly and alerts for quick response, crucial for safety monitoring of vulnerable individuals.",
-    icon: Activity,
-  },
-  {
-    title: "Weapon Detection",
-    description: "Identifies weapons and dangerous objects in real time to prevent armed incidents and enhance security.",
-    icon: Target,
-  },
-  {
-    title: "Crowd Detection",
-    description: "Monitors crowd density and alerts on unusual gatherings or potential stampedes for public safety.",
-    icon: Users,
-  },
+ 
   {
     title: "Intrusion Detection",
     description: "Identifies unauthorized access and potential intrusions into restricted areas with high accuracy.",
@@ -122,9 +96,22 @@ const audiences = [
 ];
 
 export default function KairosPageClient() {
+  const { openPreBooking } = usePreBooking();
+  const { openVendorRegistration } = useVendorRegistration();
   const [activeAudience, setActiveAudience] = useState(audiences[0]);
+  const [isBoxActive, setIsBoxActive] = useState(false);
   const heroRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsBoxActive(false);
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   return (
     <LenisDiv>
@@ -216,7 +203,7 @@ export default function KairosPageClient() {
               <p className="text-gray-600 max-w-2xl mx-auto text-lg font-medium">Because in an emergency, every single second counts.</p>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
               {/* Feature Cards */}
               {features.filter(f => !f.featured).map((feature, idx) => (
                 <motion.div
@@ -266,7 +253,7 @@ export default function KairosPageClient() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: "-50px" }}
                     transition={{ duration: 0.6, delay: 0.4 }}
-                    className="col-span-1 sm:col-span-2 lg:col-span-4 bg-[#09090b] rounded-[2rem] p-8 md:p-12 relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-10 group mt-2 md:mt-4"
+                    className="col-span-1 md:col-span-2 bg-[#09090b] rounded-[2rem] p-8 md:p-12 relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-10 group mt-2 md:mt-4"
                   >
                     {/* Background Effects */}
                     <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.1)_0%,transparent_50%)]" />
@@ -823,14 +810,23 @@ export default function KairosPageClient() {
                     </p>
                     <div className="flex flex-wrap items-center gap-3">
                       <button
-                        className="px-6 py-2.5 rounded-full text-white text-[13px] font-semibold transition-all duration-200 hover:brightness-110 active:scale-95"
+                        onClick={() => {
+                          trackEvent({
+                            name: "cta_click",
+                            params: {
+                              cta_name: "pre_order_early_access",
+                              cta_location: "kairos_early_access_card",
+                            },
+                          });
+                          openPreBooking();
+                        }}
+                        className="px-6 py-2.5 rounded-full text-white text-[13px] font-semibold transition-all duration-200 hover:brightness-110 active:scale-95 cursor-pointer"
                         style={{
                           background: 'linear-gradient(135deg, #00A3FF, #0082cc)',
                           boxShadow: '0 4px 20px rgba(0,163,255,0.35), 0 0 0 1px rgba(255,255,255,0.08) inset'
                         }}>
                         Pre-order now
                       </button>
-
                     </div>
                   </div>
                 </motion.div>
@@ -873,28 +869,24 @@ export default function KairosPageClient() {
                       Partner with KavachX to distribute state-of-the-art security solutions and grow your business.
                     </p>
                     <div className="flex flex-wrap items-center gap-3">
-                      <Link
-                        href="/vendor"
-                        onClick={() => trackEvent({
-                          name: "cta_click",
-                          params: {
-                            cta_name: "become_vendor",
-                            cta_location: "kairos_partner_card",
-                            destination: "/vendor",
-                          },
-                        })}
-                      >
-                        <button
-                          // onClick={() => router.push("/vendor")}
-                          className="px-6 py-2.5 rounded-full text-white text-[13px] font-semibold transition-all duration-200 hover:brightness-110 active:scale-95"
-                          style={{
-                            background: 'linear-gradient(135deg, #00A3FF, #0082cc)',
-                            boxShadow: '0 4px 20px rgba(0,163,255,0.35), 0 0 0 1px rgba(255,255,255,0.08) inset'
-                          }}>
-                          Join now
-                        </button>
-                      </Link>
-
+                      <button
+                        onClick={() => {
+                          trackEvent({
+                            name: "cta_click",
+                            params: {
+                              cta_name: "become_vendor_modal",
+                              cta_location: "kairos_partner_card",
+                            },
+                          });
+                          openVendorRegistration();
+                        }}
+                        className="px-6 py-2.5 rounded-full text-white text-[13px] font-semibold transition-all duration-200 hover:brightness-110 active:scale-95 cursor-pointer"
+                        style={{
+                          background: 'linear-gradient(135deg, #00A3FF, #0082cc)',
+                          boxShadow: '0 4px 20px rgba(0,163,255,0.35), 0 0 0 1px rgba(255,255,255,0.08) inset'
+                        }}>
+                        Join now
+                      </button>
                     </div>
                   </div>
                 </motion.div>
@@ -904,7 +896,7 @@ export default function KairosPageClient() {
           </section>
 
           {/* LAUNCHING SOON SECTION */}
-          <section className="py-24 md:py-32 px-6 bg-white relative overflow-hidden flex flex-col items-center justify-center text-center rounded-[3rem] mx-2 md:mx-4 shadow-[0_8px_40px_rgba(0,0,0,0.03)] border border-black/[0.03]">
+          <section className="py-14 md:py-20 px-6 bg-white relative overflow-hidden flex flex-col items-center justify-center text-center rounded-[3rem] mx-2 md:mx-4 shadow-[0_8px_40px_rgba(0,0,0,0.03)] border border-black/[0.03]">
 
             {/* Concentric Circles Background */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full border border-black/[0.04] pointer-events-none" />
@@ -940,7 +932,19 @@ export default function KairosPageClient() {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="flex flex-col sm:flex-row items-center gap-4 z-10"
             >
-              <button className="group inline-flex h-14 w-full sm:w-auto items-center justify-between gap-4 rounded-full bg-black pl-8 pr-2 text-[15px] font-medium text-white transition-all hover:bg-slate-800 active:scale-[0.98] shadow-[0_10px_30px_rgba(0,0,0,0.1)] hover:shadow-[0_15px_40px_rgba(0,0,0,0.15)]">
+              <button 
+                onClick={() => {
+                  trackEvent({
+                    name: "cta_click",
+                    params: {
+                      cta_name: "join_waitlist",
+                      cta_location: "kairos_launching_soon",
+                    },
+                  });
+                  openPreBooking();
+                }}
+                className="group inline-flex h-14 w-full sm:w-auto items-center justify-between gap-4 rounded-full bg-black pl-8 pr-2 text-[15px] font-medium text-white transition-all hover:bg-slate-800 active:scale-[0.98] shadow-[0_10px_30px_rgba(0,0,0,0.1)] hover:shadow-[0_15px_40px_rgba(0,0,0,0.15)] cursor-pointer"
+              >
                 JOIN THE WAITLIST
                 <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white text-black transition-transform group-hover:scale-[1.05]">
                   <ArrowRight className="h-4 w-4 -rotate-45 transition-transform group-hover:rotate-0" />
@@ -948,101 +952,99 @@ export default function KairosPageClient() {
               </button>
             </motion.div>
 
-               <motion.div
+            <motion.div
               initial={{ opacity: 0, scale: 0.95, y: 40 }}
               whileInView={{ opacity: 1, scale: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, ease: "easeOut", delay: 0.3 }}
-              className="relative w-full max-w-6xl mx-auto h-[400px] md:h-[500px] lg:h-[600px] z-10 mt-8"
+              onMouseEnter={() => setIsBoxActive(true)}
+              onMouseLeave={() => setIsBoxActive(false)}
+              onTouchStart={() => setIsBoxActive(true)}
+              className="relative w-full max-w-6xl mx-auto h-[440px] sm:h-[400px] md:h-[420px] lg:h-[480px] z-10 mt-6 group cursor-pointer"
             >
               <div 
-                className="absolute inset-0 lg:inset-x-48 xl:inset-x-64 z-30"
+                className="absolute inset-x-0 top-[65px] bottom-[65px] md:top-0 md:bottom-0 lg:inset-x-48 xl:inset-x-64 z-30"
               >
                 <Image
                   src="/images/edgebox.png"
                   alt="Kairos Edge Box"
                   fill
-                  className="object-contain drop-shadow-[0_20px_50px_rgba(0,0,0,0.15)] scale-110 md:scale-100 transition-transform duration-700 hover:scale-105"
+                  className="object-contain drop-shadow-[0_20px_50px_rgba(0,0,0,0.15)] scale-100 transition-transform duration-700 group-hover:scale-105"
                 />
               </div>
 
-              {/* 1. Fire Detection (Left Top) */}
-              <div className="absolute top-[20%] left-0 xl:left-8 w-[240px] xl:w-[260px] hidden lg:flex flex-row-reverse items-start gap-4 opacity-100 transition-all duration-500 ease-out text-right z-20">
-                <div className="absolute top-7 left-[calc(100%-1.75rem)] w-[80px] xl:w-[120px] h-px bg-gray-300 -z-10" />
-                <div className="absolute top-[1.6rem] left-[calc(100%-1.75rem+80px)] xl:left-[calc(100%-1.75rem+120px)] w-1.5 h-1.5 rounded-full bg-gray-400" />
+              {/* 1. Fire Detection (Top on Mobile, Left Side on Desktop - Shown on Hover) */}
+              <div 
+                className={`absolute top-0 left-1/2 -translate-x-1/2 md:top-[22%] md:left-4 lg:left-8 xl:left-12 md:translate-x-0 w-[90%] max-w-[280px] sm:w-[250px] md:w-[240px] xl:w-[270px] flex flex-row md:flex-row-reverse items-center md:items-start gap-2.5 sm:gap-4 transition-all duration-500 ease-out text-left md:text-right z-40
+                  opacity-0 translate-y-3 group-hover:opacity-100 group-hover:translate-y-0 hover:!opacity-100 hover:!translate-y-0 ${isBoxActive ? '!opacity-100 !translate-y-0 pointer-events-auto' : 'pointer-events-none group-hover:pointer-events-auto'}
+                `}
+              >
+                <div className="hidden md:block absolute top-7 left-[calc(100%-1.75rem)] w-[40px] lg:w-[70px] xl:w-[110px] h-px bg-gray-300 group-hover:bg-slate-400 transition-colors duration-500 -z-10" />
+                <div className="hidden md:block absolute top-[1.6rem] left-[calc(100%-1.75rem+40px)] lg:left-[calc(100%-1.75rem+70px)] xl:left-[calc(100%-1.75rem+110px)] w-1.5 h-1.5 rounded-full bg-gray-400 group-hover:bg-black group-hover:scale-125 transition-all duration-500" />
 
-                <div className="w-14 h-14 rounded-full bg-white/80 backdrop-blur-md shadow-[0_8px_30px_rgba(0,0,0,0.08)] flex items-center justify-center shrink-0 z-10 border border-white relative">
-                  <Flame className="w-6 h-6 text-[#111]" strokeWidth={1.5} />
+                <div className="w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14 rounded-full bg-white/95 backdrop-blur-md shadow-[0_8px_30px_rgba(0,0,0,0.1)] flex items-center justify-center shrink-0 z-10 border border-white group-hover:border-black/20 group-hover:shadow-[0_12px_35px_rgba(0,0,0,0.15)] transition-all duration-500">
+                  <Flame className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 text-[#111]" strokeWidth={1.5} />
                 </div>
-                <div className="py-2.5 px-3 z-10 bg-white/50 backdrop-blur-xl border border-white/60 rounded-xl shadow-[0_10px_40px_rgba(0,0,0,0.06)] transition-transform duration-500 ease-out origin-right">
-                  <h5 className="text-[11.5px] font-bold text-[#111] uppercase tracking-wider mb-1">Fire Detection</h5>
-                  <p className="text-[10.5px] text-gray-600 leading-relaxed font-medium">Detects smoke and fire incidents in real time.</p>
+                <div className="py-2 px-3 sm:py-2.5 sm:px-3.5 z-10 bg-white/80 backdrop-blur-xl border border-white/90 rounded-xl shadow-[0_10px_40px_rgba(0,0,0,0.08)] group-hover:bg-white/95 group-hover:border-black/10 transition-all duration-500 ease-out origin-left md:origin-right w-full">
+                  <h5 className="text-[10px] sm:text-[11px] lg:text-[11.5px] font-bold text-[#111] uppercase tracking-wider mb-0.5 sm:mb-1">Fire Detection</h5>
+                  <p className="text-[9px] sm:text-[10px] lg:text-[10.5px] text-gray-600 leading-relaxed font-medium">Detects smoke and fire incidents in real time.</p>
                 </div>
               </div>
 
-              {/* 2. Intrusion Detection (Left Bottom) */}
-              <div className="absolute bottom-[20%] left-0 xl:left-8 w-[240px] xl:w-[260px] hidden lg:flex flex-row-reverse items-start gap-4 opacity-100 transition-all duration-500 ease-out text-right z-20">
-                <div className="absolute top-7 left-[calc(100%-1.75rem)] w-[60px] xl:w-[100px] h-px bg-gray-300 -z-10" />
-                <div className="absolute top-[1.6rem] left-[calc(100%-1.75rem+60px)] xl:left-[calc(100%-1.75rem+100px)] w-1.5 h-1.5 rounded-full bg-gray-400" />
+              {/* 2. Intrusion Detection (Bottom on Mobile, Right Side on Desktop - Shown on Hover) */}
+              <div 
+                className={`absolute bottom-0 left-1/2 -translate-x-1/2 md:bottom-auto md:top-[22%] md:right-4 lg:right-8 xl:right-12 md:left-auto md:translate-x-0 w-[90%] max-w-[280px] sm:w-[250px] md:w-[240px] xl:w-[270px] flex flex-row items-center md:items-start gap-2.5 sm:gap-4 transition-all duration-500 ease-out text-left z-40
+                  opacity-0 translate-y-3 group-hover:opacity-100 group-hover:translate-y-0 hover:!opacity-100 hover:!translate-y-0 ${isBoxActive ? '!opacity-100 !translate-y-0 pointer-events-auto' : 'pointer-events-none group-hover:pointer-events-auto'}
+                `}
+              >
+                <div className="hidden md:block absolute top-7 right-[calc(100%-1.75rem)] w-[40px] lg:w-[70px] xl:w-[110px] h-px bg-gray-300 group-hover:bg-slate-400 transition-colors duration-500 -z-10" />
+                <div className="hidden md:block absolute top-[1.6rem] right-[calc(100%-1.75rem+40px)] lg:right-[calc(100%-1.75rem+70px)] xl:right-[calc(100%-1.75rem+110px)] w-1.5 h-1.5 rounded-full bg-gray-400 group-hover:bg-black group-hover:scale-125 transition-all duration-500" />
 
-                <div className="w-14 h-14 rounded-full bg-white/80 backdrop-blur-md shadow-[0_8px_30px_rgba(0,0,0,0.08)] flex items-center justify-center shrink-0 z-10 border border-white relative">
-                  <UserX className="w-6 h-6 text-[#111]" strokeWidth={1.5} />
+                <div className="w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14 rounded-full bg-white/95 backdrop-blur-md shadow-[0_8px_30px_rgba(0,0,0,0.1)] flex items-center justify-center shrink-0 z-10 border border-white group-hover:border-black/20 group-hover:shadow-[0_12px_35px_rgba(0,0,0,0.15)] transition-all duration-500">
+                  <UserX className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 text-[#111]" strokeWidth={1.5} />
                 </div>
-                <div className="py-2.5 px-3 z-10 bg-white/50 backdrop-blur-xl border border-white/60 rounded-xl shadow-[0_10px_40px_rgba(0,0,0,0.06)] transition-transform duration-500 ease-out origin-right">
-                  <h5 className="text-[11.5px] font-bold text-[#111] uppercase tracking-wider mb-1">Intrusion Detection</h5>
-                  <p className="text-[10.5px] text-gray-600 leading-relaxed font-medium">Identifies unauthorized access and potential intrusions.</p>
+                <div className="py-2 px-3 sm:py-2.5 sm:px-3.5 z-10 bg-white/80 backdrop-blur-xl border border-white/90 rounded-xl shadow-[0_10px_40px_rgba(0,0,0,0.08)] group-hover:bg-white/95 group-hover:border-black/10 transition-all duration-500 ease-out origin-left w-full">
+                  <h5 className="text-[10px] sm:text-[11px] lg:text-[11.5px] font-bold text-[#111] uppercase tracking-wider mb-0.5 sm:mb-1">Intrusion Detection</h5>
+                  <p className="text-[9px] sm:text-[10px] lg:text-[10.5px] text-gray-600 leading-relaxed font-medium">Identifies unauthorized access and potential intrusions.</p>
                 </div>
               </div>
 
-              {/* 3. Weapon Detection (Right Center) */}
-              <div className="absolute top-[38%] right-0 xl:right-8 w-[240px] xl:w-[260px] hidden lg:flex items-start gap-4 opacity-100 transition-all duration-500 ease-out text-left z-20">
-                <div className="absolute top-7 right-[calc(100%-1.75rem)] w-[80px] xl:w-[120px] h-px bg-gray-300 -z-10" />
-                <div className="absolute top-[1.6rem] right-[calc(100%-1.75rem+80px)] xl:right-[calc(100%-1.75rem+120px)] w-1.5 h-1.5 rounded-full bg-gray-400" />
-
-                <div className="w-14 h-14 rounded-full bg-white/80 backdrop-blur-md shadow-[0_8px_30px_rgba(0,0,0,0.08)] flex items-center justify-center shrink-0 z-10 border border-white relative">
-                  <Target className="w-6 h-6 text-[#111]" strokeWidth={1.5} />
-                </div>
-                <div className="py-2.5 px-3 z-10 bg-white/50 backdrop-blur-xl border border-white/60 rounded-xl shadow-[0_10px_40px_rgba(0,0,0,0.06)] transition-transform duration-500 ease-out origin-left">
-                  <h5 className="text-[11.5px] font-bold text-[#111] uppercase tracking-wider mb-1">Weapon Detection</h5>
-                  <p className="text-[10.5px] text-gray-600 leading-relaxed font-medium">Identifies weapons and dangerous objects in real time.</p>
-                </div>
-              </div>
+           
 
             </motion.div>
           </section>
 
-          {/* FAQ SECTION */}
-          <Faq />
-
           {/* FINAL CTA */}
-          <section className="py-24 md:py-32 px-6 relative overflow-hidden bg-[#111] rounded-[3rem] mx-2 md:mx-4 border border-white/5 shadow-2xl">
+          <section className="py-14 md:py-20 px-6 relative overflow-hidden bg-[#111] rounded-[3rem] mx-2 md:mx-4 border border-white/5 shadow-2xl mt-6 mb-12">
             <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(255,255,255,0.1)_0%,transparent_70%)]" />
-            <div className="absolute inset-0 bg-[url('/images/')] opacity-[0.05] mix-blend-overlay" />
 
             <div className="relative z-10 max-w-4xl mx-auto text-center">
               <h2 className="text-4xl md:text-6xl font-bold font-syne mb-6 text-white tracking-tighter">Don't wait for an emergency.</h2>
               <p className="text-xl text-gray-400 mb-10 max-w-2xl mx-auto font-medium">
                 Upgrade your security today. Get KAIROS- AI edge box and experience the peace of mind that comes with 3-second response times.
               </p>
-              <Link
-                href="/contact"
-                onClick={() => trackEvent({
-                  name: "cta_click",
-                  params: {
-                    cta_name: "preorder_kairos",
-                    cta_location: "kairos_final_cta",
-                    destination: "/contact",
-                  },
-                })}
-                className="group inline-flex h-14 w-full sm:w-auto items-center justify-between gap-4 rounded-full bg-white pl-8 pr-2 text-[15px] font-medium text-black transition-all hover:bg-gray-100 active:scale-[0.98] mx-auto mt-6 shadow-[0_0_40px_rgba(255,255,255,0.2)]"
+              <button
+                onClick={() => {
+                  trackEvent({
+                    name: "cta_click",
+                    params: {
+                      cta_name: "preorder_kairos_today",
+                      cta_location: "kairos_final_cta",
+                    },
+                  });
+                  openPreBooking();
+                }}
+                className="group inline-flex h-14 w-full sm:w-auto items-center justify-between gap-4 rounded-full bg-white pl-8 pr-2 text-[15px] font-medium text-black transition-all hover:bg-gray-100 active:scale-[0.98] mx-auto mt-6 shadow-[0_0_40px_rgba(255,255,255,0.2)] cursor-pointer"
               >
                 Pre-order KAIROS Today
                 <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-black text-white transition-transform group-hover:scale-[1.05]">
                   <ArrowRight className="h-4 w-4 -rotate-45 transition-transform group-hover:rotate-0" />
                 </div>
-              </Link>
+              </button>
             </div>
           </section>
+
+         
         </div>
       </div>
     </LenisDiv>

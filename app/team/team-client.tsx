@@ -76,7 +76,7 @@ const teamMembers = [
     {
         image: "/team/core_team/krish_img.jpeg",
         name: "Krish",
-        role: "Bussines Development",
+        role: "Founding Member",
     },
 ];
 

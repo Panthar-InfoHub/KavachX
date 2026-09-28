@@ -15,90 +15,173 @@ interface MarqueeProps {
 
 export function Marquee({
   className,
-  reverse,
+  reverse = false,
   pauseOnHover = false,
   children,
   vertical = false,
   repeat = 4,
   ...props
 }: MarqueeProps) {
-  const trackRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const firstChildRef = useRef<HTMLDivElement>(null);
   const isDragging = useRef(false);
   const startX = useRef(0);
+  const startY = useRef(0);
   const scrollLeft = useRef(0);
-  const [paused, setPaused] = useState(false);
+  const scrollTop = useRef(0);
+  const isUserInteracting = useRef(false);
+  const [isHovered, setIsHovered] = useState(false);
+
+  // Auto-scroll animation loop using requestAnimationFrame
+  useEffect(() => {
+    let animationFrameId: number;
+    let lastTime = performance.now();
+
+    const animate = (currentTime: number) => {
+      const deltaTime = (currentTime - lastTime) / 1000;
+      lastTime = currentTime;
+
+      const container = containerRef.current;
+      const firstChild = firstChildRef.current;
+
+      if (container && firstChild && !isUserInteracting.current && !(pauseOnHover && isHovered)) {
+        const speed = 40; // Pixels per second
+        const contentSize = vertical
+          ? firstChild.offsetHeight
+          : firstChild.offsetWidth;
+
+        if (contentSize > 0) {
+          if (!vertical) {
+            const step = speed * deltaTime * (reverse ? -1 : 1);
+            let nextScroll = container.scrollLeft + step;
+
+            if (!reverse && nextScroll >= contentSize) {
+              nextScroll -= contentSize;
+            } else if (reverse && nextScroll <= 0) {
+              nextScroll += contentSize;
+            }
+            container.scrollLeft = nextScroll;
+          } else {
+            const step = speed * deltaTime * (reverse ? -1 : 1);
+            let nextScroll = container.scrollTop + step;
+
+            if (!reverse && nextScroll >= contentSize) {
+              nextScroll -= contentSize;
+            } else if (reverse && nextScroll <= 0) {
+              nextScroll += contentSize;
+            }
+            container.scrollTop = nextScroll;
+          }
+        }
+      }
+
+      animationFrameId = requestAnimationFrame(animate);
+    };
+
+    animationFrameId = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(animationFrameId);
+  }, [reverse, pauseOnHover, isHovered, vertical]);
 
   /* ── Drag-to-scroll (mouse) ── */
   const onMouseDown = (e: React.MouseEvent) => {
     isDragging.current = true;
-    startX.current = e.pageX - (trackRef.current?.offsetLeft ?? 0);
-    scrollLeft.current = trackRef.current?.scrollLeft ?? 0;
-    setPaused(true);
+    isUserInteracting.current = true;
+    if (containerRef.current) {
+      startX.current = e.pageX - containerRef.current.offsetLeft;
+      startY.current = e.pageY - containerRef.current.offsetTop;
+      scrollLeft.current = containerRef.current.scrollLeft;
+      scrollTop.current = containerRef.current.scrollTop;
+    }
   };
 
   const onMouseMove = (e: React.MouseEvent) => {
-    if (!isDragging.current || !trackRef.current) return;
+    if (!isDragging.current || !containerRef.current) return;
     e.preventDefault();
-    const x = e.pageX - trackRef.current.offsetLeft;
-    const walk = (x - startX.current) * 1.5;
-    trackRef.current.scrollLeft = scrollLeft.current - walk;
+    if (!vertical) {
+      const x = e.pageX - containerRef.current.offsetLeft;
+      const walk = (x - startX.current) * 1.5;
+      containerRef.current.scrollLeft = scrollLeft.current - walk;
+    } else {
+      const y = e.pageY - containerRef.current.offsetTop;
+      const walk = (y - startY.current) * 1.5;
+      containerRef.current.scrollTop = scrollTop.current - walk;
+    }
   };
 
   const stopDrag = () => {
     isDragging.current = false;
-    setTimeout(() => setPaused(false), 800);
+    setTimeout(() => {
+      isUserInteracting.current = false;
+    }, 1000);
   };
 
   /* ── Touch-to-scroll ── */
   const onTouchStart = (e: React.TouchEvent) => {
-    startX.current = e.touches[0].pageX - (trackRef.current?.offsetLeft ?? 0);
-    scrollLeft.current = trackRef.current?.scrollLeft ?? 0;
-    setPaused(true);
+    isUserInteracting.current = true;
+    if (containerRef.current) {
+      startX.current = e.touches[0].pageX - containerRef.current.offsetLeft;
+      startY.current = e.touches[0].pageY - containerRef.current.offsetTop;
+      scrollLeft.current = containerRef.current.scrollLeft;
+      scrollTop.current = containerRef.current.scrollTop;
+    }
   };
 
   const onTouchMove = (e: React.TouchEvent) => {
-    if (!trackRef.current) return;
-    const x = e.touches[0].pageX - trackRef.current.offsetLeft;
-    const walk = (x - startX.current) * 1.5;
-    trackRef.current.scrollLeft = scrollLeft.current - walk;
+    if (!containerRef.current) return;
+    if (!vertical) {
+      const x = e.touches[0].pageX - containerRef.current.offsetLeft;
+      const walk = (x - startX.current) * 1.5;
+      containerRef.current.scrollLeft = scrollLeft.current - walk;
+    } else {
+      const y = e.touches[0].pageY - containerRef.current.offsetTop;
+      const walk = (y - startY.current) * 1.5;
+      containerRef.current.scrollTop = scrollTop.current - walk;
+    }
   };
 
   const onTouchEnd = () => {
-    setTimeout(() => setPaused(false), 800);
+    setTimeout(() => {
+      isUserInteracting.current = false;
+    }, 1000);
   };
 
   return (
     <div
-      ref={trackRef}
+      ref={containerRef}
       {...props}
       onMouseDown={onMouseDown}
       onMouseMove={onMouseMove}
       onMouseUp={stopDrag}
-      onMouseLeave={stopDrag}
+      onMouseLeave={() => {
+        stopDrag();
+        setIsHovered(false);
+      }}
+      onMouseEnter={() => setIsHovered(true)}
       onTouchStart={onTouchStart}
       onTouchMove={onTouchMove}
       onTouchEnd={onTouchEnd}
       className={cn(
-        "group flex overflow-hidden p-2 [--duration:40s] [--gap:1rem] [flex-direction:row]",
+        "flex overflow-x-auto scrollbar-hide p-2 [--gap:1rem] [flex-direction:row]",
         "cursor-grab active:cursor-grabbing select-none",
-        "scrollbar-hide",
         {
-          "[flex-direction:column] overflow-y-hidden": vertical,
+          "[flex-direction:column] overflow-y-auto overflow-x-hidden": vertical,
         },
         className,
       )}
+      style={{
+        scrollbarWidth: "none",
+        msOverflowStyle: "none",
+      }}
     >
       {Array(repeat)
         .fill(0)
         .map((_, i) => (
           <div
             key={i}
+            ref={i === 0 ? firstChildRef : null}
             className={cn("flex shrink-0 justify-around [gap:var(--gap)]", {
-              "animate-marquee flex-row pr-[var(--gap)]": !vertical,
-              "animate-marquee-vertical flex-col pb-[var(--gap)]": vertical,
-              "[animation-play-state:paused]": paused || false,
-              "group-hover:[animation-play-state:paused]": pauseOnHover,
-              "[animation-direction:reverse]": reverse,
+              "flex-row pr-[var(--gap)]": !vertical,
+              "flex-col pb-[var(--gap)]": vertical,
             })}
           >
             {children}

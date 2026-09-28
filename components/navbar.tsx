@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { trackEvent } from "@/lib/analytics";
+import { usePreBooking } from "@/components/pre-booking-context";
 
 const NAVBAR_CONFIG: NavbarConfig = {
     logo: <Image src="/images/logo.png" alt="KavachX Logo" width={140} height={40} className="h-8 w-auto object-contain" />,
@@ -19,43 +20,27 @@ const NAVBAR_CONFIG: NavbarConfig = {
     menu: [
         {
             label: "Suraksha Kavach",
-            href: "suraksha-kavach"
-            //   dropdown: [
-            //     {
-            //       heading: "Account",
-            //       links: [
-            //         { text: "Profile", href: "#" },
-            //         { text: "Security", href: "#" },
-            //       ],
-            //     },
-            //     {
-            //       heading: "Product",
-            //       links: [
-            //         { text: "Dashboard", href: "#" },
-            //         { text: "Templates", href: "#" },
-            //       ],
-            //     },
-            //   ],
+            href: "/suraksha-kavach"
         },
         {
             label: "Kairos",
-            href: "kairos"
+            href: "/kairos"
         },
         {
             label: "Blogs",
-            href: "blogs"
+            href: "/blogs"
         },
         {
             label: "Team",
-            href: "team"
+            href: "/team"
         },
         {
             label: "Become a Vendor",
-            href: "vendor"
+            href: "/vendor"
         },
         {
             label: "Achievements",
-            href: "achievements"
+            href: "/achievements"
         },
         {
             label: "Resources",
@@ -74,12 +59,13 @@ const NAVBAR_CONFIG: NavbarConfig = {
 
 /* =========================
    🔥 NAVBAR COMPONENT
-========================= */
+======================== */
 
 type AnimationDirection = "right-to-left" | "left-to-right";
 
 export const Navbar: React.FC = () => {
     const pathname = usePathname();
+    const { openPreBooking } = usePreBooking();
     const config = NAVBAR_CONFIG;
 
     if (pathname?.startsWith("/admin")) {
@@ -99,6 +85,14 @@ export const Navbar: React.FC = () => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [mobileActiveDropdownIndex, setMobileActiveDropdownIndex] =
         useState<number | null>(null);
+
+    // Reset all menu states when route changes
+    useEffect(() => {
+        setIsMobileMenuOpen(false);
+        setIsDropdownOpen(false);
+        setActiveMenuItemIndex(null);
+        setMobileActiveDropdownIndex(null);
+    }, [pathname]);
 
     useEffect(() => {
         if (
@@ -170,7 +164,7 @@ export const Navbar: React.FC = () => {
     };
 
     return (
-        <motion.nav className="relative w-full z-50 font-syne bg-black border-none text-white">
+        <motion.nav className="fixed top-0 left-0 right-0 w-full z-[100] font-syne bg-black/90 backdrop-blur-md border-b border-white/10 text-white transition-all duration-300">
             <div className="flex items-center justify-between h-16 max-w-7xl  mx-auto px-4">
                 {/* Logo */}
                 <div className="relative max-w-32 h-full w-full flex justify-center items-center">
@@ -221,21 +215,10 @@ export const Navbar: React.FC = () => {
                                         destination: config.cta.one?.href || "/contact",
                                     },
                                 })}
-                                className={cn("text-sm text-white/70  transition", config.cta.one?.variant === "primary" ? "bg-white text-black px-4 py-1.5 rounded-full font-medium" : "")}
+                                className={cn("text-sm text-white/70 transition", config.cta.one?.variant === "primary" ? "bg-white text-black px-4 py-1.5 rounded-full font-medium" : "")}
                             >
                                 {config.cta.one?.text}
                             </Link>
-                        )
-                    }
-                    {
-                        config.cta.two && (
-                            <a
-                                href={config.cta.two?.href}
-                                className={cn("text-sm text-white/70  transition", config.cta.two?.variant === "primary" ? "bg-white text-black px-4 py-1.5 rounded-full font-medium" : "")}
-
-                            >
-                                {config.cta.two?.text}
-                            </a>
                         )
                     }
                 </div>
@@ -286,15 +269,19 @@ export const Navbar: React.FC = () => {
                                             className="flex items-center justify-between group cursor-pointer"
                                             onClick={() => item.dropdown && toggleMobileDropdown(index)}
                                         >
-                                            <a
+                                            <Link
                                                 href={item.href || "#"}
                                                 className="text-2xl font-syne font-bold text-white hover:text-white/70 transition"
                                                 onClick={(e) => {
-                                                    if (item.dropdown) e.preventDefault();
+                                                    if (item.dropdown) {
+                                                        e.preventDefault();
+                                                    } else {
+                                                        setIsMobileMenuOpen(false);
+                                                    }
                                                 }}
                                             >
                                                 {item.label}
-                                            </a>
+                                            </Link>
                                             {item.dropdown && (
                                                 <span className={cn("text-xl transition-transform", mobileActiveDropdownIndex === index ? "rotate-180" : "")}>
                                                     ↓

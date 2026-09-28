@@ -5,6 +5,7 @@ import LenisDiv from "@/components/LenisDiv";
 import { motion, AnimatePresence, useScroll, useTransform } from "motion/react";
 import Link from "next/link";
 import { trackEvent } from "@/lib/analytics";
+import { useVendorRegistration } from "@/components/vendor-registration-context";
 import {
   Shield,
   Activity,
@@ -34,6 +35,7 @@ import { AIIcon } from "./icons";
 // HERO SECTION
 // ==========================================
 const HeroSection = () => {
+  const { openVendorRegistration } = useVendorRegistration();
   return (
     <section className="relative flex w-full flex-col items-center justify-center overflow-hidden bg-[#F6F6F6] font-sans text-black pt-28 md:pt-36 pb-12 md:pb-16">
 
@@ -69,23 +71,24 @@ const HeroSection = () => {
           transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
           className="flex w-full flex-col items-center justify-center gap-4 sm:flex-row mb-4"
         >
-          <Link
-            href="/contact"
-            onClick={() => trackEvent({
-              name: "cta_click",
-              params: {
-                cta_name: "become_partner",
-                cta_location: "vendor_hero",
-                destination: "/contact",
-              },
-            })}
-            className="group flex h-14 w-full sm:w-auto items-center justify-between gap-4 rounded-full bg-black pl-8 pr-2 text-[15px] font-medium text-white transition-all hover:bg-slate-800 active:scale-[0.98]"
+          <button
+            onClick={() => {
+              trackEvent({
+                name: "cta_click",
+                params: {
+                  cta_name: "become_partner_modal",
+                  cta_location: "vendor_hero",
+                },
+              });
+              openVendorRegistration();
+            }}
+            className="group flex h-14 w-full sm:w-auto items-center justify-between gap-4 rounded-full bg-black pl-8 pr-2 text-[15px] font-medium text-white transition-all hover:bg-slate-800 active:scale-[0.98] cursor-pointer"
           >
             Become a Partner
             <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white text-black transition-transform group-hover:scale-[1.05]">
               <ArrowRight className="h-4 w-4 -rotate-45 transition-transform group-hover:rotate-0" />
             </div>
-          </Link>
+          </button>
         </motion.div>
 
       </main>
@@ -156,6 +159,7 @@ const MarqueeSection = () => {
 // 2. Earning Model (Ultra Premium Design)
 // ==========================================
 const EarningModelSection = () => {
+  const { openVendorRegistration } = useVendorRegistration();
   return (
     <section id="earning-model" className="py-14 md:py-20 bg-[#FDFDFD] text-slate-900 relative overflow-hidden">
       {/* Subtle ambient light */}
@@ -187,22 +191,23 @@ const EarningModelSection = () => {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 mb-8">
-              <Link
-                href="/contact"
-                onClick={() => trackEvent({
-                  name: "cta_click",
-                  params: {
-                    cta_name: "become_partner",
-                    cta_location: "vendor_earning_model",
-                    destination: "/contact",
-                  },
-                })}
-                className="group relative flex h-14 w-full sm:w-auto items-center justify-center gap-3 rounded-full bg-slate-900 px-8 text-[15px] font-medium text-white transition-all hover:bg-slate-800 hover:shadow-[0_8px_30px_rgba(0,0,0,0.12)] active:scale-[0.98] overflow-hidden"
+              <button
+                onClick={() => {
+                  trackEvent({
+                    name: "cta_click",
+                    params: {
+                      cta_name: "become_partner_modal",
+                      cta_location: "vendor_earning_model",
+                    },
+                  });
+                  openVendorRegistration();
+                }}
+                className="group relative flex h-14 w-full sm:w-auto items-center justify-center gap-3 rounded-full bg-slate-900 px-8 text-[15px] font-medium text-white transition-all hover:bg-slate-800 hover:shadow-[0_8px_30px_rgba(0,0,0,0.12)] active:scale-[0.98] overflow-hidden cursor-pointer"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
                 <span>Become a Partner</span>
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-              </Link>
+              </button>
             </div>
 
             {/* Premium Metrics List */}
@@ -367,24 +372,14 @@ const WhyKairosSection = () => {
       icon: <Flame className="w-5 h-5 text-slate-700" strokeWidth={1.5} />,
       image: "/images/Fire & Smoke Detection.png"
     },
-    {
-      title: "FootFall Detection",
-      desc: "Automatically detect human falls in real-time, enabling rapid medical response for workplace and healthcare safety.",
-      icon: <Activity className="w-5 h-5 text-slate-700" strokeWidth={1.5} />,
-      image: "/images/FootFall Detection.png"
-    },
+
     {
       title: "Intrusion Detection",
       desc: "Secure restricted areas by instantly flagging unauthorized human or vehicular entry in real-time.",
       icon: <UserX className="w-5 h-5 text-slate-700" strokeWidth={1.5} />,
       image: "/images/Intrusion Detection.png"
     },
-    {
-      title: "Weapon Detection",
-      desc: "Proactively identify visible weapons to preemptively secure high-risk commercial and educational zones.",
-      icon: <Target className="w-5 h-5 text-slate-700" strokeWidth={1.5} />,
-      image: "/images/Weapon Detection.png"
-    },
+  
   ];
 
   return (
@@ -415,7 +410,7 @@ const WhyKairosSection = () => {
         </div>
 
         {/* Services Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
           {services.map((service, idx) => (
             <motion.div
               key={idx}
@@ -423,19 +418,19 @@ const WhyKairosSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: idx * 0.1, duration: 0.6 }}
-              className="group bg-[#F6F6F6] border border-slate-100 rounded-[2rem] p-3 hover:bg-slate-50 hover:border-slate-200 transition-all duration-300 flex flex-col overflow-hidden"
+              className="group bg-[#F6F6F6] border border-slate-100 rounded-[2rem] p-3.5 sm:p-4 hover:bg-slate-50 hover:border-slate-200 transition-all duration-300 flex flex-col overflow-hidden shadow-sm hover:shadow-md"
             >
-              <div className="w-full aspect-[4/3] relative rounded-3xl overflow-hidden mb-6 bg-white border border-slate-100">
-                <Image src={service.image} alt={service.title} fill className="object-cover transition-transform duration-700 group-hover:scale-110" />
-                <div className="absolute top-4 left-4 w-10 h-10 bg-white/80 backdrop-blur-md rounded-full flex items-center justify-center shadow-sm border border-slate-100/50">
+              <div className="w-full aspect-[16/9] sm:aspect-[16/10] relative rounded-3xl overflow-hidden mb-6 bg-white border border-slate-100">
+                <Image src={service.image} alt={service.title} fill className="object-cover transition-transform duration-700 group-hover:scale-105" />
+                <div className="absolute top-4 left-4 w-11 h-11 bg-white/85 backdrop-blur-md rounded-full flex items-center justify-center shadow-sm border border-slate-100/50">
                   {service.icon}
                 </div>
               </div>
               <div className="px-4 pb-6 mt-auto">
-                <h4 className="text-xl font-bold font-syne text-slate-900 mb-2 mt-auto">
+                <h4 className="text-xl sm:text-2xl font-bold font-syne text-slate-900 mb-2.5">
                   {service.title}
                 </h4>
-                <p className="text-slate-500 text-sm leading-relaxed">
+                <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
                   {service.desc}
                 </p>
               </div>
@@ -468,30 +463,30 @@ const BenefitsSection = () => {
           </h2>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-4 md:gap-6 auto-rows-[minmax(220px,auto)] md:auto-rows-[240px]">
+        <div className="grid md:grid-cols-3 gap-4 md:gap-6">
           {/* Large Card 1 */}
-          <div className="md:col-span-2 md:row-span-2 bg-white border border-slate-100/80 rounded-[2rem] p-8 md:p-12 relative overflow-hidden group shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_20px_60px_rgb(0,0,0,0.08)] transition-all duration-500">
+          <div className="md:col-span-2 bg-white border border-slate-100/80 rounded-[2rem] p-8 md:p-10 relative overflow-hidden group shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_20px_60px_rgb(0,0,0,0.08)] transition-all duration-500 flex flex-col justify-between">
             <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-gradient-to-br from-blue-100/40 to-indigo-100/40 rounded-full blur-[60px] group-hover:scale-110 group-hover:bg-blue-100/60 transition-transform duration-700 pointer-events-none" />
-            <div className="relative z-10 h-full flex flex-col justify-between">
-              <div className="w-14 h-14 bg-slate-50 text-slate-900 rounded-2xl flex items-center justify-center mb-8 border border-slate-200 group-hover:scale-110 group-hover:-rotate-3 transition-transform duration-500 shadow-sm">
+            <div className="relative z-10 flex flex-col justify-between h-full">
+              <div className="w-14 h-14 bg-slate-50 text-slate-900 rounded-2xl flex items-center justify-center mb-6 border border-slate-200 group-hover:scale-110 group-hover:-rotate-3 transition-transform duration-500 shadow-sm">
                 <IndianRupee className="w-7 h-7" />
               </div>
               <div className="max-w-xl">
-                <h3 className="text-3xl md:text-4xl font-bold font-syne mb-4 text-slate-900 tracking-tight">20% Installation Commission</h3>
+                <h3 className="text-3xl md:text-4xl font-bold font-syne mb-3 text-slate-900 tracking-tight">20% Installation Commission</h3>
                 <p className="text-slate-500 text-base md:text-lg leading-relaxed">Earn a generous 20% commission on every successful eligible KAIROS installation. Grow your revenue directly with every deployment.</p>
               </div>
             </div>
           </div>
 
           {/* Large Card 2 */}
-          <div className="md:col-span-1 md:row-span-2 bg-white border border-slate-100/80 rounded-[2rem] p-8 md:p-10 relative overflow-hidden group shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_20px_60px_rgb(0,0,0,0.08)] transition-all duration-500">
+          <div className="md:col-span-1 bg-white border border-slate-100/80 rounded-[2rem] p-8 md:p-10 relative overflow-hidden group shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_20px_60px_rgb(0,0,0,0.08)] transition-all duration-500 flex flex-col justify-between">
             <div className="absolute bottom-0 right-0 w-[300px] h-[300px] bg-gradient-to-tl from-purple-100/40 to-pink-100/40 rounded-full blur-[60px] group-hover:scale-110 group-hover:bg-purple-100/60 transition-transform duration-700 pointer-events-none" />
-            <div className="relative z-10 h-full flex flex-col justify-between">
-              <div className="w-14 h-14 bg-slate-50 text-slate-900 rounded-2xl flex items-center justify-center mb-8 border border-slate-200 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500 shadow-sm">
+            <div className="relative z-10 flex flex-col justify-between h-full">
+              <div className="w-14 h-14 bg-slate-50 text-slate-900 rounded-2xl flex items-center justify-center mb-6 border border-slate-200 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500 shadow-sm">
                 <Activity className="w-7 h-7" />
               </div>
               <div>
-                <h3 className="text-2xl md:text-3xl font-bold font-syne mb-4 text-slate-900 tracking-tight">Recurring Revenue Opportunity</h3>
+                <h3 className="text-2xl md:text-3xl font-bold font-syne mb-3 text-slate-900 tracking-tight">Recurring Revenue Opportunity</h3>
                 <p className="text-slate-500 text-base leading-relaxed">Unlock recurring commission potential through eligible active customer subscriptions.</p>
               </div>
             </div>
@@ -684,6 +679,7 @@ const FaqSection = () => {
 // 13. Final CTA (Marklab Style)
 // ==========================================
 const CtaSection = () => {
+  const { openVendorRegistration } = useVendorRegistration();
   return (
     <div className="relative bg-white pb-6 md:pb-8">
       <section className="py-14 md:py-20 px-6 relative overflow-hidden bg-[#111] rounded-[3rem] mx-2 md:mx-4 border border-white/5 shadow-2xl">
@@ -701,23 +697,24 @@ const CtaSection = () => {
           </p>
 
           <div className="flex justify-center">
-            <Link
-              href="/contact"
-              onClick={() => trackEvent({
-                name: "cta_click",
-                params: {
-                  cta_name: "become_vendor_partner",
-                  cta_location: "vendor_final_cta",
-                  destination: "/contact",
-                },
-              })}
-              className="group inline-flex h-16 w-full sm:w-auto items-center justify-between gap-6 rounded-full bg-white pl-10 pr-2 text-[17px] font-medium text-black transition-all hover:bg-gray-100 active:scale-[0.98] shadow-[0_0_40px_rgba(255,255,255,0.2)]"
+            <button
+              onClick={() => {
+                trackEvent({
+                  name: "cta_click",
+                  params: {
+                    cta_name: "become_vendor_partner_modal",
+                    cta_location: "vendor_final_cta",
+                  },
+                });
+                openVendorRegistration();
+              }}
+              className="group inline-flex h-16 w-full sm:w-auto items-center justify-between gap-6 rounded-full bg-white pl-10 pr-2 text-[17px] font-medium text-black transition-all hover:bg-gray-100 active:scale-[0.98] shadow-[0_0_40px_rgba(255,255,255,0.2)] cursor-pointer"
             >
               Become a Vendor Partner
               <div className="flex h-12 w-12 items-center justify-center rounded-full bg-black text-white transition-transform group-hover:scale-[1.05]">
                 <ArrowRight className="h-5 w-5 -rotate-45 transition-transform group-hover:rotate-0" />
               </div>
-            </Link>
+            </button>
           </div>
         </div>
       </section>
