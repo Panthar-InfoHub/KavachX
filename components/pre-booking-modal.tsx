@@ -121,8 +121,8 @@ export default function PreBookingModal({ isOpen, onClose }: PreBookingModalProp
     }
     if (!formData.phone.trim()) {
       newErrors.phone = "Phone number is required";
-    } else if (formData.phone.trim().length < 7) {
-      newErrors.phone = "Please enter a valid phone number";
+    } else if (formData.phone.trim().length !== 10) {
+      newErrors.phone = "Please enter a valid 10-digit phone number";
     }
     if (!formData.email.trim()) {
       newErrors.email = "Email address is required";

@@ -120,7 +120,7 @@ export default function VendorRegistrationModal({ isOpen, onClose }: VendorRegis
     if (!formData.companyName.trim()) newErrors.companyName = "Company/business name is required";
     if (!formData.phone.trim()) {
       newErrors.phone = "Phone number is required";
-    } else if (formData.phone.trim().length < 7) {
+    } else if (formData.phone.trim().length !=10) {
       newErrors.phone = "Please enter a valid phone number";
     }
     if (!formData.email.trim()) {

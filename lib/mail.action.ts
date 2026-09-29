@@ -252,15 +252,18 @@ export const sendMsgAction = async ({
                     html: confirmationHtml,
                 };
 
-                const mailResults = await Promise.allSettled([
+                // Dispatch email notifications asynchronously in background so form response is instantaneous
+                Promise.allSettled([
                     transporter.sendMail(notificationConfig),
                     transporter.sendMail(confirmationConfig),
-                ]);
-
-                mailResults.forEach((res, index) => {
-                    if (res.status === "rejected") {
-                        console.error(`❌ Mail send failed for ${index === 0 ? "Admin" : "User"}:`, res.reason);
-                    }
+                ]).then((mailResults) => {
+                    mailResults.forEach((res, index) => {
+                        if (res.status === "rejected") {
+                            console.error(`❌ Mail send failed for ${index === 0 ? "Admin" : "User"}:`, res.reason);
+                        }
+                    });
+                }).catch((mailError) => {
+                    console.error("❌ Nodemailer async error in sendMsgAction:", mailError);
                 });
             } catch (mailError) {
                 console.error("❌ Nodemailer error in sendMsgAction:", mailError);

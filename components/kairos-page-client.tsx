@@ -105,7 +105,7 @@ export default function KairosPageClient() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsBoxActive(false);
+      setIsBoxActive((prev) => (prev ? false : prev));
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => {
@@ -336,13 +336,12 @@ export default function KairosPageClient() {
 
             <div className="flex flex-col md:flex-row gap-4 h-auto min-h-[1200px] md:min-h-0 md:h-[600px]">
               {/* Left Column: Industrial */}
-              <div className="flex-1 relative rounded-[32px] overflow-hidden group cursor-pointer bg-black">
-                <Image src={audiences[0].image} alt={audiences[0].label} fill className="object-cover opacity-100 group-hover:scale-105 transition-all duration-700" />
+              <div className="flex-1 relative rounded-[32px] overflow-hidden bg-black">
+                <Image src={audiences[0].image} alt={audiences[0].label} fill className="object-cover opacity-100" />
                 <div className="relative z-10 p-8 flex flex-col justify-between h-full text-white drop-shadow-md">
                   <h3 className="text-3xl md:text-4xl font-medium leading-tight max-w-[200px]">{audiences[0].label}</h3>
                   <div className="flex items-center justify-between mt-auto">
                     <span className="text-sm font-medium text-white/90">{audiences[0].cta}</span>
-                    <ArrowRight className="w-6 h-6 opacity-0 group-hover:opacity-100 -translate-x-4 group-hover:translate-x-0 transition-all duration-300" />
                   </div>
                 </div>
               </div>
@@ -350,38 +349,35 @@ export default function KairosPageClient() {
               {/* Middle Column */}
               <div className="flex-1 flex flex-col gap-4">
                 {/* Top: Business Owners */}
-                <div className="flex-1 relative rounded-[32px] overflow-hidden group cursor-pointer bg-black">
-                  <Image src={audiences[1].image} alt={audiences[1].label} fill className="object-cover opacity-100 group-hover:scale-105 transition-all duration-700" />
+                <div className="flex-1 relative rounded-[32px] overflow-hidden bg-black">
+                  <Image src={audiences[1].image} alt={audiences[1].label} fill className="object-cover opacity-100" />
                   <div className="relative z-10 p-8 flex flex-col justify-between h-full text-white drop-shadow-md">
                     <h3 className="text-2xl md:text-3xl font-medium leading-tight max-w-[180px]">{audiences[1].label}</h3>
                     <div className="flex items-center justify-between mt-auto">
                       <span className="text-sm font-medium text-white/90">{audiences[1].cta}</span>
-                      <ArrowRight className="w-6 h-6 opacity-0 group-hover:opacity-100 -translate-x-4 group-hover:translate-x-0 transition-all duration-300" />
                     </div>
                   </div>
                 </div>
 
                 {/* Bottom: Local Vendors */}
-                <div className="flex-1 relative rounded-[32px] overflow-hidden group cursor-pointer bg-[#1c1c1e]">
-                  <Image src={audiences[2].image} alt={audiences[2].label} fill className="object-cover opacity-100 group-hover:scale-105 transition-all duration-700" />
+                <div className="flex-1 relative rounded-[32px] overflow-hidden bg-[#1c1c1e]">
+                  <Image src={audiences[2].image} alt={audiences[2].label} fill className="object-cover opacity-100" />
                   <div className="relative z-10 p-8 flex flex-col justify-between h-full text-white drop-shadow-md">
                     <h3 className="text-2xl md:text-3xl font-medium leading-tight max-w-[180px]">{audiences[2].label}</h3>
                     <div className="flex items-center justify-between mt-auto">
                       <span className="text-sm font-medium text-white/90">{audiences[2].cta}</span>
-                      <ArrowRight className="w-6 h-6 opacity-0 group-hover:opacity-100 -translate-x-4 group-hover:translate-x-0 transition-all duration-300" />
                     </div>
                   </div>
                 </div>
               </div>
 
               {/* Right Column: Residential */}
-              <div className="flex-1 relative rounded-[32px] overflow-hidden group cursor-pointer bg-black">
-                <Image src={audiences[3].image} alt={audiences[3].label} fill className="object-cover opacity-100 group-hover:scale-105 transition-all duration-700" />
+              <div className="flex-1 relative rounded-[32px] overflow-hidden bg-black">
+                <Image src={audiences[3].image} alt={audiences[3].label} fill className="object-cover opacity-100" />
                 <div className="relative z-10 p-8 flex flex-col justify-between h-full text-white drop-shadow-md">
                   <h3 className="text-3xl md:text-4xl font-medium leading-tight max-w-[200px]">{audiences[3].label}</h3>
                   <div className="flex items-center justify-between mt-auto">
                     <span className="text-sm font-medium text-white/90">{audiences[3].cta}</span>
-                    <ArrowRight className="w-6 h-6 opacity-0 group-hover:opacity-100 -translate-x-4 group-hover:translate-x-0 transition-all duration-300" />
                   </div>
                 </div>
               </div>
@@ -727,44 +723,17 @@ export default function KairosPageClient() {
         </section>
 
         {/* BLACK BACKGROUND WRAPPER FOR ALL BOTTOM SECTIONS */}
-        <div className="bg-[#050505] w-full pt-24 pb-16 flex flex-col gap-12 md:gap-16 relative z-20 overflow-hidden">
-          {/* Aesthetic Background Elements: Animated Aurora */}
+        <div className="bg-[#050505] w-full pt-24 pb-16 flex flex-col gap-12 md:gap-16 relative z-20 overflow-hidden transform-gpu">
+          {/* Aesthetic Background Elements: Hardware-Accelerated Ambient Glows */}
           <div className="absolute inset-0 bg-black pointer-events-none" />
 
-          {/* Slowly Drifting Gradient Orbs */}
-          <motion.div
-            animate={{
-              scale: [1, 1.15, 1],
-              x: [0, 40, 0],
-              y: [0, -30, 0]
-            }}
-            transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute top-[5%] -left-[10%] w-[60vw] max-w-[800px] h-[800px] rounded-full bg-emerald-600/10 blur-[120px] md:blur-[160px] pointer-events-none mix-blend-screen"
-          />
-          <motion.div
-            animate={{
-              scale: [1, 1.2, 1],
-              x: [0, -40, 0],
-              y: [0, 30, 0]
-            }}
-            transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute top-[15%] -right-[10%] w-[60vw] max-w-[900px] h-[900px] rounded-full bg-blue-600/10 blur-[120px] md:blur-[160px] pointer-events-none mix-blend-screen"
-          />
-          <motion.div
-            animate={{
-              scale: [1, 1.1, 1],
-              x: [0, 30, 0],
-              y: [0, 40, 0]
-            }}
-            transition={{ duration: 25, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute -top-[10%] left-[20%] w-[70vw] max-w-[1000px] h-[700px] rounded-[100%] bg-indigo-600/10 blur-[120px] md:blur-[160px] pointer-events-none mix-blend-screen"
-          />
+          {/* Optimized Static Ambient Glows */}
+          <div className="absolute top-[5%] -left-[10%] w-[60vw] max-w-[800px] h-[800px] rounded-full bg-[radial-gradient(circle,rgba(16,185,129,0.08)_0%,transparent_70%)] pointer-events-none transform-gpu" />
+          <div className="absolute top-[15%] -right-[10%] w-[60vw] max-w-[900px] h-[900px] rounded-full bg-[radial-gradient(circle,rgba(37,99,235,0.08)_0%,transparent_70%)] pointer-events-none transform-gpu" />
+          <div className="absolute -top-[10%] left-[20%] w-[70vw] max-w-[1000px] h-[700px] rounded-[100%] bg-[radial-gradient(circle,rgba(79,70,229,0.08)_0%,transparent_70%)] pointer-events-none transform-gpu" />
 
           {/* Deep Vignette Overlay to ensure edges remain pitch black */}
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_20%,#000_100%)] pointer-events-none" />
-
-          {/* Ultra-subtle Film Grain */}
-          <div className="absolute inset-0 opacity-[0.03] pointer-events-none mix-blend-screen" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noise%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.85%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noise)%22/%3E%3C/svg%3E")' }} />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_30%,#000_100%)] pointer-events-none" />
 
           {/* PROMO CARDS SECTION */}
           <section className="px-4 md:px-6 mx-2 md:mx-4 relative z-10">

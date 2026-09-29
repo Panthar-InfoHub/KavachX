@@ -99,14 +99,14 @@ export default function CTA() {
           </div>
 
           <div className="flex md:flex-col gap-4 pt-4 md:pt-0">
-            <Link
+            {/* <Link
               href="https://www.facebook.com/profile.php?id=61589563642066"
               target="_blank"
               onClick={() => trackEvent({ name: "social_link_click", params: { platform: "facebook", location: "connect_us" } })}
               className="w-10 h-10 md:w-12 md:h-12 rounded-full border border-gray-200 flex items-center justify-center hover:bg-gray-50 transition-colors"
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-gray-700"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" /></svg>
-            </Link>
+            </Link> */}
             <Link
               href="https://www.instagram.com/kavachx/"
               target="_blank"

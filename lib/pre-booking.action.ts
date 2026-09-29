@@ -275,7 +275,8 @@ export async function submitPreBookingAction(data: PreBookingFormData) {
 
         const adminRecipient = process.env.ADMIN_EMAIL || "connect@kavachx.io";
 
-        await Promise.allSettled([
+        // Dispatch email notifications asynchronously in background so form response is instantaneous
+        Promise.allSettled([
           transporter.sendMail({
             from: process.env.EMAIL_USER,
             to: adminRecipient,
@@ -289,7 +290,9 @@ export async function submitPreBookingAction(data: PreBookingFormData) {
             subject: `Pre-Booking Received - KavachX AI Surveillance`,
             html: customerEmailHtml,
           }),
-        ]);
+        ]).catch((mailError) => {
+          console.error("❌ Nodemailer async error in pre-booking action:", mailError);
+        });
       } catch (mailError) {
         console.error("❌ Nodemailer error in pre-booking action:", mailError);
         // We still return success since the database record was saved

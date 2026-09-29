@@ -46,12 +46,12 @@ export default async function PublicBlogsPage() {
     : blogs;
 
   return (
-    <div className="w-full bg-linear-to-b from-[#fdfdfd] via-[#f4f7fc] to-[#eef4ff] text-black font-syne min-h-screen py-16 sm:py-24 px-4 sm:px-6 lg:px-8">
+    <div className="w-full bg-[#f4f7fc] text-black font-syne min-h-screen pt-28 pb-16 sm:pt-36 sm:pb-24 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto space-y-12 relative z-10">
         {/* Header Container (matching SurakshaKavachSection style) */}
         <FadeIn direction="up" delay={0}>
           <div className="max-w-4xl mx-auto text-center flex flex-col items-center">
-            <span className="inline-block px-4 py-1.5 bg-gray-100/90 rounded-full text-[10px] font-bold uppercase tracking-widest text-gray-600 mb-6 font-sans border border-black/5">
+            <span className="inline-block px-4 py-1.5 bg-[#eaeff7] rounded-full text-[10px] font-bold uppercase tracking-widest text-gray-600 mb-6 font-sans border-0">
               KavachX Intelligence
             </span>
 
@@ -137,7 +137,7 @@ export default async function PublicBlogsPage() {
               </div>
             </FadeIn>
           ) : (
-            <div className="bg-[#f4f4f4] rounded-[2.5rem] p-4 md:p-8">
+            <div className="w-full rounded-[2.5rem] p-4 md:p-8">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
                 {regularBlogs.map((blog, idx) => (
                   <FadeIn key={blog.id} direction="up" delay={100 + (idx % 3) * 80} className="h-full">
