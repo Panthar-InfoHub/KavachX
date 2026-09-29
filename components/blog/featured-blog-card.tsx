@@ -43,36 +43,18 @@ export function FeaturedBlogCard({
           item_name: title,
         },
       })}
-      className="group relative block rounded-[2.5rem] bg-white p-6 md:p-8 shadow-[0_4px_20px_rgb(0,0,0,0.03)] border border-black/5 hover:border-black/15 transition-all duration-300 overflow-hidden font-syne"
+      className="group relative block rounded-[2.5rem] bg-white p-6 md:p-8 shadow-sm border-0 transition-all duration-300 overflow-hidden font-syne"
     >
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
         {/* Cover Image Container */}
-        <div className="relative lg:col-span-7 aspect-[16/10] w-full min-h-[260px] sm:min-h-[340px] rounded-3xl overflow-hidden bg-gray-100 border border-black/5 flex items-center justify-center">
-          {coverImage && !imageError ? (
-            /* eslint-disable-next-line @next/next/no-img-element */
-            <img
-              src={coverImage}
-              alt={title}
-              className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-700 ease-out"
-              onError={() => setImageError(true)}
-            />
-          ) : (
-            <div className="w-full h-full flex flex-col items-center justify-center text-gray-400 space-y-3 p-8 bg-gray-100">
-              <div className="w-16 h-16 rounded-2xl bg-white border border-black/5 flex items-center justify-center text-black shadow-xs">
-                <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={1.5}
-                    d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18c-2.305 0-4.408.867-6 2.292m0-14.25v14.25"
-                  />
-                </svg>
-              </div>
-              <span className="text-xs font-bold uppercase tracking-widest text-gray-500 font-sans">
-                Featured Publication
-              </span>
-            </div>
-          )}
+        <div className="relative lg:col-span-7 aspect-[16/10] w-full min-h-[220px] sm:min-h-[340px] rounded-2xl sm:rounded-3xl overflow-hidden bg-[#eaeff7] border-0 flex items-center justify-center shrink-0">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={coverImage && !imageError ? coverImage : "/images/factory.jpeg"}
+            alt={title}
+            className="w-full h-full object-contain p-2 group-hover:scale-[1.02] transition-transform duration-700 ease-out"
+            onError={() => setImageError(true)}
+          />
 
           {/* Badge Overlay */}
           <div className="absolute top-4 left-4">

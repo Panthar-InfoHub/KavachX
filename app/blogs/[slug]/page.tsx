@@ -158,7 +158,7 @@ export default async function PublicBlogDetailPage({ params }: BlogPageProps) {
   };
 
   return (
-    <article className="w-full bg-linear-to-b from-[#fdfdfd] via-[#f4f7fc] to-[#eef4ff] text-black font-syne min-h-screen py-12 sm:py-20 px-4 sm:px-6 lg:px-8">
+    <article className="w-full bg-[#f4f7fc] text-black font-syne min-h-screen pt-28 pb-12 sm:pt-36 sm:pb-20 px-4 sm:px-6 lg:px-8">
       {/* Top Reading Progress Bar */}
       <ReadingProgressBar />
 
@@ -168,13 +168,13 @@ export default async function PublicBlogDetailPage({ params }: BlogPageProps) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      <div className="max-w-5xl mx-auto space-y-10 relative z-10">
+      <div className="max-w-4xl mx-auto space-y-10 relative z-10">
         {/* Signature KavachX Back Button */}
         <FadeIn direction="down" delay={0}>
           <div>
             <Link
               href="/blogs"
-              className="group inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-white border border-black/10 text-black text-xs font-semibold hover:bg-slate-50 transition-all shadow-xs"
+              className="group inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-white border-0 text-black text-xs font-semibold hover:bg-slate-50 transition-all shadow-xs"
             >
               <div className="flex h-6 w-6 items-center justify-center rounded-full bg-black text-white group-hover:-translate-x-0.5 transition-transform">
                 <ArrowRight className="h-3.5 w-3.5 rotate-180" />
@@ -185,10 +185,10 @@ export default async function PublicBlogDetailPage({ params }: BlogPageProps) {
         </FadeIn>
 
         {/* ARTICLE HEADER / TITLE SECTION */}
-        <header className="space-y-6 max-w-4xl">
+        <header className="space-y-6 w-full">
           <FadeIn direction="up" delay={50}>
             <div className="flex flex-wrap items-center gap-3">
-              <span className="inline-block px-3.5 py-1 bg-gray-100/90 rounded-full text-[10px] font-bold uppercase tracking-widest text-gray-600 font-sans border border-black/5">
+              <span className="inline-block px-3.5 py-1 bg-[#eaeff7] rounded-full text-[10px] font-bold uppercase tracking-widest text-gray-600 font-sans border-0">
                 AI & ROBOTICS
               </span>
               <span className="text-xs font-mono text-gray-500 font-medium">Published {formattedDate}</span>
@@ -203,7 +203,7 @@ export default async function PublicBlogDetailPage({ params }: BlogPageProps) {
 
           {blog.excerpt && (
             <FadeIn direction="up" delay={150}>
-              <div className="bg-[#f4f4f4] rounded-3xl p-6 md:p-8 border border-black/5 shadow-[0_4px_20px_rgb(0,0,0,0.02)]">
+              <div className="bg-[#eaeff7] rounded-3xl p-6 md:p-8 border-0 shadow-none w-full">
                 <p className="text-base sm:text-xl text-gray-800 leading-relaxed font-jakarta font-medium">
                   {blog.excerpt}
                 </p>
@@ -213,22 +213,20 @@ export default async function PublicBlogDetailPage({ params }: BlogPageProps) {
         </header>
 
         {/* PROMINENT HERO COVER IMAGE */}
-        {blog.coverImage ? (
-          <FadeIn direction="up" delay={200}>
-            <div className="relative aspect-[16/9] sm:aspect-[21/9] w-full max-h-[520px] rounded-[2.5rem] overflow-hidden border border-black/5 shadow-[0_10px_30px_rgb(0,0,0,0.05)] bg-white group">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={blog.coverImage}
-                alt={blog.title}
-                className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-700 ease-out"
-              />
-            </div>
-          </FadeIn>
-        ) : null}
+        <FadeIn direction="up" delay={200}>
+          <div className="relative aspect-[16/9] sm:aspect-[21/9] w-full max-h-[520px] rounded-[2rem] sm:rounded-[2.5rem] overflow-hidden border-0 shadow-none bg-[#eaeff7] group">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={blog.coverImage || "/images/factory.jpeg"}
+              alt={blog.title}
+              className="w-full h-full object-contain p-2 group-hover:scale-[1.02] transition-transform duration-700 ease-out"
+            />
+          </div>
+        </FadeIn>
 
         {/* ARTICLE CONTENT CONTAINER */}
         <FadeIn direction="up" delay={250}>
-          <main className="max-w-4xl mx-auto rounded-[2.5rem] bg-white p-6 sm:p-12 lg:p-14 shadow-[0_4px_20px_rgb(0,0,0,0.03)] border border-black/5">
+          <main className="w-full rounded-[2.5rem] bg-white p-6 sm:p-12 lg:p-14 shadow-sm border-0">
             <div className="max-w-3xl mx-auto">
               <TiptapRenderer content={blog.content} />
             </div>
@@ -252,7 +250,7 @@ export default async function PublicBlogDetailPage({ params }: BlogPageProps) {
                 </Link>
               </div>
 
-              <div className="bg-[#f4f4f4] rounded-[2.5rem] p-4 md:p-6">
+              <div className="bg-[#f4f7fc] rounded-[2.5rem] p-4 md:p-6 border-0 shadow-none">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
                   {relatedBlogs.map((relBlog) => (
                     <BlogCard

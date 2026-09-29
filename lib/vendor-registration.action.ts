@@ -318,7 +318,8 @@ export async function submitVendorRegistrationAction(data: VendorFormData) {
 
         const adminRecipient = process.env.ADMIN_EMAIL || "connect@kavachx.io";
 
-        await Promise.allSettled([
+        // Dispatch email notifications asynchronously in background so form response is instantaneous
+        Promise.allSettled([
           transporter.sendMail({
             from: process.env.EMAIL_USER,
             to: adminRecipient,
@@ -332,7 +333,9 @@ export async function submitVendorRegistrationAction(data: VendorFormData) {
             subject: `KavachX Vendor Partner Application Received - ${companyName}`,
             html: vendorEmailHtml,
           }),
-        ]);
+        ]).catch((mailError) => {
+          console.error("❌ Nodemailer async error in vendor registration action:", mailError);
+        });
       } catch (mailError) {
         console.error("❌ Nodemailer error in vendor registration action:", mailError);
       }

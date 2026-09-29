@@ -108,12 +108,17 @@ export default function AchievementsClient() {
     restDelta: 0.001
   });
 
-  // Track the SVG path length to move the logo
+  const cachedTotalLengthRef = useRef<number | null>(null);
+
+  // Track the SVG path length to move the logo efficiently
   useEffect(() => {
     return pathLength.on("change", (latest) => {
       if (pathRef.current) {
         try {
-          const length = pathRef.current.getTotalLength();
+          if (cachedTotalLengthRef.current === null) {
+            cachedTotalLengthRef.current = pathRef.current.getTotalLength();
+          }
+          const length = cachedTotalLengthRef.current;
           const point = pathRef.current.getPointAtLength(latest * length);
           logoX.set(point.x);
           logoY.set(point.y);
@@ -183,6 +188,7 @@ export default function AchievementsClient() {
                 cameraDistance={4}
                 color="#0f172a"
                 background=""
+                count={3500}
               />
             </div>
           </FadeIn>
@@ -301,11 +307,11 @@ function TimelineItem({ data, isEven, onImageClick }: { data: any, isEven: boole
         isEven ? "text-left md:text-right" : "text-left"
       )}>
         <motion.div
-          initial={{ opacity: 0, x: isEven ? -50 : 50, filter: "blur(10px)" }}
-          whileInView={{ opacity: 1, x: 0, filter: "blur(0px)" }}
+          initial={{ opacity: 0, x: isEven ? -40 : 40 }}
+          whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-          className="relative bg-white/60 backdrop-blur-xl p-6 md:p-8 rounded-3xl border border-white shadow-[0_8px_30px_rgba(15,23,42,0.06)] hover:shadow-[0_20px_40px_rgba(15,23,42,0.12)] transition-all duration-500 mt-6"
+          transition={{ duration: 0.6, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+          className="relative bg-white/60 backdrop-blur-xl p-6 md:p-8 rounded-3xl border border-white shadow-[0_8px_30px_rgba(15,23,42,0.06)] hover:shadow-[0_20px_40px_rgba(15,23,42,0.12)] transition-all duration-500 mt-6 transform-gpu"
         >
           {/* Stick Pin (Top Middle of Card) */}
           <div className="absolute -top-5 left-1/2 -translate-x-1/2 w-10 h-10 flex items-center justify-center z-30 drop-shadow-md">

@@ -233,7 +233,7 @@ export function TiptapRenderer({ content, className = "" }: TiptapRendererProps)
             <img
               src={src}
               alt={alt}
-              className="w-full h-auto object-cover"
+              className="w-full h-auto object-contain max-h-[600px] mx-auto"
             />
             {alt && (
               <figcaption className="p-3 text-center text-xs text-gray-500 italic bg-gray-50 border-t border-black/5 font-jakarta">

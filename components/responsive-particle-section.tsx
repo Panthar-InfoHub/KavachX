@@ -80,6 +80,7 @@ export default function ResponsiveParticleSection() {
         scale={params.scale}
         cameraDistance={params.cameraDistance}
         count={params.count}
+        orbit={false}
       />
     </div>
   );

@@ -97,7 +97,7 @@ const DEFAULTS: Required<ParticleObjectOptions> = {
   floatIntensity: 2,
   rotationIntensity: 1,
   floatSpeed: 2,
-  orbit: true,
+  orbit: false,
   zoom: false,
   autoRotate: false,
   autoRotateSpeed: 2,

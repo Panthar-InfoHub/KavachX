@@ -222,70 +222,69 @@ const EarningModelSection = () => {
               </div>
             </div>
           </motion.div>
-
-          {/* Right Side - Premium Visual Stack */}
+          {/* Right Side - Premium Cards Stack */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             className="flex-1 w-full relative"
           >
             {/* Soft decorative background element */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] aspect-square bg-gradient-to-tr from-slate-100 to-slate-50 rounded-full blur-3xl opacity-50 pointer-events-none" />
 
-            <div className="relative w-full aspect-square max-w-[500px] mx-auto">
+            <div className="flex flex-col gap-6 w-full max-w-[480px] mx-auto relative z-10">
 
-              {/* Card 1: Direct Commission (Back/Top) */}
+              {/* Card 1: Direct Commission */}
               <motion.div
-                animate={{ y: [0, -10, 0] }}
-                transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute top-0 right-0 w-[85%] aspect-[4/3] bg-white rounded-3xl border border-slate-200/60 shadow-[0_20px_60px_rgba(0,0,0,0.06)] p-8 flex flex-col justify-between overflow-hidden"
+                whileHover={{ y: -4 }}
+                transition={{ duration: 0.3 }}
+                className="w-full bg-white rounded-3xl border border-slate-200/80 shadow-[0_15px_40px_rgba(0,0,0,0.05)] p-7 md:p-8 flex flex-col justify-between min-h-[200px] overflow-hidden relative group"
               >
-                <div className="absolute top-[40%] left-1/2 -translate-x-1/2 -translate-y-1/2 text-[5rem] md:text-[7rem] font-black font-syne text-slate-100 leading-none select-none pointer-events-none w-full text-center scale-x-110 -rotate-2">
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[5.5rem] md:text-[7.5rem] font-black font-syne text-slate-100/90 leading-none select-none pointer-events-none w-full text-center scale-x-110 -rotate-2 transition-transform group-hover:scale-115">
                   20%
                 </div>
 
-                <div className="relative z-10 flex justify-between items-start w-full">
-                  <div className="w-12 h-12 bg-slate-50 rounded-full flex items-center justify-center border border-slate-100 shadow-sm">
+                <div className="relative z-10 flex justify-between items-start w-full mb-8">
+                  <div className="w-11 h-11 bg-slate-50 rounded-2xl flex items-center justify-center border border-slate-100 shadow-sm">
                     <IndianRupee className="w-5 h-5 text-slate-900" />
                   </div>
-                  <div className="bg-emerald-50 text-emerald-600 text-[10px] font-bold uppercase tracking-widest px-3 py-1.5 rounded-full border border-emerald-100/50">
+                  <div className="bg-emerald-50 text-emerald-600 text-[10px] font-bold uppercase tracking-widest px-3.5 py-1.5 rounded-full border border-emerald-100/60 shadow-sm">
                     Paid Instantly
                   </div>
                 </div>
 
                 <div className="relative z-10">
-                  <h3 className="text-3xl font-bold font-syne text-slate-900 tracking-tight mb-1">Direct</h3>
-                  <p className="text-slate-500 font-medium">Hardware Commission</p>
+                  <h3 className="text-2xl md:text-3xl font-bold font-syne text-slate-900 tracking-tight mb-1">Direct</h3>
+                  <p className="text-slate-500 font-medium text-sm md:text-base">Hardware Commission</p>
                 </div>
               </motion.div>
 
-              {/* Card 2: Recurring (Front/Bottom) */}
+              {/* Card 2: Recurring */}
               <motion.div
-                animate={{ y: [0, 10, 0] }}
-                transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                className="absolute bottom-0 left-0 w-[85%] aspect-[4/3] bg-slate-900 rounded-3xl border border-slate-800 shadow-[0_30px_80px_rgba(0,0,0,0.15)] p-8 flex flex-col justify-between overflow-hidden"
+                whileHover={{ y: -4 }}
+                transition={{ duration: 0.3 }}
+                className="w-full bg-slate-900 rounded-3xl border border-slate-800 shadow-[0_25px_60px_rgba(0,0,0,0.15)] p-7 md:p-8 flex flex-col justify-between min-h-[200px] overflow-hidden relative group"
               >
                 {/* Subtle dark gradient overlay */}
-                <div className="absolute inset-0 bg-gradient-to-br from-white/[0.05] to-transparent pointer-events-none" />
+                <div className="absolute inset-0 bg-gradient-to-br from-white/[0.06] to-transparent pointer-events-none" />
 
-                <div className="relative z-10 flex justify-between items-start w-full">
-                  <div className="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center border border-white/5 shadow-inner">
+                <div className="relative z-10 flex justify-between items-start w-full mb-8">
+                  <div className="w-11 h-11 bg-white/10 rounded-2xl flex items-center justify-center border border-white/10 shadow-inner">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-white">
                       <path d="M21 12a9 9 0 0 1-9 9m9-9a9 9 0 0 0-9-9m9 9H3m9 9a9 9 0 0 1-9-9m9 9c1.66 0 3-4.03 3-9s-1.34-9-3-9m0 18c-1.66 0-3-4.03-3-9s1.34-9 3-9m-9 9a9 9 0 0 1 9-9" />
                     </svg>
                   </div>
-                  <div className="flex gap-1.5">
+                  <div className="flex gap-1.5 items-center bg-white/5 border border-white/10 px-3 py-1.5 rounded-full">
                     {[1, 2, 3].map((i) => (
-                      <div key={i} className={`w-1.5 rounded-full bg-white/20 animate-pulse`} style={{ height: `${12 + i * 4}px`, animationDelay: `${i * 0.2}s` }} />
+                      <div key={i} className={`w-1.5 rounded-full bg-emerald-400 animate-pulse`} style={{ height: `${10 + i * 4}px`, animationDelay: `${i * 0.2}s` }} />
                     ))}
                   </div>
                 </div>
 
                 <div className="relative z-10">
-                  <h3 className="text-3xl font-bold font-syne text-white tracking-tight mb-1">Recurring</h3>
-                  <p className="text-slate-400 font-medium">Software Subscriptions</p>
+                  <h3 className="text-2xl md:text-3xl font-bold font-syne text-white tracking-tight mb-1">Recurring</h3>
+                  <p className="text-slate-400 font-medium text-sm md:text-base">Software Subscriptions</p>
                 </div>
               </motion.div>
 
@@ -296,6 +295,7 @@ const EarningModelSection = () => {
       </div>
     </section>
   );
+
 };
 
 // ==========================================
@@ -318,7 +318,7 @@ const HowYouEarnSection = () => {
         </div>
 
         <div className="relative">
-          {/* Glowing Line */}
+          {/* Glowing Line (Desktop Horizontal) */}
           <div className="absolute top-12 left-0 w-full h-[2px] bg-slate-200 hidden md:block">
             <motion.div
               className="h-full bg-slate-900 shadow-[0_0_15px_rgba(0,0,0,0.5)]"
@@ -326,6 +326,17 @@ const HowYouEarnSection = () => {
               whileInView={{ width: "100%" }}
               transition={{ duration: 1.5, ease: "easeInOut" }}
               viewport={{ once: true, margin: "-100px" }}
+            />
+          </div>
+
+          {/* Glowing Line (Mobile Vertical) */}
+          <div className="absolute top-14 bottom-24 left-[23px] w-[2px] bg-slate-200 md:hidden">
+            <motion.div
+              className="w-full bg-slate-900 shadow-[0_0_15px_rgba(0,0,0,0.5)]"
+              initial={{ height: "0%" }}
+              whileInView={{ height: "100%" }}
+              transition={{ duration: 1.5, ease: "easeInOut" }}
+              viewport={{ once: true, margin: "-50px" }}
             />
           </div>
 
@@ -342,8 +353,8 @@ const HowYouEarnSection = () => {
                 <div className="w-12 h-12 rounded-full bg-white border-2 border-slate-200 shadow-sm flex items-center justify-center font-syne font-bold text-slate-400 mb-6 md:mt-6 relative z-10 group-hover:border-slate-500 group-hover:text-slate-900 transition-colors">
                   {step.num}
                 </div>
-                <h3 className="text-xl font-bold mb-3">{step.title}</h3>
-                <p className="text-slate-600 text-sm">{step.desc}</p>
+                <h3 className="text-xl font-bold mb-3 ml-8">{step.title}</h3>
+                <p className="text-slate-600 text-sm ml-8">{step.desc}</p>
               </motion.div>
             ))}
           </div>
