@@ -8,7 +8,7 @@ import { trackEvent } from "@/lib/analytics";
 
 export function SurakshaKavachSection() {
   return (
-    <section className="w-full bg-[#fdfdfd] text-black font-syne relative z-20 pb-20 rounded-t-[3rem] overflow-hidden">
+    <section className="w-full bg-[#fdfdfd] text-black font-syne relative z-20 pb-20 overflow-hidden">
 
       {/* Header Container */}
       <div className="max-w-4xl mx-auto text-center mb-16 flex flex-col items-center pt-24 relative z-10 px-6">

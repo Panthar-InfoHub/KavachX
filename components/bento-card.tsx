@@ -14,6 +14,8 @@ interface BentoCardProps {
     backgroundContent?: string | ReactNode;
     showOrbital?: boolean;
     className?: string;
+    noFadeIn?: boolean;
+    variant?: "default" | "light" | "black";
 }
 
 export default function BentoCard({
@@ -27,86 +29,113 @@ export default function BentoCard({
     backgroundContent,
     showOrbital = false,
     className = "",
+    noFadeIn = false,
+    variant = "default",
 }: BentoCardProps) {
-    return (
-        <FadeIn direction="up" delay={delay} className={gridSpan}>
-            <div
-                className={`
-          relative h-full rounded-[2rem] overflow-hidden transition-all duration-500 
-          hover:shadow-2xl hover:shadow-white/5 group
-          bg-white/[0.03] backdrop-blur-3xl border border-white/10
-          ${className}
-        `.trim()}
-            >
-                {/* 🌌 Nebula Glow */}
-                {nebulaColor !== "none" && (
-                    <div
-                        className={`nebula-glow nebula-${nebulaColor} w-[150%] h-[150%] -top-[25%] -left-[25%] opacity-20 group-hover:opacity-40 transition-opacity duration-700`}
-                    />
-                )}
+    const isLight = variant === "light";
+    const isBlack = variant === "black";
 
-                {/* ✨ Stars/Noise */}
-                <div className="absolute inset-0 opacity-20 pointer-events-none mix-blend-overlay">
-                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.1)_0%,transparent_1%)] bg-[length:24px_24px]" />
+    const bgClass = isLight
+    ? "bg-white border border-slate-200/80 shadow-none"
+    : isBlack
+    ? "bg-black border border-white/10 shadow-none"
+    : "bg-gradient-to-b from-[#12224b] via-[#0d193a] to-[#081026] border border-blue-400/25 shadow-none";
+    const titleClass = isLight
+        ? "text-slate-900 font-syne font-bold"
+        : "text-white font-syne font-bold drop-shadow-md";
+
+    const descClass = isLight
+        ? "text-slate-600 font-medium"
+        : isBlack
+        ? "text-gray-300 font-normal"
+        : "text-blue-100/90 font-normal drop-shadow";
+
+    const cardContent = (
+        <div
+            className={`
+      relative h-full rounded-[2.5rem] overflow-hidden 
+      ${bgClass}
+      ${className}
+    `.trim()}
+        >
+            {/* 🌌 Nebula Glow */}
+            {nebulaColor !== "none" && (
+                <div
+                    className={`nebula-glow nebula-${nebulaColor} w-[150%] h-[150%] -top-[25%] -left-[25%] ${isLight ? 'opacity-20' : isBlack ? 'opacity-5' : 'opacity-50'} transition-opacity duration-700`}
+                />
+            )}
+
+            {/* ✨ Stars/Noise */}
+            <div className={`absolute inset-0 ${isLight ? 'opacity-10' : isBlack ? 'opacity-0' : 'opacity-30'} pointer-events-none mix-blend-overlay`}>
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.2)_0%,transparent_1%)] bg-[length:24px_24px]" />
+            </div>
+
+            {/* 🪐 Orbital Elements */}
+            {showOrbital && (
+                <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full pointer-events-none overflow-hidden ${isLight ? 'opacity-30' : 'opacity-50'}`}>
+                    <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] ${isLight ? 'border-blue-500/20' : 'border-blue-400/15'} rounded-full animate-[orbit-rotate_20s_linear_infinite]`} />
+                    <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] ${isLight ? 'border-blue-500/25' : 'border-blue-400/20'} rounded-full animate-[orbit-rotate_15s_linear_infinite_reverse]`} />
+                    <div className="absolute top-[10%] right-[10%] w-2 h-2 bg-blue-300 rounded-full blur-[1px] animate-pulse-soft" />
+                    <div className="absolute bottom-[20%] left-[15%] w-1.5 h-1.5 bg-cyan-300 rounded-full blur-[0.5px] animate-pulse-soft" style={{ animationDelay: '1s' }} />
                 </div>
+            )}
 
-                {/* 🪐 Orbital Elements */}
-                {showOrbital && (
-                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full pointer-events-none overflow-hidden opacity-30">
-                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] border border-white/5 rounded-full animate-[orbit-rotate_20s_linear_infinite]" />
-                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] border border-white/10 rounded-full animate-[orbit-rotate_15s_linear_infinite_reverse]" />
-                        <div className="absolute top-[10%] right-[10%] w-2 h-2 bg-white/40 rounded-full blur-[1px] animate-pulse-soft" />
-                        <div className="absolute bottom-[20%] left-[15%] w-1 h-1 bg-white/20 rounded-full blur-[0.5px] animate-pulse-soft" style={{ animationDelay: '1s' }} />
-                    </div>
-                )}
+            {/* Background media */}
+            {backgroundContent && (
+                <div className="absolute inset-0 z-0">
+                    {typeof backgroundContent === "string" ? (
+                        <video
+                            autoPlay
+                            loop
+                            muted
+                            playsInline
+                            className="w-full h-full object-cover opacity-40 transition-opacity duration-700"
+                        >
+                            <source src={backgroundContent} type="video/mp4" />
+                        </video>
+                    ) : (
+                        backgroundContent
+                    )}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
+                </div>
+            )}
 
-                {/* Background media */}
-                {backgroundContent && (
-                    <div className="absolute inset-0 z-0">
-                        {typeof backgroundContent === "string" ? (
-                            <video
-                                autoPlay
-                                loop
-                                muted
-                                playsInline
-                                className="w-full h-full object-cover opacity-40 group-hover:opacity-60 transition-opacity duration-700"
-                            >
-                                <source src={backgroundContent} type="video/mp4" />
-                            </video>
-                        ) : (
-                            backgroundContent
-                        )}
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
-                    </div>
-                )}
-
-                {/* 📝 Content */}
-                <div className="relative z-10 flex flex-col h-full p-6 md:p-8">
-                    <div className="mb-auto">
-                        {icon && (
-                            <div className="mb-6 transform group-hover:scale-110 transition-transform duration-500 origin-left">
-                                {icon}
-                            </div>
-                        )}
-
-                        <h3 className="font-sans text-xl md:text-2xl font-medium text-white tracking-tight leading-tight mb-2">
-                            {title}
-                        </h3>
-
-                        {description && (
-                            <p className="text-sm md:text-base text-white/60 leading-relaxed font-light max-w-[95%] drop-shadow-sm">
-                                {description}
-                            </p>
-                        )}
-                    </div>
-
-                    {children && (
-                        <div className="mt-6 relative">
-                            {children}
+            {/* 📝 Content */}
+            <div className="relative z-10 flex flex-col h-full p-8 md:p-10">
+                <div className="mb-auto">
+                    {icon && (
+                        <div className="mb-6 origin-left">
+                            {icon}
                         </div>
                     )}
+
+                    <h3 className={`text-xl md:text-2xl tracking-tight leading-tight mb-3 ${titleClass}`}>
+                        {title}
+                    </h3>
+
+                    {description && (
+                        <p className={`text-sm md:text-base leading-relaxed max-w-[95%] ${descClass}`}>
+                            {description}
+                        </p>
+                    )}
                 </div>
+
+                {children && (
+                    <div className="mt-6 relative">
+                        {children}
+                    </div>
+                )}
             </div>
+        </div>
+    );
+
+    if (noFadeIn) {
+        return <div className={`h-full ${gridSpan}`}>{cardContent}</div>;
+    }
+
+    return (
+        <FadeIn direction="up" delay={delay} className={gridSpan}>
+            {cardContent}
         </FadeIn>
     );
 }
