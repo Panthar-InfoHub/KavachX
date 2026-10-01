@@ -36,7 +36,7 @@ export default function BentoCard({
     const isBlack = variant === "black";
 
     const bgClass = isLight
-    ? "bg-white border border-slate-200/80 shadow-none"
+    ? "bg-white border-1 border-slate-600/20 shadow-none"
     : isBlack
     ? "bg-black border border-white/10 shadow-none"
     : "bg-gradient-to-b from-[#12224b] via-[#0d193a] to-[#081026] border border-blue-400/25 shadow-none";
@@ -101,27 +101,29 @@ export default function BentoCard({
             )}
 
             {/* 📝 Content */}
-            <div className="relative z-10 flex flex-col h-full p-8 md:p-10">
-                <div className="mb-auto">
-                    {icon && (
-                        <div className="mb-6 origin-left">
-                            {icon}
-                        </div>
-                    )}
+            <div className="relative z-10 flex flex-col justify-between h-full p-3.5 sm:p-5 md:p-8 xl:p-10">
+                <div>
+                    <div className="flex items-center gap-2.5 md:block mb-2 md:mb-5">
+                        {icon && (
+                            <div className="shrink-0 mb-0 md:mb-4 origin-left">
+                                {icon}
+                            </div>
+                        )}
 
-                    <h3 className={`text-xl md:text-2xl tracking-tight leading-tight mb-3 ${titleClass}`}>
-                        {title}
-                    </h3>
+                        <h3 className={`text-sm sm:text-base md:text-xl xl:text-2xl tracking-tight leading-tight mb-0 md:mb-3 ${titleClass}`}>
+                            {title}
+                        </h3>
+                    </div>
 
                     {description && (
-                        <p className={`text-sm md:text-base leading-relaxed max-w-[95%] ${descClass}`}>
+                        <p className={`text-[11px] sm:text-xs md:text-sm xl:text-base leading-snug md:leading-relaxed line-clamp-2 md:line-clamp-none max-w-full md:max-w-[95%] ${descClass}`}>
                             {description}
                         </p>
                     )}
                 </div>
 
                 {children && (
-                    <div className="mt-6 relative">
+                    <div className="mt-2 md:mt-6 relative">
                         {children}
                     </div>
                 )}

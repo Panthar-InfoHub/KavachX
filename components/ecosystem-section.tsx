@@ -58,103 +58,98 @@ export default function EcosystemSection() {
 
   const textLeftX = useTransform(
     scrollYProgress,
-    [0.20, 0.45],
+    [0.05, 0.35],
     ["0vw", "-100vw"]
   );
 
   const textRightX = useTransform(
     scrollYProgress,
-    [0.20, 0.45],
+    [0.05, 0.35],
     ["0vw", "100vw"]
   );
 
   const textOpacity = useTransform(
     scrollYProgress,
-    [0.20, 0.45],
-    [1, 0]
+    (pos) => (pos >= 0.35 ? 0 : 1)
   );
 
   const titleDisplay = useTransform(
     scrollYProgress,
-    (pos) => (pos >= 0.45 ? "none" : "block")
+    (pos) => (pos >= 0.35 ? "none" : "block")
   );
 
   // =========================================================
-  // CARD POP-UP
-  //
-  // 0.20 → 0.45
-  //
-  // Cards fade in + scale up + pop up from behind as text splits.
-  //
-  // After 0.45:
-  // opacity = 1
-  // scale = 1
-  // y = 0
-  //
-  // They NEVER fade or change opacity during the subsequent split.
+  // CARD POP-UP (INSTANT 100% SOLID OPACITY)
   // =========================================================
 
   const cardsOpacity = useTransform(
     scrollYProgress,
-    [0.20, 0.45],
-    [0, 1]
+    (pos) => (pos >= 0.08 ? 1 : 0)
   );
 
   const cardsScale = useTransform(
     scrollYProgress,
-    [0.20, 0.45],
-    [0.85, 1]
+    [0.05, 0.35],
+    [0.90, 1]
   );
 
   const cardsYPopup = useTransform(
     scrollYProgress,
-    [0.20, 0.45],
-    [40, 0]
+    [0.05, 0.35],
+    [30, 0]
   );
 
   // Keep cards mounted after they appear.
   const cardsDisplay = useTransform(
     scrollYProgress,
-    (pos) => (pos < 0.20 ? "none" : "grid")
+    (pos) => (pos < 0.08 ? "none" : "block")
   );
 
   // =========================================================
-  // STEP 3
-  // 0.45 → 0.75
-  //
-  // Cards split apart.
-  //
-  // IMPORTANT:
-  // There is NO opacity here.
-  // Cards stay 100% visible during the entire split.
+  // CARD SPLIT & 3D FLIP
+  // 0.35 → 0.65
   // =========================================================
 
   const card1XDesktop = useTransform(
     scrollYProgress,
-    [0.45, 0.75],
-    ["calc(50% + 1.25rem)", "0%"]
+    [0.35, 0.65],
+    ["0%", "-53%"]
   );
 
   const card2XDesktop = useTransform(
     scrollYProgress,
-    [0.45, 0.75],
-    ["calc(-50% - 1.25rem)", "0%"]
+    [0.35, 0.65],
+    ["0%", "53%"]
   );
-
-  // =========================================================
-  // MOBILE SPLIT
-  // =========================================================
 
   const card1YMobile = useTransform(
     scrollYProgress,
-    [0.45, 0.75],
-    ["52%", "0%"]
+    [0.35, 0.65],
+    ["0%", "-52%"]
   );
 
   const card2YMobile = useTransform(
     scrollYProgress,
-    [0.45, 0.75],
-    ["-52%", "0%"]
+    [0.35, 0.65],
+    ["0%", "52%"]
+  );
+
+  const cardMobileScale = useTransform(
+    scrollYProgress,
+    [0.35, 0.65],
+    [1, 1]
+  );
+
+  const kairosFlip = useTransform(
+    scrollYProgress,
+    [0.35, 0.65],
+    [-180, 0]
+  );
+
+  const kairosFlipMobile = useTransform(
+    scrollYProgress,
+    [0.35, 0.65],
+    [-90, 0]
   );
 
   // =========================================================
@@ -164,7 +159,7 @@ export default function EcosystemSection() {
   return (
     <section
       ref={containerRef}
-      className="relative h-[550vh] w-full bg-transparent border-t border-white/10"
+      className="relative h-[200vh] w-full bg-transparent border-t border-white/10"
     >
       {/* =====================================================
           STICKY VIEWPORT
@@ -211,26 +206,27 @@ export default function EcosystemSection() {
           <motion.h2
             style={{
               display: titleDisplay,
-              opacity: textOpacity,
+              color: "#000000",
             }}
             className="
               font-syne
-              text-2xl
-              sm:text-4xl
+              text-[22px]
+              sm:text-3xl
               md:text-5xl
               lg:text-6xl
-              font-medium
+              font-bold
               tracking-tight
-              text-slate-900
+              text-[#000000]
               flex
-              flex-row
-              flex-wrap
+              flex-col
+              sm:flex-row
               justify-center
               items-center
               text-center
               leading-tight
               max-w-5xl
               mx-auto
+              gap-y-2
               gap-x-4
               px-4
             "
@@ -240,10 +236,11 @@ export default function EcosystemSection() {
             <motion.span
               style={{
                 x: textLeftX,
+                color: "#000000",
               }}
               className="
                 inline-block
-                text-slate-900
+                text-[#000000]
                 whitespace-nowrap
               "
             >
@@ -255,10 +252,11 @@ export default function EcosystemSection() {
             <motion.span
               style={{
                 x: textRightX,
+                color: "#000000",
               }}
               className="
                 inline-block
-                text-slate-900
+                text-[#000000]
                 whitespace-nowrap
               "
             >
@@ -284,26 +282,21 @@ export default function EcosystemSection() {
           className="
             w-full
             max-w-4xl
-            lg:max-w-5xl
             mx-auto
             relative
             z-20
+            flex
+            justify-center
+            px-4
+            sm:px-0
           "
         >
           {/* =================================================
               CARD POP ANIMATION
               =================================================
 
-              opacity + scale + y popup happen ONLY during:
-
-              0.20 → 0.45
-
-              After 0.45:
-              opacity = 1
-              scale = 1
-              y = 0
-
-              These values stay 100% visible and NEVER change during the split.
+              Cards pop up stacked directly on top of each other in full opacity.
+              Card 2 stays 100% behind Card 1.
           */}
 
           <motion.div
@@ -311,28 +304,34 @@ export default function EcosystemSection() {
               opacity: cardsOpacity,
               scale: cardsScale,
               y: cardsYPopup,
+              perspective: 1200,
             }}
             className="
               w-full
-              grid
-              grid-cols-1
-              md:grid-cols-2
-              gap-6
-              lg:gap-10
-              items-stretch
-              min-h-[480px]
-              md:min-h-[540px]
+              max-w-none
+              sm:max-w-[420px]
+              md:max-w-[360px]
+              lg:max-w-[440px]
+              xl:max-w-[450px]
+              mx-auto
+              relative
+              h-[210px]
+              sm:h-[240px]
+              md:h-[480px]
+              lg:h-[560px]
+              xl:h-[590px]
             "
           >
             {/* =================================================
-                CARD 1 — SURAKSHA KAVACH
+                CARD 1 — SURAKSHA KAVACH (FRONT, MOVES LEFT ON SPLIT)
                 ================================================= */}
 
             <motion.div
               style={{
+                zIndex: 30,
                 x: isMobile ? 0 : card1XDesktop,
                 y: isMobile ? card1YMobile : 0,
-                zIndex: 20,
+                scale: isMobile ? cardMobileScale : 1,
               }}
               className="
                 w-full
@@ -345,14 +344,14 @@ export default function EcosystemSection() {
                 description="Your Personal Safety Shield. A smart safety app designed for India. Instant SOS alerts, automatic crash detection, real-time location sharing, and voice commands that work even when you're offline. Because safety can't wait for a signal."
                 icon={
                   <ShieldIcon
-                    className="w-10 h-10 md:w-12 md:h-12 text-blue-600"
+                    className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 text-blue-600"
                     animate
                   />
                 }
                 variant="light"
                 showOrbital={true}
                 noFadeIn={true}
-                className=""
+                className="h-full"
               >
                 {/* =============================================
                     SURAKSHA BACKGROUND ASSET
@@ -377,24 +376,28 @@ export default function EcosystemSection() {
                     SURAKSHA BUTTON
                     ============================================= */}
 
-                <div className="flex justify-start mt-6 md:mt-8">
+                <div className="flex justify-start mt-2 sm:mt-6 md:mt-8">
                   <Link
                     href="/suraksha-kavach"
                     className="
                       inline-flex
-                      h-12
+                      h-9
+                      sm:h-11
                       md:h-14
-                      w-full
-                      sm:w-auto
+                      w-auto
                       items-center
                       justify-between
-                      gap-4
+                      gap-3
+                      md:gap-4
                       rounded-full
                       bg-black
-                      pl-6
+                      pl-4
+                      sm:pl-6
                       md:pl-8
-                      pr-2
-                      text-sm
+                      pr-1.5
+                      md:pr-2
+                      text-xs
+                      sm:text-sm
                       md:text-[15px]
                       font-medium
                       text-white
@@ -405,8 +408,10 @@ export default function EcosystemSection() {
                     <div
                       className="
                         flex
-                        h-9
-                        w-9
+                        h-6.5
+                        w-6.5
+                        sm:h-8
+                        sm:w-8
                         md:h-10
                         md:w-10
                         shrink-0
@@ -417,7 +422,7 @@ export default function EcosystemSection() {
                         text-black
                       "
                     >
-                      <ArrowRight className="h-4 w-4 -rotate-45" />
+                      <ArrowRight className="h-3.5 w-3.5 sm:h-4 sm:w-4 -rotate-45" />
                     </div>
                   </Link>
                 </div>
@@ -425,19 +430,24 @@ export default function EcosystemSection() {
             </motion.div>
 
             {/* =================================================
-                CARD 2 — KAIROS
+                CARD 2 — KAIROS (FLIPS OUT FROM BEHIND TO RIGHT)
                 ================================================= */}
 
             <motion.div
               style={{
+                zIndex: 10,
                 x: isMobile ? 0 : card2XDesktop,
                 y: isMobile ? card2YMobile : 0,
-                zIndex: 20,
+                scale: isMobile ? cardMobileScale : 1,
+                rotateY: isMobile ? 0 : kairosFlip,
+                rotateX: isMobile ? kairosFlipMobile : 0,
+                transformStyle: "preserve-3d",
               }}
               className="
                 w-full
                 h-full
-                relative
+                absolute
+                inset-0
               "
             >
               <BentoCard
@@ -445,7 +455,7 @@ export default function EcosystemSection() {
                 description="Intelligent Home Security. Monitor your home, family, and spaces from anywhere in the world. The Kavach Kairos brings AI-driven CCTV analytics and real-time intelligence directly to your front door."
                 icon={
                   <AIIcon
-                    className="w-10 h-10 md:w-12 md:h-12 text-cyan-400"
+                    className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 text-cyan-400"
                     animate
                   />
                 }
@@ -453,7 +463,7 @@ export default function EcosystemSection() {
                 nebulaColor="none"
                 showOrbital={false}
                 noFadeIn={true}
-                className=""
+                className="h-full"
               >
                 {/* =============================================
                     KAIROS BACKGROUND ASSET
@@ -478,24 +488,28 @@ export default function EcosystemSection() {
                     KAIROS BUTTON
                     ============================================= */}
 
-                <div className="flex justify-start mt-6 md:mt-8">
+                <div className="flex justify-start mt-2 sm:mt-6 md:mt-8">
                   <Link
                     href="/kairos"
                     className="
                       inline-flex
-                      h-12
+                      h-9
+                      sm:h-11
                       md:h-14
-                      w-full
-                      sm:w-auto
+                      w-auto
                       items-center
                       justify-between
-                      gap-4
+                      gap-3
+                      md:gap-4
                       rounded-full
                       bg-white
-                      pl-6
+                      pl-4
+                      sm:pl-6
                       md:pl-8
-                      pr-2
-                      text-sm
+                      pr-1.5
+                      md:pr-2
+                      text-xs
+                      sm:text-sm
                       md:text-[15px]
                       font-medium
                       text-black
@@ -506,8 +520,10 @@ export default function EcosystemSection() {
                     <div
                       className="
                         flex
-                        h-9
-                        w-9
+                        h-6.5
+                        w-6.5
+                        sm:h-8
+                        sm:w-8
                         md:h-10
                         md:w-10
                         shrink-0
@@ -518,7 +534,7 @@ export default function EcosystemSection() {
                         text-white
                       "
                     >
-                      <ArrowRight className="h-4 w-4 -rotate-45" />
+                      <ArrowRight className="h-3.5 w-3.5 sm:h-4 sm:w-4 -rotate-45" />
                     </div>
                   </Link>
                 </div>

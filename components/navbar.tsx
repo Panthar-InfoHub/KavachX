@@ -86,6 +86,44 @@ export const Navbar: React.FC = () => {
     const [mobileActiveDropdownIndex, setMobileActiveDropdownIndex] =
         useState<number | null>(null);
 
+    const [isNavVisible, setIsNavVisible] = useState(true);
+    const lastScrollY = useRef(0);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            const currentScrollY = window.scrollY;
+
+            // Always keep visible if mobile menu or dropdown is open
+            if (isMobileMenuOpen || isDropdownOpen) {
+                setIsNavVisible(true);
+                return;
+            }
+
+            // At top of page -> always show navbar
+            if (currentScrollY <= 20) {
+                setIsNavVisible(true);
+                lastScrollY.current = currentScrollY;
+                return;
+            }
+
+            // Scroll direction check:
+            // If scrolling down by more than 5px -> hide navbar
+            // If scrolling up by more than 5px -> show navbar
+            const diff = currentScrollY - lastScrollY.current;
+            if (Math.abs(diff) > 5) {
+                if (diff > 0) {
+                    setIsNavVisible(false);
+                } else {
+                    setIsNavVisible(true);
+                }
+                lastScrollY.current = currentScrollY;
+            }
+        };
+
+        window.addEventListener("scroll", handleScroll, { passive: true });
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, [isMobileMenuOpen, isDropdownOpen]);
+
     // Reset all menu states when route changes
     useEffect(() => {
         setIsMobileMenuOpen(false);
@@ -164,7 +202,12 @@ export const Navbar: React.FC = () => {
     };
 
     return (
-        <motion.nav className="fixed top-0 left-0 right-0 w-full z-[100] font-syne bg-black/90 backdrop-blur-md border-b border-white/10 text-white transition-all duration-300">
+        <motion.nav
+            initial={{ y: 0 }}
+            animate={{ y: isNavVisible ? "0%" : "-100%" }}
+            transition={{ duration: 0.35, ease: "easeInOut" }}
+            className="fixed top-0 left-0 right-0 w-full z-[100] font-syne bg-black/90 backdrop-blur-md border-b border-white/10 text-white"
+        >
             <div className="flex items-center justify-between h-16 max-w-7xl  mx-auto px-4">
                 {/* Logo */}
                 <div className="relative max-w-32 h-full w-full flex justify-center items-center">
