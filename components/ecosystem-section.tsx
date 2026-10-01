@@ -15,13 +15,7 @@ export default function EcosystemSection() {
   // MOBILE DETECTION
   // =========================================================
 
-  const [isMobile, setIsMobile] = useState(() => {
-    if (typeof window !== "undefined") {
-      return window.innerWidth < 768;
-    }
-
-    return false;
-  });
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     const checkMobile = () => {
@@ -102,7 +96,7 @@ export default function EcosystemSection() {
 
   const cardsOpacity = useTransform(
     scrollYProgress,
-    [0.30, 0.45],
+    [0.20, 0.45],
     [0, 1]
   );
 

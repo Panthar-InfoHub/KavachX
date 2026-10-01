@@ -24,15 +24,19 @@ import { ArrowRight } from "lucide-react";
 
 export default function Home() {
   const heroTrackRef = useRef<HTMLDivElement>(null);
-  const [isMobile, setIsMobile] = useState(false);
+
+  const [windowSize, setWindowSize] = useState<{ width: number; height: number }>({
+    width: 1200,
+    height: 900,
+  });
 
   useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
+    const handleResize = () => {
+      setWindowSize({ width: window.innerWidth, height: window.innerHeight });
     };
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   const { scrollYProgress: heroScrollProgress } = useScroll({
@@ -41,15 +45,57 @@ export default function Home() {
   });
 
   const smoothProgress = useSpring(heroScrollProgress, {
-    stiffness: 100,
-    damping: 30,
+    stiffness: 120,
+    damping: 25,
     restDelta: 0.001
   });
 
-  // On Mobile: 5 cards stack vertically in 1 column (~2350px height), requiring a ~ -76% shift to reveal all cards.
-  // On Desktop: cards form 2 rows (~1300px height), requiring a ~ -55% shift to reveal all cards.
-  const bentoShift = isMobile ? "-76%" : "-55%";
-  const bentoY = useTransform(smoothProgress, [0, 0.45, 1.0], ["0%", bentoShift, bentoShift]);
+  // Tailored shift percentages for Chrome DevTools device presets:
+  // Mobile (iPhone SE, 16, 16 Pro Max, Pixel 9/10, Galaxy A55), Foldables (Pixel Fold, Z Fold 6),
+  // Tablets (iPad Mini, iPad Pro 13, Surface Pro 10), Smart Displays (Nest Hub Max), Desktops & 4K
+  const getBentoShift = (w: number, h: number) => {
+    // 1. Smart Displays (Nest Hub Max: 1280x800 - wide width, short vertical height)
+    if (w >= 1024 && h <= 820) return "-62%";
+
+    // 2. Small Mobile (iPhone SE: w <= 385, h <= 700)
+    if (w <= 385 && h <= 700) return "-76%";
+
+    // 3. Modern Mobile (iPhone 16, 16 Pro Max, Pixel 9/10, Galaxy A55: w < 640)
+    if (w < 640) return "-72%";
+
+    // 4. Foldables (Pixel 9 Pro Fold, Galaxy Z Fold 6: 640 <= w < 769)
+    if (w < 768) return "-72%";
+
+    // 5. Surface Pro 10 / iPad Mini (769 <= w < 1024)
+    if (w < 1033) {
+      if (h > 1200) return "-36%"; // Surface Pro 10 (tall viewport)
+      return "-68%";               // iPad Mini
+    }
+
+    // 6. iPad Pro 13 / Laptops / Standard Desktop (1024 <= w < 1440)
+    if (w < 1440) {
+      if (h > 1200) return "-48%"; // iPad Pro 13 portrait
+      return "-60%";               // Laptops & Desktops
+    }
+
+    // 7. 4K & Ultra-wide Monitors (w >= 1440)
+    return "-44%";
+  };
+
+  const getTrackHeightClass = (w: number, h: number) => {
+    if (w >= 1024 && h <= 820) return "h-[320vh]"; // Nest Hub Max
+    if (w <= 385 && h <= 700) return "h-[540vh]";  // iPhone SE
+    if (w < 640) return "h-[480vh]";               // iPhone 16 / Pixel 9
+    if (w < 769) return "h-[420vh]";               // Foldables
+    if (w < 1024) return "h-[380vh]";              // iPad Mini / Surface Pro
+    if (w < 1440) return "h-[320vh]";              // Laptops / iPad Pro 13
+    return "h-[280vh]";                            // 4K Monitors
+  };
+
+  const bentoShift = getBentoShift(windowSize.width, windowSize.height);
+  const trackHeightClass = getTrackHeightClass(windowSize.width, windowSize.height);
+
+  const bentoY = useTransform(smoothProgress, [0, 0.40, 1.0], ["0%", bentoShift, bentoShift]);
   const videoScale = useTransform(smoothProgress, [0, 0.3], [1, 1.05]);
   const textY = useTransform(smoothProgress, [0, 0.3], [0, -50]);
   const textOpacity = useTransform(smoothProgress, [0, 0.3], [1, 0]);
@@ -61,8 +107,8 @@ export default function Home() {
         {/* Noise Overlay */}
         <div className="noise-overlay" />
 
-        {/* ── HERO TRACK CONTAINER: h-[480vh] mobile / h-[320vh] desktop ── */}
-        <div ref={heroTrackRef} className={`relative w-full z-0 ${isMobile ? "h-[480vh]" : "h-[320vh]"}`}>
+        {/* ── HERO TRACK CONTAINER ── */}
+        <div ref={heroTrackRef} className={`relative w-full z-0 ${trackHeightClass}`}>
           {/* Sticky Pinned Viewport Container (z-0) */}
           <div className="sticky top-0 h-screen w-full overflow-hidden z-0 flex flex-col items-center px-4 md:px-[5%] pt-16 md:pt-32">
 
@@ -116,10 +162,10 @@ export default function Home() {
                 <BentoCard
                   title="System Performance"
                   description="Real-time company metrics and infrastructure health monitoring across all global zones."
-                  icon={<MonitoringIcon className="w-8 h-8 text-blue-500" animate />}
+                  icon={<MonitoringIcon className="w-8 h-8 text-blue-100" animate />}
                   gridSpan="md:col-span-4 md:row-span-2"
                   delay={100}
-                  nebulaColor="blue"
+                  // nebulaColor="blue"
                 >
                   <div className="absolute top-2 right-8 z-20 flex flex-col items-end gap-6 text-right">
                     <UptimeCard />

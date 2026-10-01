@@ -175,7 +175,7 @@ export const Navbar: React.FC = () => {
 
                 {/* Desktop Menu */}
                 <ul
-                    className="hidden md:flex items-center gap-8 mx-10"
+                    className="hidden xl:flex items-center gap-6 xl:gap-8 mx-4 xl:mx-10 shrink-0"
                     onMouseLeave={closeDropdown}
                 >
                     {config.menu.map((item, index) => (
@@ -186,7 +186,7 @@ export const Navbar: React.FC = () => {
                         >
                             <Link
                                 href={item.href || "#"}
-                                className="text-sm text-white/80 hover:text-white transition"
+                                className="text-sm text-white/80 hover:text-white transition whitespace-nowrap"
                             >
                                 {item.label}
                             </Link>
@@ -202,7 +202,7 @@ export const Navbar: React.FC = () => {
                 </ul>
 
                 {/* CTA */}
-                <div className="hidden md:flex items-center gap-4">
+                <div className="hidden xl:flex items-center gap-4 shrink-0">
                     {
                         config.cta.one && (
                             <Link
@@ -215,7 +215,7 @@ export const Navbar: React.FC = () => {
                                         destination: config.cta.one?.href || "/contact",
                                     },
                                 })}
-                                className={cn("text-sm text-white/70 transition", config.cta.one?.variant === "primary" ? "bg-white text-black px-4 py-1.5 rounded-full font-medium" : "")}
+                                className={cn("text-sm text-white/70 transition whitespace-nowrap", config.cta.one?.variant === "primary" ? "bg-white text-black px-4 py-1.5 rounded-full font-medium whitespace-nowrap shrink-0" : "")}
                             >
                                 {config.cta.one?.text}
                             </Link>
@@ -225,7 +225,7 @@ export const Navbar: React.FC = () => {
 
                 {/* Mobile Toggle */}
                 <button
-                    className="md:hidden text-2xl z-[70] relative w-10 h-10 flex items-center justify-center text-white"
+                    className="xl:hidden text-2xl z-[70] relative w-10 h-10 flex items-center justify-center text-white"
                     onClick={toggleMobileMenu}
                     aria-label="Toggle Menu"
                 >
@@ -236,7 +236,7 @@ export const Navbar: React.FC = () => {
             {/* Mobile Menu Overlay */}
             <AnimatePresence>
                 {isMobileMenuOpen && (
-                    <div className="fixed inset-0 z-[120] md:hidden">
+                    <div className="fixed inset-0 z-[120] xl:hidden">
                         {/* Backdrop Blur */}
                         <motion.div
                             initial={{ opacity: 0 }}
@@ -344,7 +344,7 @@ export const Navbar: React.FC = () => {
             <AnimatePresence>
                 {isDropdownOpen && activeMenuItemIndex !== null && (
                     <motion.div
-                        className="hidden md:block absolute top-16 left-0 right-0 bg-black/95 border-t border-white/10"
+                        className="hidden xl:block absolute top-16 left-0 right-0 bg-black/95 border-t border-white/10"
                         variants={containerVariants}
                         initial="closed"
                         animate="open"
