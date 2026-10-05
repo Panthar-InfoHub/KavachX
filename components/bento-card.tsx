@@ -46,10 +46,10 @@ export default function BentoCard({
     const isBlack = variant === "black";
 
     const bgClass = isLight
-    ? "bg-white border-1 border-slate-600/20 shadow-none"
-    : isBlack
-    ? "bg-black border border-white/10 shadow-none"
-    : "bg-gradient-to-b from-[#12224b] via-[#0d193a] to-[#081026] border border-blue-400/25 shadow-none";
+        ? "bg-white border-1 border-slate-600/20 shadow-none"
+        : isBlack
+            ? "bg-black border border-white/10 shadow-none"
+            : "bg-gradient-to-b from-[#0c1736]/30 via-[#070e24]/30 to-[#030716]/30 border border-blue-500/15 backdrop-blur-xl shadow-none";
     const titleClass = isLight
         ? "text-slate-900 font-syne font-bold"
         : "text-white font-syne font-bold drop-shadow-md";
@@ -57,8 +57,8 @@ export default function BentoCard({
     const descClass = isLight
         ? "text-slate-600 font-medium"
         : isBlack
-        ? "text-gray-300 font-normal"
-        : "text-blue-100/90 font-normal drop-shadow";
+            ? "text-gray-300 font-normal"
+            : "text-blue-100/90 font-normal drop-shadow";
 
     const cardContent = (
         <div

@@ -59,18 +59,18 @@ export default function Home() {
     if (w <= 400 && h <= 700) return "-72%";
     if (w <= 400 && h <= 900) return "-66%";
     if (w < 450) return "-60%";
-   
-    if (w < 1050 && h>=1000) {
+
+    if (w < 1050 && h >= 1000) {
       if (h > 1200) return "-45%";
       return "-48%";
     }
-    if (w < 600) return "-68%";
+    if (w < 600) return "-68%";   
     if (w < 650) return "-68%";
     if (w < 700) return "-68%";
     if (w < 800) return "-67%";
     if (w < 900) return "-64%";
     if (w < 1000) return "-62%";
-   if (w < 1440) {
+    if (w < 1440) {
       if (h > 1200) return "-48%";
       return "-58%";
     }
@@ -108,7 +108,7 @@ export default function Home() {
   const trackHeightClass = getTrackHeightClass(windowSize.width, windowSize.height);
 
   const bentoY = useTransform(smoothProgress, [0, 0.40, 1.0], ["0%", bentoShift, bentoShift]);
-  const videoScale = useTransform(smoothProgress, [0, 0.3], [1, 1.05]);
+  const videoScale = useTransform(smoothProgress, [0, 0.3], [1.2, 1.10]);
   const textY = useTransform(smoothProgress, [0, 0.3], [0, -50]);
   const textOpacity = useTransform(smoothProgress, [0, 0.3], [1, 0]);
 
