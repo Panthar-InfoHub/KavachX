@@ -54,43 +54,55 @@ export default function Home() {
   // Mobile (iPhone SE, 16, 16 Pro Max, Pixel 9/10, Galaxy A55), Foldables (Pixel Fold, Z Fold 6),
   // Tablets (iPad Mini, iPad Pro 13, Surface Pro 10), Smart Displays (Nest Hub Max), Desktops & 4K
   const getBentoShift = (w: number, h: number) => {
-    // 1. Smart Displays (Nest Hub Max: 1280x800 - wide width, short vertical height)
+
     if (w >= 1024 && h <= 820) return "-62%";
-
-    // 2. Small Mobile (iPhone SE: w <= 385, h <= 700)
-    if (w <= 385 && h <= 700) return "-76%";
-
-    // 3. Modern Mobile (iPhone 16, 16 Pro Max, Pixel 9/10, Galaxy A55: w < 640)
-    if (w < 640) return "-72%";
-
-    // 4. Foldables (Pixel 9 Pro Fold, Galaxy Z Fold 6: 640 <= w < 769)
-    if (w < 768) return "-72%";
-
-    // 5. Surface Pro 10 / iPad Mini (769 <= w < 1024)
-    if (w < 1033) {
-      if (h > 1200) return "-36%"; // Surface Pro 10 (tall viewport)
-      return "-68%";               // iPad Mini
+    if (w <= 400 && h <= 700) return "-72%";
+    if (w <= 400 && h <= 900) return "-66%";
+    if (w < 450) return "-60%";
+   
+    if (w < 1050 && h>=1000) {
+      if (h > 1200) return "-45%";
+      return "-48%";
     }
-
-    // 6. iPad Pro 13 / Laptops / Standard Desktop (1024 <= w < 1440)
-    if (w < 1440) {
-      if (h > 1200) return "-48%"; // iPad Pro 13 portrait
-      return "-60%";               // Laptops & Desktops
+    if (w < 600) return "-68%";
+    if (w < 650) return "-68%";
+    if (w < 700) return "-68%";
+    if (w < 800) return "-67%";
+    if (w < 900) return "-64%";
+    if (w < 1000) return "-62%";
+   if (w < 1440) {
+      if (h > 1200) return "-48%";
+      return "-58%";
     }
-
-    // 7. 4K & Ultra-wide Monitors (w >= 1440)
-    return "-44%";
+    return "-45%";
   };
 
   const getTrackHeightClass = (w: number, h: number) => {
-    if (w >= 1024 && h <= 820) return "h-[320vh]"; // Nest Hub Max
-    if (w <= 385 && h <= 700) return "h-[540vh]";  // iPhone SE
-    if (w < 640) return "h-[480vh]";               // iPhone 16 / Pixel 9
-    if (w < 769) return "h-[420vh]";               // Foldables
-    if (w < 1024) return "h-[380vh]";              // iPad Mini / Surface Pro
-    if (w < 1440) return "h-[320vh]";              // Laptops / iPad Pro 13
-    return "h-[280vh]";                            // 4K Monitors
+    if (w >= 1024 && h <= 820) return "h-[320vh]";
+    if (w <= 400 && h <= 700) return "h-[540vh]";
+    if (w <= 400 && h <= 900) return "h-[460vh]";
+    if (w < 450) return "h-[420vh]";
+
+    if (w < 1050 && h >= 1000) {
+      if (h > 1200) return "h-[340vh]";
+      return "h-[360vh]";
+    }
+
+    if (w < 600) return "h-[460vh]";
+    if (w < 650) return "h-[440vh]";
+    if (w < 700) return "h-[420vh]";
+    if (w < 800) return "h-[380vh]";
+    if (w < 900) return "h-[360vh]";
+    if (w < 1000) return "h-[340vh]";
+
+    if (w < 1440) {
+      if (h > 1200) return "h-[320vh]";
+      return "h-[300vh]";
+    }
+
+    return "h-[280vh]";
   };
+
 
   const bentoShift = getBentoShift(windowSize.width, windowSize.height);
   const trackHeightClass = getTrackHeightClass(windowSize.width, windowSize.height);
@@ -165,7 +177,7 @@ export default function Home() {
                   icon={<MonitoringIcon className="w-8 h-8 text-blue-100" animate />}
                   gridSpan="md:col-span-4 md:row-span-2"
                   delay={100}
-                  // nebulaColor="blue"
+                // nebulaColor="blue"
                 >
                   <div className="absolute top-2 right-8 z-20 flex flex-col items-end gap-6 text-right">
                     <UptimeCard />
@@ -253,18 +265,18 @@ export default function Home() {
                     <IntegrationIcons />
                   </div>
                 </BentoCard>
-                            </div>
-          </motion.div>
+              </div>
+            </motion.div>
 
+          </div>
         </div>
-      </div>
 
-      {/* ── WHITE ECOSYSTEM SHEET (SLIDES UP OVER HERO TRACK & ANIMATES SPLIT ON SCROLL) ── */}
-      <div className="relative z-20 w-full bg-[#fdfdfd] text-black rounded-t-[3.5rem] shadow-[0_-30px_70px_rgba(0,0,0,0.85)] border-t border-slate-200/80 -mt-[100vh]">
-        <EcosystemSection />
-      </div>
+        {/* ── WHITE ECOSYSTEM SHEET (SLIDES UP OVER HERO TRACK & ANIMATES SPLIT ON SCROLL) ── */}
+        <div className="relative z-20 w-full bg-[#fdfdfd] text-black rounded-t-[3.5rem] shadow-[0_-30px_70px_rgba(0,0,0,0.85)] border-t border-slate-200/80 -mt-[100vh]">
+          <EcosystemSection />
+        </div>
 
-    </div>
-  </LenisDiv>
-);
+      </div>
+    </LenisDiv>
+  );
 }
