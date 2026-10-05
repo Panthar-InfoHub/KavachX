@@ -16,6 +16,11 @@ interface BentoCardProps {
     className?: string;
     noFadeIn?: boolean;
     variant?: "default" | "light" | "black";
+    lineClamp?: string;
+    contentPadding?: string;
+    iconPosition?: "top" | "inline";
+    titleSize?: string;
+    descSize?: string;
 }
 
 export default function BentoCard({
@@ -31,6 +36,11 @@ export default function BentoCard({
     className = "",
     noFadeIn = false,
     variant = "default",
+    lineClamp = "line-clamp-2 md:line-clamp-none",
+    contentPadding,
+    iconPosition = "inline",
+    titleSize,
+    descSize,
 }: BentoCardProps) {
     const isLight = variant === "light";
     const isBlack = variant === "black";
@@ -101,22 +111,22 @@ export default function BentoCard({
             )}
 
             {/* 📝 Content */}
-            <div className="relative z-10 flex flex-col justify-between h-full p-3.5 sm:p-5 md:p-8 xl:p-10">
+            <div className={`relative z-10 flex flex-col justify-between h-full ${contentPadding || "p-3.5 sm:p-5 md:p-8 xl:p-10"}`}>
                 <div>
-                    <div className="flex items-center gap-2.5 md:block mb-2 md:mb-5">
+                    <div className={iconPosition === "top" ? "block mb-3 md:mb-5" : "flex items-center gap-2.5 md:block mb-2 md:mb-5"}>
                         {icon && (
-                            <div className="shrink-0 mb-0 md:mb-4 origin-left">
+                            <div className={iconPosition === "top" ? "shrink-0 mb-3 md:mb-4 origin-left" : "shrink-0 mb-0 md:mb-4 origin-left"}>
                                 {icon}
                             </div>
                         )}
 
-                        <h3 className={`text-sm sm:text-base md:text-xl xl:text-2xl tracking-tight leading-tight mb-0 md:mb-3 ${titleClass}`}>
+                        <h3 className={`${titleSize || "text-sm sm:text-base md:text-xl xl:text-2xl"} tracking-tight leading-tight mb-1 md:mb-3 ${titleClass}`}>
                             {title}
                         </h3>
                     </div>
 
                     {description && (
-                        <p className={`text-[11px] sm:text-xs md:text-sm xl:text-base leading-snug md:leading-relaxed line-clamp-2 md:line-clamp-none max-w-full md:max-w-[95%] ${descClass}`}>
+                        <p className={`${descSize || "text-[11px] sm:text-xs md:text-sm xl:text-base"} leading-snug md:leading-relaxed ${lineClamp} max-w-full md:max-w-[95%] ${descClass}`}>
                             {description}
                         </p>
                     )}

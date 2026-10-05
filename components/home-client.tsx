@@ -133,7 +133,7 @@ export default function Home() {
                 style={{ y: textY, opacity: textOpacity }}
                 className="relative z-10 px-6 text-center mb-12 md:mb-16"
               >
-                <h1 className="text-3xl md:text-5xl lg:text-6xl font-medium mb-6 tracking-tight leading-tight text-white font-syne">
+                <h1 className="text-3xl mt-10 md:text-5xl lg:text-6xl font-medium mb-6 tracking-tight leading-tight text-white font-syne">
                   Safety Infrastructure for Organizations<br />
                   <span className="text-white/40">That Can't Afford Failure</span>
                 </h1>
