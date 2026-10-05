@@ -39,13 +39,13 @@ export default function EcosystemSection() {
   // Desktop Scroll Transforms
   const textLeftX = useTransform(
     scrollYProgress,
-    [0.05, 0.35],
+    [0.05, 0.5],
     ["0vw", "-100vw"]
   );
 
   const textRightX = useTransform(
     scrollYProgress,
-    [0.05, 0.35],
+    [0.05, 0.5],
     ["0vw", "100vw"]
   );
 
