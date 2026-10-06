@@ -35,13 +35,13 @@ import { usePreBooking } from "@/components/pre-booking-context";
 import { useVendorRegistration } from "@/components/vendor-registration-context";
 
 const features = [
-  
+
   {
     title: "Fire Detection",
     description: "Early-warning detection spots fire and smoke instantly, potentially saving lives and minimizing property damage.",
     icon: Flame,
   },
- 
+
   {
     title: "Intrusion Detection",
     description: "Identifies unauthorized access and potential intrusions into restricted areas with high accuracy.",
@@ -901,7 +901,7 @@ export default function KairosPageClient() {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="flex flex-col sm:flex-row items-center gap-4 z-10"
             >
-              <button 
+              <button
                 onClick={() => {
                   trackEvent({
                     name: "cta_click",
@@ -931,7 +931,7 @@ export default function KairosPageClient() {
               onTouchStart={() => setIsBoxActive(true)}
               className="relative w-full max-w-6xl mx-auto h-[440px] sm:h-[400px] md:h-[420px] lg:h-[480px] z-10 mt-6 group cursor-pointer"
             >
-              <div 
+              <div
                 className="absolute inset-x-0 top-[65px] bottom-[65px] md:top-0 md:bottom-0 lg:inset-x-48 xl:inset-x-64 z-30"
               >
                 <Image
@@ -943,7 +943,7 @@ export default function KairosPageClient() {
               </div>
 
               {/* 1. Fire Detection (Top on Mobile, Left Side on Desktop - Shown on Hover) */}
-              <div 
+              <div
                 className={`absolute top-0 left-1/2 -translate-x-1/2 md:top-[22%] md:left-4 lg:left-8 xl:left-12 md:translate-x-0 w-[90%] max-w-[280px] sm:w-[250px] md:w-[240px] xl:w-[270px] flex flex-row md:flex-row-reverse items-center md:items-start gap-2.5 sm:gap-4 transition-all duration-500 ease-out text-left md:text-right z-40
                   opacity-0 translate-y-3 group-hover:opacity-100 group-hover:translate-y-0 hover:!opacity-100 hover:!translate-y-0 ${isBoxActive ? '!opacity-100 !translate-y-0 pointer-events-auto' : 'pointer-events-none group-hover:pointer-events-auto'}
                 `}
@@ -961,7 +961,7 @@ export default function KairosPageClient() {
               </div>
 
               {/* 2. Intrusion Detection (Bottom on Mobile, Right Side on Desktop - Shown on Hover) */}
-              <div 
+              <div
                 className={`absolute bottom-0 left-1/2 -translate-x-1/2 md:bottom-auto md:top-[22%] md:right-4 lg:right-8 xl:right-12 md:left-auto md:translate-x-0 w-[90%] max-w-[280px] sm:w-[250px] md:w-[240px] xl:w-[270px] flex flex-row items-center md:items-start gap-2.5 sm:gap-4 transition-all duration-500 ease-out text-left z-40
                   opacity-0 translate-y-3 group-hover:opacity-100 group-hover:translate-y-0 hover:!opacity-100 hover:!translate-y-0 ${isBoxActive ? '!opacity-100 !translate-y-0 pointer-events-auto' : 'pointer-events-none group-hover:pointer-events-auto'}
                 `}
@@ -978,7 +978,7 @@ export default function KairosPageClient() {
                 </div>
               </div>
 
-           
+
 
             </motion.div>
           </section>
@@ -1013,7 +1013,7 @@ export default function KairosPageClient() {
             </div>
           </section>
 
-         
+
         </div>
       </div>
     </LenisDiv>
