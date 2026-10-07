@@ -56,7 +56,8 @@ export default function EcosystemSection() {
 
   const cardsOpacity = useTransform(
     scrollYProgress,
-    (pos) => (pos >= 0.08 ? 1 : 0)
+    [0.08, 0.35],
+    [0, 1]
   );
 
   const cardsScale = useTransform(
