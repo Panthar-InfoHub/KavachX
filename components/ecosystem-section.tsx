@@ -54,21 +54,23 @@ export default function EcosystemSection() {
     (pos) => (pos >= 0.35 ? "none" : "block")
   );
 
-  const cardsOpacity = useTransform(
+  // Cards ki apni opacity hamesha 1 (grey/wash nahi aata).
+  // Fade-in ek #fdfdfd cover se hota hai: text poora dikhe tab cover 1 (card invisible),
+  // text jaise hi poora gayab ho (0.35) cover 0 (card poora clear), uske baad cover hat jata hai.
+  const coverOpacity = useTransform(
     scrollYProgress,
-    [0.08, 0.35],
-    [0, 1]
+    [0.1, 0.35],
+    [0,10]
   );
 
-  const cardsScale = useTransform(
+  const coverDisplay = useTransform(
     scrollYProgress,
-    [0.25, 0.35],
-    [0.80, 1]
+    (pos) => (pos >= 0.35 ? "none" : "block")
   );
 
   const cardsYPopup = useTransform(
     scrollYProgress,
-    [0.20, 0.35],
+    [0.1, 0.35],
     [30, 0]
   );
 
@@ -129,7 +131,7 @@ export default function EcosystemSection() {
               contentPadding="p-6 sm:p-8"
               titleSize="text-xl sm:text-2xl"
               descSize="text-xs sm:text-sm"
-              className="h-full"
+              className="h-full !opacity-100 !backdrop-blur-none !bg-white !border !border-black/15 [&_h2]:!text-black [&_h3]:!text-black [&_p]:!text-neutral-700"
             >
               <div className="absolute -bottom-20 -right-20 w-[120%] h-[120%] opacity-15 pointer-events-none z-[-1]">
                 <SonarRadar />
@@ -187,9 +189,9 @@ export default function EcosystemSection() {
               contentPadding="p-6 sm:p-8"
               titleSize="text-xl sm:text-2xl"
               descSize="text-xs sm:text-sm"
-              className="h-full"
+              className="h-full !opacity-100 !backdrop-blur-none !bg-black !border !border-black [&_h2]:!text-white [&_h3]:!text-white [&_p]:!text-white/80"
             >
-              <div className="absolute -bottom-10 -right-10 w-full opacity-30 pointer-events-none scale-125 z-[-1]">
+              <div className="absolute -bottom-10 -right-10 w-full opacity-20 pointer-events-none scale-125 z-[-1]">
                 <RiskScannerAsset />
               </div>
 
@@ -346,10 +348,10 @@ export default function EcosystemSection() {
           >
             <motion.div
               style={{
-                opacity: cardsOpacity,
-                scale: cardsScale,
+                opacity: 1,
                 y: cardsYPopup,
                 perspective: 1200,
+                isolation: "isolate",
               }}
               className="
                 w-full
@@ -391,7 +393,7 @@ export default function EcosystemSection() {
                   variant="light"
                   showOrbital={true}
                   noFadeIn={true}
-                  className="h-full"
+                  className="h-full !opacity-100 !backdrop-blur-none !bg-white !border !border-black/15 [&_h2]:!text-black [&_h3]:!text-black [&_p]:!text-neutral-700"
                 >
                   <div
                     className="
@@ -467,6 +469,8 @@ export default function EcosystemSection() {
                   x: card2XDesktop,
                   rotateY: kairosFlip,
                   transformStyle: "preserve-3d",
+                  willChange: "transform",
+                  WebkitFontSmoothing: "antialiased",
                 }}
                 className="
                   w-full
@@ -488,7 +492,7 @@ export default function EcosystemSection() {
                   nebulaColor="none"
                   showOrbital={false}
                   noFadeIn={true}
-                  className="h-full"
+                  className="h-full !opacity-100 !backdrop-blur-none !bg-black !border !border-black [&_h2]:!text-white [&_h3]:!text-white [&_p]:!text-white/80"
                 >
                   <div
                     className="
@@ -496,7 +500,7 @@ export default function EcosystemSection() {
                       -bottom-10
                       -right-10
                       w-full
-                      opacity-30
+                      opacity-20
                       pointer-events-none
                       scale-125
                       z-[-1]
@@ -556,6 +560,13 @@ export default function EcosystemSection() {
                   </div>
                 </BentoCard>
               </motion.div>
+
+              {/* FADE-IN COVER: section ke bg jaisa, cards ke upar, text ke neeche */}
+              <motion.div
+                aria-hidden
+                style={{ opacity: coverOpacity, display: coverDisplay }}
+                className="pointer-events-none absolute -inset-4 z-50 bg-[#fdfdfd]"
+              />
             </motion.div>
           </motion.div>
         </div>
