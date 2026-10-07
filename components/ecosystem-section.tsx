@@ -60,12 +60,18 @@ export default function EcosystemSection() {
   const coverOpacity = useTransform(
     scrollYProgress,
     [0.1, 0.35],
-    [0,10]
+    [0, 1]
   );
 
   const coverDisplay = useTransform(
     scrollYProgress,
     (pos) => (pos >= 0.35 ? "none" : "block")
+  );
+
+  const cardsScale = useTransform(
+    scrollYProgress,
+    [0.1, 0.35],
+    [0.90, 1]
   );
 
   const cardsYPopup = useTransform(
@@ -349,6 +355,7 @@ export default function EcosystemSection() {
             <motion.div
               style={{
                 opacity: 1,
+                scale: cardsScale,
                 y: cardsYPopup,
                 perspective: 1200,
                 isolation: "isolate",
