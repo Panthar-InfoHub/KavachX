@@ -56,27 +56,27 @@ export default function EcosystemSection() {
 
   // Cards ki apni opacity hamesha 1 (grey/wash nahi aata).
   // Fade-in ek #fdfdfd cover se hota hai: text poora dikhe tab cover 1 (card invisible),
-  // text jaise hi poora gayab ho (0.35) cover 0 (card poora clear), uske baad cover hat jata hai.
+  // text jaise hi poora gayab ho (0.25) cover 0 (card poora clear), uske baad cover hat jata hai.
   const coverOpacity = useTransform(
     scrollYProgress,
-    [0.1, 0.35],
-    [0, 1]
+    [0.1, 0.25],
+    [0,1]
   );
 
   const coverDisplay = useTransform(
     scrollYProgress,
-    (pos) => (pos >= 0.35 ? "none" : "block")
+    (pos) => (pos >= 0.25 ? "none" : "block")
   );
 
   const cardsScale = useTransform(
     scrollYProgress,
-    [0.1, 0.35],
+    [0.1, 0.25],
     [0.90, 1]
   );
 
   const cardsYPopup = useTransform(
     scrollYProgress,
-    [0.1, 0.35],
+    [0.1, 0.25],
     [30, 0]
   );
 
