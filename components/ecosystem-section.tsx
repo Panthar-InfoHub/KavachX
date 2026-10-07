@@ -61,13 +61,13 @@ export default function EcosystemSection() {
 
   const cardsScale = useTransform(
     scrollYProgress,
-    [0.05, 0.35],
-    [0.90, 1]
+    [0.25, 0.35],
+    [0.80, 1]
   );
 
   const cardsYPopup = useTransform(
     scrollYProgress,
-    [0.05, 0.35],
+    [0.20, 0.35],
     [30, 0]
   );
 
@@ -91,7 +91,7 @@ export default function EcosystemSection() {
   const kairosFlip = useTransform(
     scrollYProgress,
     [0.35, 0.65],
-    [-180, 0]
+    [180, 0]
   );
 
   return (
