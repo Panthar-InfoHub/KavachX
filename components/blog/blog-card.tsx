@@ -52,7 +52,7 @@ export function BlogCard({
           <img
             src={coverImage && !imageError ? coverImage : "/images/factory.jpeg"}
             alt={title}
-            className="w-full h-full object-contain p-2 group-hover:scale-[1.02] transition-transform duration-500 ease-out"
+            className="w-full h-full object-fill  group-hover:scale-[1.02] transition-transform duration-500 ease-out"
             onError={() => setImageError(true)}
           />
         </div>

@@ -22,95 +22,77 @@ import EcosystemSection from "./ecosystem-section";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
+// Cards ke neeche thoda gap, taaki last card screen ke bottom se chipka na rahe
+const BOTTOM_GAP = 24;
+
 export default function Home() {
   const heroTrackRef = useRef<HTMLDivElement>(null);
+  const stickyRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
 
-  const [windowSize, setWindowSize] = useState<{ width: number; height: number }>({
-    width: 1200,
-    height: 900,
-  });
+  // vh = sticky viewport ki real height, shift = content ko kitna px upar le jaana hai
+  const [layout, setLayout] = useState({ vh: 900, shift: 0 });
 
   useEffect(() => {
-    const handleResize = () => {
-      setWindowSize({ width: window.innerWidth, height: window.innerHeight });
+    const measure = () => {
+      const sticky = stickyRef.current;
+      const content = contentRef.current;
+      if (!sticky || !content) return;
+
+      const vh = sticky.clientHeight;
+      // offsetTop = sticky container ka top padding, offsetHeight = poora hero + bento grid
+      const contentBottom = content.offsetTop + content.offsetHeight + BOTTOM_GAP;
+      const shift = Math.max(0, Math.round(contentBottom - vh));
+
+      setLayout((prev) =>
+        prev.vh === vh && prev.shift === shift ? prev : { vh, shift }
+      );
     };
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+
+    measure();
+
+    const ro = new ResizeObserver(measure);
+    if (stickyRef.current) ro.observe(stickyRef.current);
+    if (contentRef.current) ro.observe(contentRef.current);
+    window.addEventListener("resize", measure);
+    window.addEventListener("orientationchange", measure);
+    // fonts / images load hone ke baad height badal sakti hai
+    window.addEventListener("load", measure);
+
+    return () => {
+      ro.disconnect();
+      window.removeEventListener("resize", measure);
+      window.removeEventListener("orientationchange", measure);
+      window.removeEventListener("load", measure);
+    };
   }, []);
+
+  const { vh, shift } = layout;
+
+  // Track height = [bento scroll distance] + [1 screen white sheet ke liye] + [1 screen sticky pin]
+  //  scroll 0 → shift      : bento cards upar scroll hote hain (hero pinned)
+  //  scroll shift → +vh    : white sheet neeche se cards ke upar slide hoti hai (hero abhi bhi pinned)
+  const trackHeight = shift + vh * 2;
+  // useScroll progress poore (trackHeight - vh) scroll pe 0→1 hota hai
+  const totalScroll = shift + vh;
+  const bentoEnd = Math.max(0.001, shift / totalScroll);
 
   const { scrollYProgress: heroScrollProgress } = useScroll({
     target: heroTrackRef,
-    offset: ["start start", "end end"]
+    offset: ["start start", "end end"],
   });
 
   const smoothProgress = useSpring(heroScrollProgress, {
     stiffness: 120,
     damping: 25,
-    restDelta: 0.001
+    restDelta: 0.001,
   });
 
-  // Tailored shift percentages for Chrome DevTools device presets:
-  // Mobile (iPhone SE, 16, 16 Pro Max, Pixel 9/10, Galaxy A55), Foldables (Pixel Fold, Z Fold 6),
-  // Tablets (iPad Mini, iPad Pro 13, Surface Pro 10), Smart Displays (Nest Hub Max), Desktops & 4K
-  const getBentoShift = (w: number, h: number) => {
-
-    if (w >= 1024 && h <= 820) return "-62%";
-    if (w <= 400 && h <= 700) return "-72%";
-    if (w <= 400 && h <= 900) return "-66%";
-    if (w < 450) return "-60%";
-
-    if (w < 1050 && h >= 1000) {
-      if (h > 1200) return "-45%";
-      return "-48%";
-    }
-    if (w < 600) return "-68%";   
-    if (w < 650) return "-68%";
-    if (w < 700) return "-68%";
-    if (w < 800) return "-67%";
-    if (w < 900) return "-64%";
-    if (w < 1000) return "-62%";
-    if (w < 1440) {
-      if (h > 1200) return "-48%";
-      return "-58%";
-    }
-    return "-45%";
-  };
-
-  const getTrackHeightClass = (w: number, h: number) => {
-    if (w >= 1024 && h <= 820) return "h-[320vh]";
-    if (w <= 400 && h <= 700) return "h-[540vh]";
-    if (w <= 400 && h <= 900) return "h-[460vh]";
-    if (w < 450) return "h-[420vh]";
-
-    if (w < 1050 && h >= 1000) {
-      if (h > 1200) return "h-[340vh]";
-      return "h-[360vh]";
-    }
-
-    if (w < 600) return "h-[460vh]";
-    if (w < 650) return "h-[440vh]";
-    if (w < 700) return "h-[420vh]";
-    if (w < 800) return "h-[380vh]";
-    if (w < 900) return "h-[360vh]";
-    if (w < 1000) return "h-[340vh]";
-
-    if (w < 1440) {
-      if (h > 1200) return "h-[320vh]";
-      return "h-[300vh]";
-    }
-
-    return "h-[280vh]";
-  };
-
-
-  const bentoShift = getBentoShift(windowSize.width, windowSize.height);
-  const trackHeightClass = getTrackHeightClass(windowSize.width, windowSize.height);
-
-  const bentoY = useTransform(smoothProgress, [0, 0.40, 1.0], ["0%", bentoShift, bentoShift]);
-  const videoScale = useTransform(smoothProgress, [0, 0.3], [1.2, 1.10]);
-  const textY = useTransform(smoothProgress, [0, 0.3], [0, -50]);
-  const textOpacity = useTransform(smoothProgress, [0, 0.3], [1, 0]);
+  const bentoY = useTransform(smoothProgress, [0, bentoEnd, 1], [0, -shift, -shift]);
+  const textEnd = Math.max(0.001, Math.min(0.3, bentoEnd * 0.6));
+  const videoScale = useTransform(smoothProgress, [0, 0.3], [1.2, 1.1]);
+  const textY = useTransform(smoothProgress, [0, textEnd], [0, -50]);
+  const textOpacity = useTransform(smoothProgress, [0, textEnd], [1, 0]);
 
   return (
     <LenisDiv>
@@ -120,9 +102,16 @@ export default function Home() {
         <div className="noise-overlay" />
 
         {/* ── HERO TRACK CONTAINER ── */}
-        <div ref={heroTrackRef} className={`relative w-full z-0 ${trackHeightClass}`}>
-          {/* Sticky Pinned Viewport Container (z-0) */}
-          <div className="sticky top-0 h-screen w-full overflow-hidden z-0 flex flex-col items-center px-4 md:px-[5%] pt-16 md:pt-32">
+        <div
+          ref={heroTrackRef}
+          className="relative w-full z-0"
+          style={{ height: trackHeight }}
+        >
+          {/* Sticky Pinned Viewport Container */}
+          <div
+            ref={stickyRef}
+            className="sticky top-0 h-[100svh] w-full overflow-hidden z-0 flex flex-col items-center px-4 md:px-[5%] pt-16 md:pt-32"
+          >
 
             {/* Background Video */}
             <motion.video
@@ -138,8 +127,12 @@ export default function Home() {
 
             <div className="absolute inset-0 z-[-1] bg-[radial-gradient(circle_at_center,rgba(0,0,0,0.4)_0%,rgba(0,0,0,0.9)_100%)]" />
 
-            {/* Scrollable Group containing Hero Title + Cosmic Bento Grid */}
-            <motion.div style={{ y: bentoY }} className="w-full flex flex-col items-center">
+            {/* Scrollable Group: Hero Title + Cosmic Bento Grid */}
+            <motion.div
+              ref={contentRef}
+              style={{ y: bentoY }}
+              className="w-full flex flex-col items-center will-change-transform"
+            >
               {/* Hero Content */}
               <motion.div
                 style={{ y: textY, opacity: textOpacity }}
@@ -168,7 +161,7 @@ export default function Home() {
               </motion.div>
 
               {/* ──── COSMIC BENTO GRID ──── */}
-              <div className="w-full max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-6 gap-6 items-stretch auto-rows-[minmax(250px,auto)] pb-24">
+              <div className="w-full max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-6 gap-6 items-stretch auto-rows-[minmax(250px,auto)]">
 
                 {/* ── Real-Time Monitoring (Large) ── */}
                 <BentoCard
@@ -177,7 +170,6 @@ export default function Home() {
                   icon={<MonitoringIcon className="w-8 h-8 text-blue-100" animate />}
                   gridSpan="md:col-span-4 md:row-span-2"
                   delay={100}
-                // nebulaColor="blue"
                 >
                   <div className="absolute top-2 right-8 z-20 flex flex-col items-end gap-6 text-right">
                     <UptimeCard />
@@ -210,7 +202,7 @@ export default function Home() {
                   </div>
                 </BentoCard>
 
-                {/* ── Speed (Tall Right) ── */}
+                {/* ── Unified Incident View ── */}
                 <BentoCard
                   title="Unified Incident View"
                   description="One dashboard. Every alert, inspection log, work order, and compliance report — searchable across all your facilities."
@@ -271,8 +263,13 @@ export default function Home() {
           </div>
         </div>
 
-        {/* ── WHITE ECOSYSTEM SHEET (SLIDES UP OVER HERO TRACK & ANIMATES SPLIT ON SCROLL) ── */}
-        <div className="relative z-20 w-full bg-[#fdfdfd] text-black rounded-t-[3.5rem] shadow-[0_-30px_70px_rgba(0,0,0,0.85)] border-t border-slate-200/80 -mt-[100vh]">
+        {/* ── WHITE ECOSYSTEM SHEET ──
+            -mt = 1 viewport, isliye sheet tab tak neeche rehti hai jab tak bento scroll khatam na ho,
+            fir hero pinned rehte hue uske upar slide hoti hai. */}
+        <div
+          className="relative z-20 w-full bg-[#fdfdfd] text-black rounded-t-[2rem] md:rounded-t-[3.5rem] shadow-[0_-30px_70px_rgba(0,0,0,0.85)] border-t border-slate-200/80"
+          style={{ marginTop: -vh }}
+        >
           <EcosystemSection />
         </div>
 
