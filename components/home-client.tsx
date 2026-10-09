@@ -21,9 +21,10 @@ import {
 import EcosystemSection from "./ecosystem-section";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { DarkGradientBg } from "@/components/ui/elegant-dark-pattern";
 
 // Cards ke neeche thoda gap, taaki last card screen ke bottom se chipka na rahe
-const BOTTOM_GAP = 24;
+const BOTTOM_GAP = 30;
 
 export default function Home() {
   const heroTrackRef = useRef<HTMLDivElement>(null);
@@ -69,13 +70,15 @@ export default function Home() {
 
   const { vh, shift } = layout;
 
-  // Track height = [bento scroll distance] + [1 screen white sheet ke liye] + [1 screen sticky pin]
-  //  scroll 0 → shift      : bento cards upar scroll hote hain (hero pinned)
-  //  scroll shift → +vh    : white sheet neeche se cards ke upar slide hoti hai (hero abhi bhi pinned)
-  const trackHeight = shift + vh * 2;
-  // useScroll progress poore (trackHeight - vh) scroll pe 0→1 hota hai
-  const totalScroll = shift + vh;
-  const bentoEnd = Math.max(0.001, shift / totalScroll);
+  // Track height calculation:
+  // 1. scroll 0 → bentoEnd       : bento cards move up onto screen (hero pinned)
+  // 2. scroll bentoEnd → holdEnd  : bento cards stay completely STILL & 100% VISIBLE (hold buffer = 50% vh)
+  // 3. scroll holdEnd → 1.0      : white sheet slides up from bottom over pinned hero track (slide distance = 1.5 vh)
+  const holdBuffer = Math.round(vh * 0.5);
+  const slideDistance = Math.round(vh * 1.5);
+  const trackHeight = shift + holdBuffer + slideDistance + vh;
+  const totalActiveScroll = Math.max(1, shift + holdBuffer + slideDistance);
+  const bentoEnd = Math.max(0.001, shift / totalActiveScroll);
 
   const { scrollYProgress: heroScrollProgress } = useScroll({
     target: heroTrackRef,
@@ -110,8 +113,10 @@ export default function Home() {
           {/* Sticky Pinned Viewport Container */}
           <div
             ref={stickyRef}
-            className="sticky top-0 h-[100svh] w-full overflow-hidden z-0 flex flex-col items-center px-4 md:px-[5%] pt-16 md:pt-32"
+            className="sticky top-0 h-[100svh] w-full overflow-hidden z-0 flex flex-col items-center px-4 md:px-[5%] pt-16 md:pt-20"
           >
+            {/* Elegant Dark Pattern Background */}
+            <DarkGradientBg className="absolute inset-0 z-[-3] h-full w-full pointer-events-none opacity-90" />
 
             {/* Background Video */}
             <motion.video
@@ -120,12 +125,12 @@ export default function Home() {
               muted
               playsInline
               style={{ scale: videoScale }}
-              className="absolute inset-0 w-full h-full object-cover z-[-2] opacity-30"
+              className="absolute inset-0 w-full h-full object-cover z-[-2] opacity-25 mix-blend-screen"
             >
               <source src="https://res.cloudinary.com/dfr2qixlq/video/upload/q_auto/f_auto/v1778064275/video_loiyzj.mp4" type="video/mp4" />
             </motion.video>
 
-            <div className="absolute inset-0 z-[-1] bg-[radial-gradient(circle_at_center,rgba(0,0,0,0.4)_0%,rgba(0,0,0,0.9)_100%)]" />
+            <div className="absolute inset-0 z-[-1] bg-[radial-gradient(circle_at_center,rgba(0,0,0,0.2)_0%,rgba(0,0,0,0.85)_100%)]" />
 
             {/* Scrollable Group: Hero Title + Cosmic Bento Grid */}
             <motion.div
@@ -133,12 +138,12 @@ export default function Home() {
               style={{ y: bentoY }}
               className="w-full flex flex-col items-center will-change-transform"
             >
-              {/* Hero Content */}
+              {/* Hero Content - Occupies full viewport height so Bento cards sit below the fold */}
               <motion.div
                 style={{ y: textY, opacity: textOpacity }}
-                className="relative z-10 px-6 text-center mb-12 md:mb-16"
+                className="relative z-10 px-6 text-center flex flex-col items-center justify-center min-h-[calc(100svh-4rem)] md:min-h-[calc(100svh-5rem)] pb-12 md:pb-16"
               >
-                <h1 className="text-3xl mt-10 md:text-5xl lg:text-6xl font-medium mb-6 tracking-tight leading-tight text-white font-syne">
+                <h1 className="text-3xl mt-4 md:text-5xl lg:text-6xl font-medium mb-6 tracking-tight leading-tight text-white font-syne">
                   Safety Infrastructure for Organizations<br />
                   <span className="text-white/40">That Can't Afford Failure</span>
                 </h1>
@@ -161,7 +166,7 @@ export default function Home() {
               </motion.div>
 
               {/* ──── COSMIC BENTO GRID ──── */}
-              <div className="w-full max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-6 gap-6 items-stretch auto-rows-[minmax(250px,auto)]">
+              <div className="w-full max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-6 gap-6 items-stretch auto-rows-[minmax(250px,auto)] pt-4">
 
                 {/* ── Real-Time Monitoring (Large) ── */}
                 <BentoCard
@@ -264,11 +269,11 @@ export default function Home() {
         </div>
 
         {/* ── WHITE ECOSYSTEM SHEET ──
-            -mt = 1 viewport, isliye sheet tab tak neeche rehti hai jab tak bento scroll khatam na ho,
+            -mt = slideDistance, isliye sheet tab tak neeche rehti hai jab tak bento scroll aur hold buffer khatam na ho,
             fir hero pinned rehte hue uske upar slide hoti hai. */}
         <div
           className="relative z-20 w-full bg-[#fdfdfd] text-black rounded-t-[2rem] md:rounded-t-[3.5rem] shadow-[0_-30px_70px_rgba(0,0,0,0.85)] border-t border-slate-200/80"
-          style={{ marginTop: -vh }}
+          style={{ marginTop: -slideDistance }}
         >
           <EcosystemSection />
         </div>

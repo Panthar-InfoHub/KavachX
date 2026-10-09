@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { motion, useScroll, useTransform } from "motion/react";
+import { motion, useScroll, useTransform } from "framer-motion";
 import BentoCard from "./bento-card";
 import { ShieldIcon, AIIcon } from "./icons";
 import { SonarRadar, RiskScannerAsset } from "./bento-assets";
@@ -39,8 +39,8 @@ export default function EcosystemSection() {
   // Desktop Scroll Transforms
   const textLeftX = useTransform(
     scrollYProgress,
-    [0.05, 0.5],
-    ["0vw", "-100vw"]
+    [0.05, 0.22],
+    ["0vw", "-60vw"]
   );
 
   const textRightX = useTransform(
@@ -51,56 +51,54 @@ export default function EcosystemSection() {
 
   const titleDisplay = useTransform(
     scrollYProgress,
-    (pos) => (pos >= 0.35 ? "none" : "block")
+    (pos) => (pos >= 0.20 ? "none" : "block")
   );
 
-  // Cards ki apni opacity hamesha 1 (grey/wash nahi aata).
-  // Fade-in ek #fdfdfd cover se hota hai: text poora dikhe tab cover 1 (card invisible),
-  // text jaise hi poora gayab ho (0.25) cover 0 (card poora clear), uske baad cover hat jata hai.
+  // Cards fade-in and scale
   const coverOpacity = useTransform(
     scrollYProgress,
-    [0.1, 0.25],
-    [0,1]
+    [0.20, 0.30],
+    [1, 0]
   );
 
   const coverDisplay = useTransform(
     scrollYProgress,
-    (pos) => (pos >= 0.25 ? "none" : "block")
+    (pos) => (pos >= 0.30 ? "none" : "block")
   );
 
   const cardsScale = useTransform(
     scrollYProgress,
-    [0.1, 0.25],
+    [0.20, 0.35],
     [0.90, 1]
   );
 
   const cardsYPopup = useTransform(
     scrollYProgress,
-    [0.1, 0.25],
+    [0.20, 0.35],
     [30, 0]
   );
 
   const cardsDisplay = useTransform(
     scrollYProgress,
-    (pos) => (pos < 0.08 ? "none" : "block")
+    (pos) => (pos < 0.18 ? "none" : "block")
   );
 
   const card1XDesktop = useTransform(
     scrollYProgress,
-    [0.35, 0.65],
+    [0.55, 0.85],
     ["0%", "-53%"]
   );
 
   const card2XDesktop = useTransform(
     scrollYProgress,
-    [0.35, 0.65],
+    [0.55, 0.85],
     ["0%", "53%"]
   );
 
-  const kairosFlip = useTransform(
+  const kairosScale = useTransform(
     scrollYProgress,
-    [0.35, 0.65],
-    [180, 0]
+    [0.55, 0.85],
+    [0.85, 1]
   );
 
   return (
@@ -240,7 +238,7 @@ export default function EcosystemSection() {
           ======================================================= */}
       <div
         ref={containerRef}
-        className="hidden md:block relative h-[200vh] w-full border-t border-white/10"
+        className="hidden md:block relative h-[260vh] w-full border-t border-white/10"
       >
         <div
           className="
@@ -474,9 +472,7 @@ export default function EcosystemSection() {
                 style={{
                   zIndex: 10,
                   x: card2XDesktop,
-                  rotateY: kairosFlip,
-                  transformStyle: "preserve-3d",
-                  willChange: "transform",
+                  scale: kairosScale,
                   WebkitFontSmoothing: "antialiased",
                 }}
                 className="
@@ -484,7 +480,7 @@ export default function EcosystemSection() {
                   h-full
                   absolute
                   inset-0
-                "
+                  origin-center"
               >
                 <BentoCard
                   title="KAIROS- AI edge box"

@@ -47,12 +47,12 @@ export function FeaturedBlogCard({
     >
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
         {/* Cover Image Container */}
-        <div className="relative lg:col-span-7 aspect-[16/10] w-full min-h-[220px] sm:min-h-[340px] rounded-2xl sm:rounded-3xl overflow-hidden bg-[#eaeff7] border-0 flex items-center justify-center shrink-0">
+        <div className="relative lg:col-span-7 aspect-[16/10] w-full min-h-[220px]  rounded-2xl sm:rounded-3xl overflow-hidden bg-[#eaeff7] border-0 flex items-center justify-center shrink-0">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={coverImage && !imageError ? coverImage : "/images/factory.jpeg"}
             alt={title}
-            className="w-full h-full object-fill group-hover:scale-[1.02] transition-transform duration-700 ease-out"
+            className="w-full h-full object-fit group-hover:scale-[1.02] transition-transform duration-700 ease-out"
             onError={() => setImageError(true)}
           />
 
