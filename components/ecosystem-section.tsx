@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { motion, useScroll, useTransform } from "motion/react";
+import { motion, useScroll, useTransform } from "framer-motion";
 import BentoCard from "./bento-card";
 import { ShieldIcon, AIIcon } from "./icons";
 import { SonarRadar, RiskScannerAsset } from "./bento-assets";
@@ -39,8 +39,8 @@ export default function EcosystemSection() {
   // Desktop Scroll Transforms
   const textLeftX = useTransform(
     scrollYProgress,
-    [0.05, 0.5],
-    ["0vw", "-100vw"]
+    [0.05, 0.22],
+    ["0vw", "-60vw"]
   );
 
   const textRightX = useTransform(
@@ -51,47 +51,54 @@ export default function EcosystemSection() {
 
   const titleDisplay = useTransform(
     scrollYProgress,
-    (pos) => (pos >= 0.35 ? "none" : "block")
+    (pos) => (pos >= 0.20 ? "none" : "block")
   );
 
-  const cardsOpacity = useTransform(
+  // Cards fade-in and scale
+  const coverOpacity = useTransform(
     scrollYProgress,
-    (pos) => (pos >= 0.08 ? 1 : 0)
+    [0.20, 0.30],
+    [1, 0]
+  );
+
+  const coverDisplay = useTransform(
+    scrollYProgress,
+    (pos) => (pos >= 0.30 ? "none" : "block")
   );
 
   const cardsScale = useTransform(
     scrollYProgress,
-    [0.05, 0.35],
+    [0.20, 0.35],
     [0.90, 1]
   );
 
   const cardsYPopup = useTransform(
     scrollYProgress,
-    [0.05, 0.35],
+    [0.20, 0.35],
     [30, 0]
   );
 
   const cardsDisplay = useTransform(
     scrollYProgress,
-    (pos) => (pos < 0.08 ? "none" : "block")
+    (pos) => (pos < 0.18 ? "none" : "block")
   );
 
   const card1XDesktop = useTransform(
     scrollYProgress,
-    [0.35, 0.65],
+    [0.55, 0.85],
     ["0%", "-53%"]
   );
 
   const card2XDesktop = useTransform(
     scrollYProgress,
-    [0.35, 0.65],
+    [0.55, 0.85],
     ["0%", "53%"]
   );
 
-  const kairosFlip = useTransform(
+  const kairosScale = useTransform(
     scrollYProgress,
-    [0.35, 0.65],
-    [-180, 0]
+    [0.55, 0.85],
+    [0.85, 1]
   );
 
   return (
@@ -128,7 +135,7 @@ export default function EcosystemSection() {
               contentPadding="p-6 sm:p-8"
               titleSize="text-xl sm:text-2xl"
               descSize="text-xs sm:text-sm"
-              className="h-full"
+              className="h-full !opacity-100 !backdrop-blur-none !bg-white !border !border-black/15 [&_h2]:!text-black [&_h3]:!text-black [&_p]:!text-neutral-700"
             >
               <div className="absolute -bottom-20 -right-20 w-[120%] h-[120%] opacity-15 pointer-events-none z-[-1]">
                 <SonarRadar />
@@ -186,9 +193,9 @@ export default function EcosystemSection() {
               contentPadding="p-6 sm:p-8"
               titleSize="text-xl sm:text-2xl"
               descSize="text-xs sm:text-sm"
-              className="h-full"
+              className="h-full !opacity-100 !backdrop-blur-none !bg-black !border !border-black [&_h2]:!text-white [&_h3]:!text-white [&_p]:!text-white/80"
             >
-              <div className="absolute -bottom-10 -right-10 w-full opacity-30 pointer-events-none scale-125 z-[-1]">
+              <div className="absolute -bottom-10 -right-10 w-full opacity-20 pointer-events-none scale-125 z-[-1]">
                 <RiskScannerAsset />
               </div>
 
@@ -231,7 +238,7 @@ export default function EcosystemSection() {
           ======================================================= */}
       <div
         ref={containerRef}
-        className="hidden md:block relative h-[200vh] w-full border-t border-white/10"
+        className="hidden md:block relative h-[260vh] w-full border-t border-white/10"
       >
         <div
           className="
@@ -345,10 +352,11 @@ export default function EcosystemSection() {
           >
             <motion.div
               style={{
-                opacity: cardsOpacity,
+                opacity: 1,
                 scale: cardsScale,
                 y: cardsYPopup,
                 perspective: 1200,
+                isolation: "isolate",
               }}
               className="
                 w-full
@@ -390,7 +398,7 @@ export default function EcosystemSection() {
                   variant="light"
                   showOrbital={true}
                   noFadeIn={true}
-                  className="h-full"
+                  className="h-full !opacity-100 !backdrop-blur-none !bg-white !border !border-black/15 [&_h2]:!text-black [&_h3]:!text-black [&_p]:!text-neutral-700"
                 >
                   <div
                     className="
@@ -464,15 +472,15 @@ export default function EcosystemSection() {
                 style={{
                   zIndex: 10,
                   x: card2XDesktop,
-                  rotateY: kairosFlip,
-                  transformStyle: "preserve-3d",
+                  scale: kairosScale,
+                  WebkitFontSmoothing: "antialiased",
                 }}
                 className="
                   w-full
                   h-full
                   absolute
                   inset-0
-                "
+                  origin-center"
               >
                 <BentoCard
                   title="KAIROS- AI edge box"
@@ -487,7 +495,7 @@ export default function EcosystemSection() {
                   nebulaColor="none"
                   showOrbital={false}
                   noFadeIn={true}
-                  className="h-full"
+                  className="h-full !opacity-100 !backdrop-blur-none !bg-black !border !border-black [&_h2]:!text-white [&_h3]:!text-white [&_p]:!text-white/80"
                 >
                   <div
                     className="
@@ -495,7 +503,7 @@ export default function EcosystemSection() {
                       -bottom-10
                       -right-10
                       w-full
-                      opacity-30
+                      opacity-20
                       pointer-events-none
                       scale-125
                       z-[-1]
@@ -555,6 +563,13 @@ export default function EcosystemSection() {
                   </div>
                 </BentoCard>
               </motion.div>
+
+              {/* FADE-IN COVER: section ke bg jaisa, cards ke upar, text ke neeche */}
+              <motion.div
+                aria-hidden
+                style={{ opacity: coverOpacity, display: coverDisplay }}
+                className="pointer-events-none absolute -inset-4 z-50 bg-[#fdfdfd]"
+              />
             </motion.div>
           </motion.div>
         </div>
