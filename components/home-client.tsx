@@ -21,96 +21,81 @@ import {
 import EcosystemSection from "./ecosystem-section";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { DarkGradientBg } from "@/components/ui/elegant-dark-pattern";
+
+// Cards ke neeche thoda gap, taaki last card screen ke bottom se chipka na rahe
+const BOTTOM_GAP = 30;
 
 export default function Home() {
   const heroTrackRef = useRef<HTMLDivElement>(null);
+  const stickyRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
 
-  const [windowSize, setWindowSize] = useState<{ width: number; height: number }>({
-    width: 1200,
-    height: 900,
-  });
+  // vh = sticky viewport ki real height, shift = content ko kitna px upar le jaana hai
+  const [layout, setLayout] = useState({ vh: 900, shift: 0 });
 
   useEffect(() => {
-    const handleResize = () => {
-      setWindowSize({ width: window.innerWidth, height: window.innerHeight });
+    const measure = () => {
+      const sticky = stickyRef.current;
+      const content = contentRef.current;
+      if (!sticky || !content) return;
+
+      const vh = sticky.clientHeight;
+      // offsetTop = sticky container ka top padding, offsetHeight = poora hero + bento grid
+      const contentBottom = content.offsetTop + content.offsetHeight + BOTTOM_GAP;
+      const shift = Math.max(0, Math.round(contentBottom - vh));
+
+      setLayout((prev) =>
+        prev.vh === vh && prev.shift === shift ? prev : { vh, shift }
+      );
     };
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+
+    measure();
+
+    const ro = new ResizeObserver(measure);
+    if (stickyRef.current) ro.observe(stickyRef.current);
+    if (contentRef.current) ro.observe(contentRef.current);
+    window.addEventListener("resize", measure);
+    window.addEventListener("orientationchange", measure);
+    // fonts / images load hone ke baad height badal sakti hai
+    window.addEventListener("load", measure);
+
+    return () => {
+      ro.disconnect();
+      window.removeEventListener("resize", measure);
+      window.removeEventListener("orientationchange", measure);
+      window.removeEventListener("load", measure);
+    };
   }, []);
+
+  const { vh, shift } = layout;
+
+  // Track height calculation:
+  // 1. scroll 0 → bentoEnd       : bento cards move up onto screen (hero pinned)
+  // 2. scroll bentoEnd → holdEnd  : bento cards stay completely STILL & 100% VISIBLE (hold buffer = 50% vh)
+  // 3. scroll holdEnd → 1.0      : white sheet slides up from bottom over pinned hero track (slide distance = 1.5 vh)
+  const holdBuffer = Math.round(vh * 0.5);
+  const slideDistance = Math.round(vh * 1.5);
+  const trackHeight = shift + holdBuffer + slideDistance + vh;
+  const totalActiveScroll = Math.max(1, shift + holdBuffer + slideDistance);
+  const bentoEnd = Math.max(0.001, shift / totalActiveScroll);
 
   const { scrollYProgress: heroScrollProgress } = useScroll({
     target: heroTrackRef,
-    offset: ["start start", "end end"]
+    offset: ["start start", "end end"],
   });
 
   const smoothProgress = useSpring(heroScrollProgress, {
     stiffness: 120,
     damping: 25,
-    restDelta: 0.001
+    restDelta: 0.001,
   });
 
-  // Tailored shift percentages for Chrome DevTools device presets:
-  // Mobile (iPhone SE, 16, 16 Pro Max, Pixel 9/10, Galaxy A55), Foldables (Pixel Fold, Z Fold 6),
-  // Tablets (iPad Mini, iPad Pro 13, Surface Pro 10), Smart Displays (Nest Hub Max), Desktops & 4K
-  const getBentoShift = (w: number, h: number) => {
-
-    if (w >= 1024 && h <= 820) return "-62%";
-    if (w <= 400 && h <= 700) return "-72%";
-    if (w <= 400 && h <= 900) return "-66%";
-    if (w < 450) return "-60%";
-
-    if (w < 1050 && h >= 1000) {
-      if (h > 1200) return "-45%";
-      return "-48%";
-    }
-    if (w < 600) return "-68%";   
-    if (w < 650) return "-68%";
-    if (w < 700) return "-68%";
-    if (w < 800) return "-67%";
-    if (w < 900) return "-64%";
-    if (w < 1000) return "-62%";
-    if (w < 1440) {
-      if (h > 1200) return "-48%";
-      return "-58%";
-    }
-    return "-45%";
-  };
-
-  const getTrackHeightClass = (w: number, h: number) => {
-    if (w >= 1024 && h <= 820) return "h-[320vh]";
-    if (w <= 400 && h <= 700) return "h-[540vh]";
-    if (w <= 400 && h <= 900) return "h-[460vh]";
-    if (w < 450) return "h-[420vh]";
-
-    if (w < 1050 && h >= 1000) {
-      if (h > 1200) return "h-[340vh]";
-      return "h-[360vh]";
-    }
-
-    if (w < 600) return "h-[460vh]";
-    if (w < 650) return "h-[440vh]";
-    if (w < 700) return "h-[420vh]";
-    if (w < 800) return "h-[380vh]";
-    if (w < 900) return "h-[360vh]";
-    if (w < 1000) return "h-[340vh]";
-
-    if (w < 1440) {
-      if (h > 1200) return "h-[320vh]";
-      return "h-[300vh]";
-    }
-
-    return "h-[280vh]";
-  };
-
-
-  const bentoShift = getBentoShift(windowSize.width, windowSize.height);
-  const trackHeightClass = getTrackHeightClass(windowSize.width, windowSize.height);
-
-  const bentoY = useTransform(smoothProgress, [0, 0.40, 1.0], ["0%", bentoShift, bentoShift]);
-  const videoScale = useTransform(smoothProgress, [0, 0.3], [1.2, 1.10]);
-  const textY = useTransform(smoothProgress, [0, 0.3], [0, -50]);
-  const textOpacity = useTransform(smoothProgress, [0, 0.3], [1, 0]);
+  const bentoY = useTransform(smoothProgress, [0, bentoEnd, 1], [0, -shift, -shift]);
+  const textEnd = Math.max(0.001, Math.min(0.3, bentoEnd * 0.6));
+  const videoScale = useTransform(smoothProgress, [0, 0.3], [1.2, 1.1]);
+  const textY = useTransform(smoothProgress, [0, textEnd], [0, -50]);
+  const textOpacity = useTransform(smoothProgress, [0, textEnd], [1, 0]);
 
   return (
     <LenisDiv>
@@ -120,9 +105,18 @@ export default function Home() {
         <div className="noise-overlay" />
 
         {/* ── HERO TRACK CONTAINER ── */}
-        <div ref={heroTrackRef} className={`relative w-full z-0 ${trackHeightClass}`}>
-          {/* Sticky Pinned Viewport Container (z-0) */}
-          <div className="sticky top-0 h-screen w-full overflow-hidden z-0 flex flex-col items-center px-4 md:px-[5%] pt-16 md:pt-32">
+        <div
+          ref={heroTrackRef}
+          className="relative w-full z-0"
+          style={{ height: trackHeight }}
+        >
+          {/* Sticky Pinned Viewport Container */}
+          <div
+            ref={stickyRef}
+            className="sticky top-0 h-[100svh] w-full overflow-hidden z-0 flex flex-col items-center px-4 md:px-[5%] pt-16 md:pt-20"
+          >
+            {/* Elegant Dark Pattern Background */}
+            <DarkGradientBg className="absolute inset-0 z-[-3] h-full w-full pointer-events-none opacity-90" />
 
             {/* Background Video */}
             <motion.video
@@ -131,21 +125,25 @@ export default function Home() {
               muted
               playsInline
               style={{ scale: videoScale }}
-              className="absolute inset-0 w-full h-full object-cover z-[-2] opacity-30"
+              className="absolute inset-0 w-full h-full object-cover z-[-2] opacity-25 mix-blend-screen"
             >
               <source src="https://res.cloudinary.com/dfr2qixlq/video/upload/q_auto/f_auto/v1778064275/video_loiyzj.mp4" type="video/mp4" />
             </motion.video>
 
-            <div className="absolute inset-0 z-[-1] bg-[radial-gradient(circle_at_center,rgba(0,0,0,0.4)_0%,rgba(0,0,0,0.9)_100%)]" />
+            <div className="absolute inset-0 z-[-1] bg-[radial-gradient(circle_at_center,rgba(0,0,0,0.2)_0%,rgba(0,0,0,0.85)_100%)]" />
 
-            {/* Scrollable Group containing Hero Title + Cosmic Bento Grid */}
-            <motion.div style={{ y: bentoY }} className="w-full flex flex-col items-center">
-              {/* Hero Content */}
+            {/* Scrollable Group: Hero Title + Cosmic Bento Grid */}
+            <motion.div
+              ref={contentRef}
+              style={{ y: bentoY }}
+              className="w-full flex flex-col items-center will-change-transform"
+            >
+              {/* Hero Content - Occupies full viewport height so Bento cards sit below the fold */}
               <motion.div
                 style={{ y: textY, opacity: textOpacity }}
-                className="relative z-10 px-6 text-center mb-12 md:mb-16"
+                className="relative z-10 px-6 text-center flex flex-col items-center justify-center min-h-[calc(100svh-4rem)] md:min-h-[calc(100svh-5rem)] pb-12 md:pb-16"
               >
-                <h1 className="text-3xl mt-10 md:text-5xl lg:text-6xl font-medium mb-6 tracking-tight leading-tight text-white font-syne">
+                <h1 className="text-3xl mt-4 md:text-5xl lg:text-6xl font-medium mb-6 tracking-tight leading-tight text-white font-syne">
                   Safety Infrastructure for Organizations<br />
                   <span className="text-white/40">That Can't Afford Failure</span>
                 </h1>
@@ -168,7 +166,7 @@ export default function Home() {
               </motion.div>
 
               {/* ──── COSMIC BENTO GRID ──── */}
-              <div className="w-full max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-6 gap-6 items-stretch auto-rows-[minmax(250px,auto)] pb-24">
+              <div className="w-full max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-6 gap-6 items-stretch auto-rows-[minmax(250px,auto)] pt-4">
 
                 {/* ── Real-Time Monitoring (Large) ── */}
                 <BentoCard
@@ -177,7 +175,6 @@ export default function Home() {
                   icon={<MonitoringIcon className="w-8 h-8 text-blue-100" animate />}
                   gridSpan="md:col-span-4 md:row-span-2"
                   delay={100}
-                // nebulaColor="blue"
                 >
                   <div className="absolute top-2 right-8 z-20 flex flex-col items-end gap-6 text-right">
                     <UptimeCard />
@@ -210,7 +207,7 @@ export default function Home() {
                   </div>
                 </BentoCard>
 
-                {/* ── Speed (Tall Right) ── */}
+                {/* ── Unified Incident View ── */}
                 <BentoCard
                   title="Unified Incident View"
                   description="One dashboard. Every alert, inspection log, work order, and compliance report — searchable across all your facilities."
@@ -271,8 +268,13 @@ export default function Home() {
           </div>
         </div>
 
-        {/* ── WHITE ECOSYSTEM SHEET (SLIDES UP OVER HERO TRACK & ANIMATES SPLIT ON SCROLL) ── */}
-        <div className="relative z-20 w-full bg-[#fdfdfd] text-black rounded-t-[3.5rem] shadow-[0_-30px_70px_rgba(0,0,0,0.85)] border-t border-slate-200/80 -mt-[100vh]">
+        {/* ── WHITE ECOSYSTEM SHEET ──
+            -mt = slideDistance, isliye sheet tab tak neeche rehti hai jab tak bento scroll aur hold buffer khatam na ho,
+            fir hero pinned rehte hue uske upar slide hoti hai. */}
+        <div
+          className="relative z-20 w-full bg-[#fdfdfd] text-black rounded-t-[2rem] md:rounded-t-[3.5rem] shadow-[0_-30px_70px_rgba(0,0,0,0.85)] border-t border-slate-200/80"
+          style={{ marginTop: -slideDistance }}
+        >
           <EcosystemSection />
         </div>
 
