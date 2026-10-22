@@ -19,17 +19,16 @@ export function Marquee({
   pauseOnHover = false,
   children,
   vertical = false,
-  repeat = 4,
+  repeat = 5,
   ...props
 }: MarqueeProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const firstChildRef = useRef<HTMLDivElement>(null);
   const isDragging = useRef(false);
-  const startX = useRef(0);
-  const startY = useRef(0);
-  const scrollLeft = useRef(0);
-  const scrollTop = useRef(0);
+  const lastX = useRef(0);
+  const lastY = useRef(0);
   const isUserInteracting = useRef(false);
+  const resumeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const [isHovered, setIsHovered] = useState(false);
 
   // Auto-scroll animation loop using requestAnimationFrame
@@ -55,20 +54,22 @@ export function Marquee({
             const step = speed * deltaTime * (reverse ? -1 : 1);
             let nextScroll = container.scrollLeft + step;
 
-            if (!reverse && nextScroll >= contentSize) {
-              nextScroll -= contentSize;
-            } else if (reverse && nextScroll <= 0) {
+            while (nextScroll < contentSize) {
               nextScroll += contentSize;
+            }
+            while (nextScroll >= 2 * contentSize) {
+              nextScroll -= contentSize;
             }
             container.scrollLeft = nextScroll;
           } else {
             const step = speed * deltaTime * (reverse ? -1 : 1);
             let nextScroll = container.scrollTop + step;
 
-            if (!reverse && nextScroll >= contentSize) {
-              nextScroll -= contentSize;
-            } else if (reverse && nextScroll <= 0) {
+            while (nextScroll < contentSize) {
               nextScroll += contentSize;
+            }
+            while (nextScroll >= 2 * contentSize) {
+              nextScroll -= contentSize;
             }
             container.scrollTop = nextScroll;
           }
@@ -82,67 +83,153 @@ export function Marquee({
     return () => cancelAnimationFrame(animationFrameId);
   }, [reverse, pauseOnHover, isHovered, vertical]);
 
+  // Global mousemove and mouseup listeners to allow drag even if mouse leaves container
+  useEffect(() => {
+    const handleGlobalMouseMove = (e: MouseEvent) => {
+      if (!isDragging.current || !containerRef.current || !firstChildRef.current) return;
+      e.preventDefault();
+
+      const contentSize = vertical
+        ? firstChildRef.current.offsetHeight
+        : firstChildRef.current.offsetWidth;
+      if (contentSize <= 0) return;
+
+      if (!vertical) {
+        const deltaX = (e.pageX - lastX.current) * 1.5;
+        lastX.current = e.pageX;
+        let nextScroll = containerRef.current.scrollLeft - deltaX;
+
+        while (nextScroll < contentSize) {
+          nextScroll += contentSize;
+        }
+        while (nextScroll >= 2 * contentSize) {
+          nextScroll -= contentSize;
+        }
+        containerRef.current.scrollLeft = nextScroll;
+      } else {
+        const deltaY = (e.pageY - lastY.current) * 1.5;
+        lastY.current = e.pageY;
+        let nextScroll = containerRef.current.scrollTop - deltaY;
+
+        while (nextScroll < contentSize) {
+          nextScroll += contentSize;
+        }
+        while (nextScroll >= 2 * contentSize) {
+          nextScroll -= contentSize;
+        }
+        containerRef.current.scrollTop = nextScroll;
+      }
+    };
+
+    const handleGlobalMouseUp = () => {
+      if (isDragging.current) {
+        isDragging.current = false;
+        if (resumeTimeoutRef.current) clearTimeout(resumeTimeoutRef.current);
+        resumeTimeoutRef.current = setTimeout(() => {
+          isUserInteracting.current = false;
+        }, 1000);
+      }
+    };
+
+    window.addEventListener("mousemove", handleGlobalMouseMove);
+    window.addEventListener("mouseup", handleGlobalMouseUp);
+
+    return () => {
+      window.removeEventListener("mousemove", handleGlobalMouseMove);
+      window.removeEventListener("mouseup", handleGlobalMouseUp);
+      if (resumeTimeoutRef.current) clearTimeout(resumeTimeoutRef.current);
+    };
+  }, [vertical]);
+
   /* ── Drag-to-scroll (mouse) ── */
   const onMouseDown = (e: React.MouseEvent) => {
     isDragging.current = true;
     isUserInteracting.current = true;
-    if (containerRef.current) {
-      startX.current = e.pageX - containerRef.current.offsetLeft;
-      startY.current = e.pageY - containerRef.current.offsetTop;
-      scrollLeft.current = containerRef.current.scrollLeft;
-      scrollTop.current = containerRef.current.scrollTop;
+    lastX.current = e.pageX;
+    lastY.current = e.pageY;
+    if (resumeTimeoutRef.current) {
+      clearTimeout(resumeTimeoutRef.current);
     }
-  };
-
-  const onMouseMove = (e: React.MouseEvent) => {
-    if (!isDragging.current || !containerRef.current) return;
-    e.preventDefault();
-    if (!vertical) {
-      const x = e.pageX - containerRef.current.offsetLeft;
-      const walk = (x - startX.current) * 1.5;
-      containerRef.current.scrollLeft = scrollLeft.current - walk;
-    } else {
-      const y = e.pageY - containerRef.current.offsetTop;
-      const walk = (y - startY.current) * 1.5;
-      containerRef.current.scrollTop = scrollTop.current - walk;
-    }
-  };
-
-  const stopDrag = () => {
-    isDragging.current = false;
-    setTimeout(() => {
-      isUserInteracting.current = false;
-    }, 1000);
   };
 
   /* ── Touch-to-scroll ── */
   const onTouchStart = (e: React.TouchEvent) => {
     isUserInteracting.current = true;
-    if (containerRef.current) {
-      startX.current = e.touches[0].pageX - containerRef.current.offsetLeft;
-      startY.current = e.touches[0].pageY - containerRef.current.offsetTop;
-      scrollLeft.current = containerRef.current.scrollLeft;
-      scrollTop.current = containerRef.current.scrollTop;
+    if (resumeTimeoutRef.current) clearTimeout(resumeTimeoutRef.current);
+    if (e.touches.length > 0) {
+      lastX.current = e.touches[0].pageX;
+      lastY.current = e.touches[0].pageY;
     }
   };
 
   const onTouchMove = (e: React.TouchEvent) => {
-    if (!containerRef.current) return;
+    if (!containerRef.current || !firstChildRef.current || e.touches.length === 0) return;
+    const contentSize = vertical
+      ? firstChildRef.current.offsetHeight
+      : firstChildRef.current.offsetWidth;
+    if (contentSize <= 0) return;
+
     if (!vertical) {
-      const x = e.touches[0].pageX - containerRef.current.offsetLeft;
-      const walk = (x - startX.current) * 1.5;
-      containerRef.current.scrollLeft = scrollLeft.current - walk;
+      const currentX = e.touches[0].pageX;
+      const deltaX = (currentX - lastX.current) * 1.2;
+      lastX.current = currentX;
+      let nextScroll = containerRef.current.scrollLeft - deltaX;
+
+      while (nextScroll < contentSize) {
+        nextScroll += contentSize;
+      }
+      while (nextScroll >= 2 * contentSize) {
+        nextScroll -= contentSize;
+      }
+      containerRef.current.scrollLeft = nextScroll;
     } else {
-      const y = e.touches[0].pageY - containerRef.current.offsetTop;
-      const walk = (y - startY.current) * 1.5;
-      containerRef.current.scrollTop = scrollTop.current - walk;
+      const currentY = e.touches[0].pageY;
+      const deltaY = (currentY - lastY.current) * 1.2;
+      lastY.current = currentY;
+      let nextScroll = containerRef.current.scrollTop - deltaY;
+
+      while (nextScroll < contentSize) {
+        nextScroll += contentSize;
+      }
+      while (nextScroll >= 2 * contentSize) {
+        nextScroll -= contentSize;
+      }
+      containerRef.current.scrollTop = nextScroll;
     }
   };
 
   const onTouchEnd = () => {
-    setTimeout(() => {
+    if (resumeTimeoutRef.current) clearTimeout(resumeTimeoutRef.current);
+    resumeTimeoutRef.current = setTimeout(() => {
       isUserInteracting.current = false;
     }, 1000);
+  };
+
+  /* ── Native trackpad / wheel scroll wrap ── */
+  const onScroll = () => {
+    if (isDragging.current) return;
+    const container = containerRef.current;
+    const firstChild = firstChildRef.current;
+    if (!container || !firstChild) return;
+
+    const contentSize = vertical
+      ? firstChild.offsetHeight
+      : firstChild.offsetWidth;
+    if (contentSize <= 0) return;
+
+    if (!vertical) {
+      if (container.scrollLeft < contentSize * 0.5) {
+        container.scrollLeft += contentSize;
+      } else if (container.scrollLeft >= contentSize * 2.5) {
+        container.scrollLeft -= contentSize;
+      }
+    } else {
+      if (container.scrollTop < contentSize * 0.5) {
+        container.scrollTop += contentSize;
+      } else if (container.scrollTop >= contentSize * 2.5) {
+        container.scrollTop -= contentSize;
+      }
+    }
   };
 
   return (
@@ -150,16 +237,13 @@ export function Marquee({
       ref={containerRef}
       {...props}
       onMouseDown={onMouseDown}
-      onMouseMove={onMouseMove}
-      onMouseUp={stopDrag}
-      onMouseLeave={() => {
-        stopDrag();
-        setIsHovered(false);
-      }}
       onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
       onTouchStart={onTouchStart}
       onTouchMove={onTouchMove}
       onTouchEnd={onTouchEnd}
+      onScroll={onScroll}
+      onDragStart={(e) => e.preventDefault()}
       className={cn(
         "flex overflow-x-auto scrollbar-hide p-2 [--gap:1rem] [flex-direction:row]",
         "cursor-grab active:cursor-grabbing select-none",
@@ -171,6 +255,7 @@ export function Marquee({
       style={{
         scrollbarWidth: "none",
         msOverflowStyle: "none",
+        ...props.style,
       }}
     >
       {Array(repeat)
