@@ -10,6 +10,7 @@ interface MarqueeProps {
   children?: React.ReactNode;
   vertical?: boolean;
   repeat?: number;
+  speed?: number;
   [key: string]: any;
 }
 
@@ -20,6 +21,7 @@ export function Marquee({
   children,
   vertical = false,
   repeat = 5,
+  speed = 40,
   ...props
 }: MarqueeProps) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -44,7 +46,6 @@ export function Marquee({
       const firstChild = firstChildRef.current;
 
       if (container && firstChild && !isUserInteracting.current && !(pauseOnHover && isHovered)) {
-        const speed = 40; // Pixels per second
         const contentSize = vertical
           ? firstChild.offsetHeight
           : firstChild.offsetWidth;
@@ -81,7 +82,7 @@ export function Marquee({
 
     animationFrameId = requestAnimationFrame(animate);
     return () => cancelAnimationFrame(animationFrameId);
-  }, [reverse, pauseOnHover, isHovered, vertical]);
+  }, [reverse, pauseOnHover, isHovered, vertical, speed]);
 
   // Global mousemove and mouseup listeners to allow drag even if mouse leaves container
   useEffect(() => {
@@ -245,11 +246,9 @@ export function Marquee({
       onScroll={onScroll}
       onDragStart={(e) => e.preventDefault()}
       className={cn(
-        "flex overflow-x-auto scrollbar-hide p-2 [--gap:1rem] [flex-direction:row]",
+        "flex overflow-hidden scrollbar-hide p-2 [--gap:1rem]",
         "cursor-grab active:cursor-grabbing select-none",
-        {
-          "[flex-direction:column] overflow-y-auto overflow-x-hidden": vertical,
-        },
+        vertical ? "flex-col" : "flex-row",
         className,
       )}
       style={{

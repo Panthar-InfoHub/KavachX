@@ -67,14 +67,6 @@
     transform: translateY(calc(-100% - var(--gap)));
     }
   }
-  @keyframes testimonial-scroll {
-    from {
-      transform: translateY(0);
-    }
-    to {
-      transform: translateY(-50%);
-    }
-  }
 }
 
 :root {
