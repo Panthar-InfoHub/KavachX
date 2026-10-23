@@ -163,7 +163,7 @@ export default function TeamClient() {
                     <div className="relative w-full">
                         <div className="pointer-events-none absolute top-0 left-0 z-10 h-full w-8 sm:w-16 md:w-32 bg-gradient-to-r from-white to-transparent dark:from-background" />
                         <div className="pointer-events-none absolute top-0 right-0 z-10 h-full w-8 sm:w-16 md:w-32 bg-gradient-to-l from-white to-transparent dark:from-background" />
-                        <Marquee className="[--gap:1rem] sm:[--gap:1.5rem]" reverse pauseOnHover>
+                        <Marquee className="[--gap:1rem] sm:[--gap:1.5rem]" reverse pauseOnHover drag={false}>
                             {associateMembers.map((member, index) => (
                                 <div
                                     className="group flex w-48 sm:w-56 md:w-64 shrink-0 flex-col"
@@ -225,7 +225,7 @@ export default function TeamClient() {
                         <div className="pointer-events-none absolute top-0 left-0 z-10 h-full w-8 sm:w-16 md:w-32 bg-gradient-to-r from-white to-transparent dark:from-background" />
                         <div className="pointer-events-none absolute top-0 right-0 z-10 h-full w-8 sm:w-16 md:w-32 bg-gradient-to-l from-white to-transparent dark:from-background" />
 
-                        <Marquee className="[--gap:1rem] sm:[--gap:1.5rem]" pauseOnHover>
+                        <Marquee className="[--gap:1rem] sm:[--gap:1.5rem]" pauseOnHover drag={false}>
                             {teamMembers.map((member) => (
                                 <div
                                     className="group flex w-48 sm:w-56 md:w-64 shrink-0 flex-col"

@@ -11,6 +11,7 @@ interface MarqueeProps {
   vertical?: boolean;
   repeat?: number;
   speed?: number;
+  drag?: boolean;
   [key: string]: any;
 }
 
@@ -22,6 +23,7 @@ export function Marquee({
   vertical = false,
   repeat = 5,
   speed = 40,
+  drag = true,
   ...props
 }: MarqueeProps) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -84,8 +86,61 @@ export function Marquee({
     return () => cancelAnimationFrame(animationFrameId);
   }, [reverse, pauseOnHover, isHovered, vertical, speed]);
 
+  // Wheel-to-scroll (mouse wheel and trackpad scroll)
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const handleWheel = (e: WheelEvent) => {
+      const firstChild = firstChildRef.current;
+      if (!firstChild) return;
+
+      const contentSize = vertical
+        ? firstChild.offsetHeight
+        : firstChild.offsetWidth;
+      if (contentSize <= 0) return;
+
+      // Use deltaX for horizontal trackpad swipe, or deltaY for standard mouse wheel
+      const delta = vertical
+        ? e.deltaY
+        : (Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY);
+
+      if (Math.abs(delta) > 0) {
+        e.preventDefault();
+        isUserInteracting.current = true;
+        if (resumeTimeoutRef.current) clearTimeout(resumeTimeoutRef.current);
+
+        let nextScroll = (vertical ? container.scrollTop : container.scrollLeft) + delta * 1.2;
+
+        while (nextScroll < contentSize) {
+          nextScroll += contentSize;
+        }
+        while (nextScroll >= 2 * contentSize) {
+          nextScroll -= contentSize;
+        }
+
+        if (vertical) {
+          container.scrollTop = nextScroll;
+        } else {
+          container.scrollLeft = nextScroll;
+        }
+
+        resumeTimeoutRef.current = setTimeout(() => {
+          isUserInteracting.current = false;
+        }, 1000);
+      }
+    };
+
+    container.addEventListener("wheel", handleWheel, { passive: false });
+    return () => {
+      container.removeEventListener("wheel", handleWheel);
+    };
+  }, [vertical]);
+
   // Global mousemove and mouseup listeners to allow drag even if mouse leaves container
   useEffect(() => {
+    if (!drag) return;
+
     const handleGlobalMouseMove = (e: MouseEvent) => {
       if (!isDragging.current || !containerRef.current || !firstChildRef.current) return;
       e.preventDefault();
@@ -140,10 +195,11 @@ export function Marquee({
       window.removeEventListener("mouseup", handleGlobalMouseUp);
       if (resumeTimeoutRef.current) clearTimeout(resumeTimeoutRef.current);
     };
-  }, [vertical]);
+  }, [vertical, drag]);
 
   /* ── Drag-to-scroll (mouse) ── */
   const onMouseDown = (e: React.MouseEvent) => {
+    if (!drag) return;
     isDragging.current = true;
     isUserInteracting.current = true;
     lastX.current = e.pageX;
@@ -237,7 +293,7 @@ export function Marquee({
     <div
       ref={containerRef}
       {...props}
-      onMouseDown={onMouseDown}
+      onMouseDown={drag ? onMouseDown : undefined}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       onTouchStart={onTouchStart}
@@ -247,7 +303,8 @@ export function Marquee({
       onDragStart={(e) => e.preventDefault()}
       className={cn(
         "flex overflow-hidden scrollbar-hide p-2 [--gap:1rem]",
-        "cursor-grab active:cursor-grabbing select-none",
+        drag ? "cursor-grab active:cursor-grabbing" : "cursor-default",
+        "select-none",
         vertical ? "flex-col" : "flex-row",
         className,
       )}
