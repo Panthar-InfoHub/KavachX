@@ -1,0 +1,490 @@
+================================================================================
+KAVACHX — PRODUCTION ANALYTICS AUDIT REPORT
+Google Analytics 4 (GA4) | Microsoft Clarity | Meta (Facebook) Pixel
+================================================================================
+Repository: Panthar-InfoHub/KavachX
+Audit Scope: Read-Only Verification of Production Codebase & Configuration
+Generated Date: March 2025
+================================================================================
+
+TABLE OF CONTENTS
+-----------------
+1. FULL CODEBASE ANALYSIS
+2. GOOGLE ANALYTICS 4 (GA4) REPORT
+3. MICROSOFT CLARITY REPORT
+4. META (FACEBOOK) PIXEL REPORT
+5. SYSTEM COMPARISON: GA4 vs. CLARITY vs. META PIXEL
+6. KAVACHX USER JOURNEY MAPPING
+7. EVENT COVERAGE MATRIX
+8. PRACTICAL TESTING & VERIFICATION GUIDE
+9. BROWSER-LEVEL DEVTOOLS VERIFICATION
+10. PRODUCTION VS. LOCAL ENVIRONMENT ANALYSIS
+11. PRIVACY & DATA INTEGRITY AUDIT
+12. DUPLICATE TRACKING AUDIT
+13. GAP ANALYSIS: WHAT IS MISSING
+14. FINAL EXECUTIVE SUMMARY
+
+================================================================================
+1. FULL CODEBASE ANALYSIS
+================================================================================
+
+1.1 Frontend Framework & Core Architecture
+- Framework: Next.js 16.2.6 (App Router architecture)
+- Core Libraries: React 19.2.4, TypeScript 5.x
+- Styling Engine: Tailwind CSS v4 with custom brand typography (Syne, Plus Jakarta Sans, Inter)
+- Rendering Model: Static Site Generation (SSG) and Server Components by default, paired with interactive Client Components ("use client").
+- Root Entry Point: app/layout.tsx is the global shell wrapping every page with fonts, SEO schemas, toast providers, and all third-party analytics scripts.
+
+1.2 Analytics-Related Files Map
+1. Analytics Dispatch Hub:
+   - lib/analytics.ts: Centralized singleton module containing type definitions (AnalyticsEvent), helper methods (trackEvent, trackMetaPageView, trackMetaEvent), and fail-safe dispatch logic for GA4, Meta Pixel, and Microsoft Clarity.
+2. Analytics Ingestion Components:
+   - <GoogleAnalytics />: Injected in app/layout.tsx (line 128) from @next/third-parties/google.
+   - <ClarityAnalytics />: Implemented in components/clarity-analytics.tsx, rendered in app/layout.tsx (line 126).
+   - <MetaPixel /> & <MetaPixelTracker />: Implemented in components/meta-pixel.tsx, rendered in app/layout.tsx (line 127).
+3. Event-Triggering UI Components:
+   - components/cta.tsx: Contact form lead submission (generate_lead, form_error) and social links (social_link_click).
+   - components/navbar.tsx: Desktop and mobile header CTAs (cta_click).
+   - components/kairos-page-client.tsx: Partner and pre-order CTAs (cta_click).
+   - components/vendor-page-client.tsx: Partner onboarding CTAs (cta_click) and accordion toggles (faq_toggle).
+   - components/suraksha-hero-button.tsx & components/cta-steps.tsx: Google Play download intent (app_download_intent).
+   - components/suraksha-kavach-section.tsx & components/kairos-section.tsx: Homepage showcase CTAs (cta_click).
+   - components/faq.tsx: Homepage accordion toggles (faq_toggle).
+   - components/blog/blog-card.tsx & components/blog/featured-blog-card.tsx: Blog publication card clicks (select_content).
+   - components/footer.tsx: Global footer social media links (social_link_click).
+
+1.3 Environment Variables
+- NEXT_PUBLIC_GA_MEASUREMENT_ID: Google Analytics 4 Measurement ID (Configured: G-NM0FYHXDER in .env.local).
+- NEXT_PUBLIC_CLARITY_PROJECT_ID: Microsoft Clarity Project ID (Configured: ydfm0q7tlk in .env.local).
+- NEXT_PUBLIC_META_PIXEL_ID: Meta (Facebook) Pixel ID (Configured: 1686673549111473 in .env.local).
+
+1.4 API Routes & Server Actions
+- Server-side Analytics Ingestion: NONE. There are no custom API routes forwarding events to GA4 Measurement Protocol, Meta Conversions API (CAPI), or Clarity server endpoints. All tracking calls are initiated strictly in the client browser.
+- Lead Ingestion: Handled via Next.js Server Action lib/mail.action.ts (sendMsgAction). Form state and analytics dispatch occur inside client component components/cta.tsx upon receiving { success: true }.
+
+1.5 Authentication & CMS Administration
+- Admin authentication is located at /admin/login using Better Auth (signIn.email in lib/auth-client.ts).
+- The admin panel at /admin/* is strictly an internal dashboard for managing blog posts.
+- Intentionally Excluded: Internal admin sign-ins, blog creations, edits, and deletions do NOT call trackEvent(), ensuring employee workflows never pollute marketing metrics. No public-facing user signup/login flow exists.
+
+================================================================================
+2. GOOGLE ANALYTICS 4 (GA4) REPORT
+================================================================================
+
+2.1 Initialization Mechanism
+- Source Location: app/layout.tsx (lines 10, 107, 128)
+- Implementation:
+    import { GoogleAnalytics } from "@next/third-parties/google";
+    ...
+    const gaMeasurementId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID?.trim();
+    ...
+    {gaMeasurementId ? <GoogleAnalytics gaId={gaMeasurementId} /> : null}
+- Script Loading Strategy: Uses Next.js native <GoogleAnalytics /> component from @next/third-parties/google. This automatically injects the Google Tag script (https://www.googletagmanager.com/gtag/js?id=${gaId}) with strategy="afterInteractive", ensuring tag evaluation never blocks the browser's First Contentful Paint (FCP) or Largest Contentful Paint (LCP).
+
+2.2 Measurement ID Configuration
+- Sourced dynamically via process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID?.trim().
+- Configured in .env.local as G-NM0FYHXDER.
+- If the environment variable is empty or absent, the component evaluates to null and trackEvent() silently skips window.gtag without throwing console errors.
+
+2.3 Page-View Tracking
+- Initial Page Load: Automatically logged by gtag('config', gaMeasurementId) initialized by @next/third-parties/google.
+- Client-Side SPA Navigation: Handled automatically by GA4 Enhanced Measurement ("Page changes based on browser history events", monitoring HTML5 history.pushState and popstate).
+- Manual vs. Automatic: FULLY AUTOMATIC. The codebase intentionally contains no manual gtag('event', 'page_view') dispatches. This prevents duplicate page-view inflations on Next.js route changes.
+
+2.4 Verified GA4 Events Table
+
+| Event Name           | Classification         | Parameters Dispatched                                                        | Trigger Condition                                                | Source Component               | Business Purpose                                  | Verification Method               |
+|----------------------|------------------------|------------------------------------------------------------------------------|------------------------------------------------------------------|--------------------------------|---------------------------------------------------|-----------------------------------|
+| generate_lead        | Recommended (Key Event)| form_name: "contact_form", status: "success"                                 | Fired strictly when sendMsgAction returns res.success === true   | components/cta.tsx             | Quantifies inbound enterprise and client inquiries| Submit form; check DebugView      |
+| form_error           | Custom (Diagnostic)    | form_name: "contact_form", error_type: "submission_failed"|"network_or_server"| Fired when server returns res.success !== true or throws         | components/cta.tsx             | Monitors form friction or email backend outages   | Trigger error; check DebugView    |
+| cta_click            | Custom (Key Event)     | cta_name: string, cta_location: string, destination: string                  | Click on primary conversion CTAs across navigation/pages         | Multiple (navbar, vendor, etc.)| Measures navigation flow into conversion funnels  | Click CTA; check Realtime events  |
+| select_content       | Recommended            | content_type: "article", item_id: string (slug), item_name: string (title)   | Click on any blog card or featured article in feed               | components/blog/*              | Identifies top-performing content topics          | Click blog card; check Realtime   |
+| app_download_intent  | Custom (Key Event)     | platform: "google_play", status: "coming_soon", source_location: string      | Click on Play Store teaser buttons on Suraksha Kavach page       | components/suraksha-hero-button| Gauges market demand for mobile app               | Click teaser; check Realtime      |
+| social_link_click    | Custom                 | platform: "x"|"instagram"|"linkedin"|"facebook", location: "connect_us"|"footer"| Click on external social media icons in CTA or global footer | components/cta.tsx, footer.tsx | Evaluates off-site social discovery               | Click link; check Realtime        |
+| faq_toggle           | Custom                 | faq_question: string, faq_section: "homepage_faq"|"vendor_page"             | Expanding an FAQ question accordion item                         | components/faq.tsx, vendor     | Highlights user objections and common queries     | Expand FAQ; check Realtime        |
+
+2.5 GA4 Dashboard Verification Steps
+1. Realtime Verification: Open GA4 property -> Reports -> Realtime. Open KavachX in a separate tab, interact with pages/CTAs, and verify event increments in "Event count by Event name".
+2. DebugView Deep Inspection: Install Google Analytics Debugger Chrome extension (or run site with ?debug_mode=true). Go to Admin -> Data display -> DebugView to inspect live chronological timeline and payload parameters.
+3. Key Event Setup: In Admin -> Data display -> Events, mark generate_lead, cta_click, and app_download_intent as "Key events".
+
+================================================================================
+3. MICROSOFT CLARITY REPORT
+================================================================================
+
+3.1 Initialization Mechanism
+- Source Location: components/clarity-analytics.tsx
+- Mounted In: app/layout.tsx (line 126)
+- Code:
+    "use client";
+    import { useEffect } from "react";
+    import Clarity from "@microsoft/clarity";
+
+    let isInitialized = false;
+
+    export function ClarityAnalytics() {
+      useEffect(() => {
+        const projectId = process.env.NEXT_PUBLIC_CLARITY_PROJECT_ID?.trim();
+        if (!projectId || isInitialized) return;
+        try {
+          Clarity.init(projectId);
+          isInitialized = true;
+        } catch {}
+      }, []);
+      return null;
+    }
+- Strict Mode Protection: The module-level guard let isInitialized = false; guarantees that React 19's development double-mount behavior never calls Clarity.init() twice.
+
+3.2 Project ID Source
+- Sourced from process.env.NEXT_PUBLIC_CLARITY_PROJECT_ID?.trim().
+- Value in .env.local: ydfm0q7tlk.
+
+3.3 Session & Behavioral Analytics Coverage
+- Session Recordings: ACTIVE (Captures DOM mutations and reconstructed sessions via https://www.clarity.ms/tag/ydfm0q7tlk).
+- Heatmaps (Clicks & Scroll): ACTIVE (Constructs aggregate desktop, tablet, and mobile click and scroll maps for all routes).
+- Click Tracking: ACTIVE (Captures all UI mouse clicks and touchscreen taps along with CSS element selectors).
+- Scroll Tracking: ACTIVE (Tracks vertical scroll depth percentage and velocity automatically).
+- Rage Clicks: ACTIVE (Built-in behavioral heuristic flags users clicking rapidly on identical DOM nodes).
+- Dead Clicks: ACTIVE (Automatically detects clicks on non-interactive elements with no response).
+- Excessive Scrolling: ACTIVE (Detects users scrolling up and down rapidly searching for obscured information).
+- Browser / Device Information: ACTIVE (Segments by Browser, OS, Device Type, Screen Resolution, and Geolocation).
+- Custom Events: ACTIVE (Dispatched via window.clarity("event", event.name) in lib/analytics.ts).
+- Custom Tags (clarity("set", ...)): NOT IMPLEMENTED. No custom dimensional key-value pairs are currently set.
+- User Identification (clarity("identify", ...)): NOT IMPLEMENTED. Sessions remain completely anonymous.
+
+3.4 Custom Clarity Events Table
+
+| Clarity Event        | Trigger Condition                           | Source Component               | Purpose in Clarity                               |
+|----------------------|---------------------------------------------|--------------------------------|--------------------------------------------------|
+| generate_lead        | Form submitted successfully                 | components/cta.tsx             | Filter recordings to watch successful conversions|
+| form_error           | Form submission rejected or failed          | components/cta.tsx             | Identify form errors and examine user hesitation |
+| cta_click            | Clicks on primary CTA buttons               | navbar.tsx, kairos, etc.       | Filter session replays of high-intent visitors   |
+| select_content       | Click on blog card in article listing       | blog-card.tsx                  | Analyze reading behavior and engagement depth    |
+| app_download_intent  | Click on Play Store teaser button           | suraksha-hero-button.tsx       | View replays of users trying to download the app |
+| social_link_click    | Click on external social media link         | cta.tsx, footer.tsx            | Observe exit behavior to social channels         |
+| faq_toggle           | Expanding an FAQ question                   | faq.tsx, vendor-page-client.tsx| View recordings of users seeking specific answers|
+
+3.5 Clarity Dashboard Verification
+1. Navigate to https://clarity.microsoft.com/ and open project ydfm0q7tlk.
+2. Recordings: Filter by date "Today" to observe real-time visitor sessions and watch mouse movements.
+3. Heatmaps: Select URLs (e.g. / or /kairos) to view click density and scroll-reach percentages across devices.
+4. Dashboard: Review automatically generated cards for Dead Clicks, Rage Clicks, and Quick Backs.
+
+================================================================================
+4. META (FACEBOOK) PIXEL REPORT
+================================================================================
+
+4.1 Initialization Mechanism
+- Source Location: components/meta-pixel.tsx
+- Mounted In: app/layout.tsx (line 127)
+- Script Injection Strategy:
+  - Injected via Next.js <Script id="meta-pixel" strategy="afterInteractive"> loading https://connect.facebook.net/en_US/fbevents.js.
+  - Executes fbq('init', '${pixelId}').
+  - Critical Design Choice: fbq('track', 'PageView') is OMITTED from the inline script tag. Instead, all PageView dispatches are delegated to the <MetaPixelTracker /> component to avoid duplicate page views on initial load.
+  - Includes a <noscript> image fallback:
+    <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=${pixelId}&ev=PageView&noscript=1" alt="" /></noscript>
+
+4.2 Pixel ID Configuration
+- Sourced from process.env.NEXT_PUBLIC_META_PIXEL_ID?.trim().
+- Configured in .env.local as 1686673549111473.
+
+4.3 PageView Tracking Architecture
+- Implementation: The client component <MetaPixelTracker /> resides inside a <Suspense> boundary in components/meta-pixel.tsx:
+    function MetaPixelTracker() {
+      const pathname = usePathname();
+      const searchParams = useSearchParams();
+      const lastTrackedUrl = useRef<string | null>(null);
+
+      useEffect(() => {
+        const queryString = searchParams?.toString();
+        const currentUrl = queryString ? `${pathname}?${queryString}` : pathname;
+        if (lastTrackedUrl.current === currentUrl) return;
+        lastTrackedUrl.current = currentUrl;
+        trackMetaPageView();
+      }, [pathname, searchParams]);
+
+      return null;
+    }
+- Initial Load vs. Client Route Changes:
+  - On mount, lastTrackedUrl.current is null, sets currentUrl, and calls trackMetaPageView().
+  - On subsequent SPA route transitions, useEffect detects URL change, updates ref, and calls trackMetaPageView().
+  - Deduplication: React 19 Strict Mode re-mounts do not duplicate PageView because lastTrackedUrl.current === currentUrl evaluates to true.
+
+4.4 Verified Meta Pixel Events Table
+
+| Meta Event Name   | Event Type   | Dispatched Parameters                           | Trigger Condition                             | Source Component            | Business Purpose                             |
+|-------------------|--------------|-------------------------------------------------|-----------------------------------------------|-----------------------------|----------------------------------------------|
+| PageView          | Standard     | Document URL & Title                            | Initial page view and every SPA route change  | components/meta-pixel.tsx   | Site traffic & retargeting audience pools    |
+| Lead              | Standard     | content_name: "contact_form", status: "success" | Fired strictly upon success from sendMsgAction| lib/analytics.ts (CTA form) | Primary conversion event for Meta Ad campaigns|
+| ViewContent       | Standard     | content_type: "article", content_ids, name      | Click on blog card in /blogs                  | lib/analytics.ts (Blog card)| Editorial engagement & lookalike generation  |
+| CtaClick          | Custom       | cta_name, cta_location, destination             | Clicks on primary CTA buttons                 | lib/analytics.ts (Multiple) | Mid-funnel micro-conversion tracking         |
+| AppDownloadIntent | Custom       | platform, status, source_location               | Click on Play Store teaser buttons            | lib/analytics.ts (Suraksha) | Measures mobile app demand                   |
+| SocialLinkClick   | Custom       | platform, location                              | Click on external social links                | lib/analytics.ts (Footer/CTA)| Tracks offsite brand channel discovery       |
+| FaqToggle         | Custom       | faq_question, faq_section                       | Expanding an FAQ accordion item               | lib/analytics.ts (FAQ)      | Objections and query analysis                |
+| FormError         | Custom       | form_name, error_type                           | Form submission rejected or failed            | lib/analytics.ts (CTA form) | Identifies ad traffic encountering friction  |
+
+*Standard Meta Events NOT Present in Codebase:* CompleteRegistration, Purchase, AddToCart, InitiateCheckout, AddPaymentInfo, Subscribe. (Intentionally omitted as KavachX is an enterprise/hardware inquiry site without direct consumer checkout).
+
+4.5 Meta Events Manager Verification
+1. Go to Meta Business Suite -> Events Manager -> Pixel ID 1686673549111473.
+2. Open Test Events tab.
+3. Under "Test Browser Events", enter https://kavachx.io and click Open Website.
+4. Interact: verify PageView appears on navigation, CtaClick on CTAs, and Lead on contact form submission.
+
+================================================================================
+5. SYSTEM COMPARISON: GA4 vs. CLARITY vs. META PIXEL
+================================================================================
+
+| Dimension                 | Google Analytics 4 (GA4)                       | Microsoft Clarity                          | Meta Pixel                                   |
+|---------------------------|------------------------------------------------|--------------------------------------------|----------------------------------------------|
+| Core Philosophy           | "What and where is it happening?" (Aggregates) | "Why is it happening?" (Visual UX/Replays) | "Who is converting from paid ads?" (Ad ROAS) |
+| Page View Tracking        | Automatic via GA4 Enhanced Measurement         | Automatic session capture via script tag   | Manual route observer calling fbq('PageView')|
+| Custom Event Handling     | window.gtag("event", name, params)             | window.clarity("event", name)              | Dual standard (track) & custom (trackCustom) |
+| Session Replay            | No                                             | Full DOM visual replay                     | No                                           |
+| Heatmaps                  | No                                             | Click and scroll depth heatmaps            | No                                           |
+| Friction Detection        | Only through custom error events (form_error)  | Automatic (Rage clicks, dead clicks, etc.) | No                                           |
+| Ad Campaign Attribution   | Google Ads, Organic, Referral, Direct          | Limited session referral URL               | Meta Ads conversion attribution & ROAS       |
+| Audience Retargeting      | Google Ads Audience Builder                    | No                                         | Meta Custom Audiences & Lookalike Audiences  |
+| Execution Point           | Client-side (@next/third-parties/google)       | Client-side (@microsoft/clarity NPM)       | Client-side (next/script inline injector)    |
+
+================================================================================
+6. KAVACHX USER JOURNEY MAPPING
+================================================================================
+
+Journey 1: Commercial / Enterprise Lead Inquiry
+1. Visitor lands on / -> clicks navbar "Contact Us" -> navigates to /contact.
+   - GA4: page_view (/) -> cta_click (cta_name: "contact_us") -> page_view (/contact)
+   - Clarity: Replay logs mouse movements and clarity("event", "cta_click")
+   - Meta Pixel: PageView (/) -> CtaClick -> PageView (/contact)
+2. Visitor fills form and clicks "Send Message".
+3. Outcome (Success): sendMsgAction returns { success: true }.
+   - GA4: Dispatches Primary Key Event generate_lead (form_name: "contact_form", status: "success")
+   - Clarity: Dispatches clarity("event", "generate_lead"). Inputs are masked for privacy.
+   - Meta Pixel: Fires Standard Conversion Event fbq('track', 'Lead', { content_name: 'contact_form', status: 'success' })
+
+Journey 2: KAIROS AI Edge Box Product Discovery
+1. Visitor navigates to /kairos.
+   - GA4: page_view (/kairos)
+   - Clarity: Initiates /kairos heatmap session
+   - Meta Pixel: PageView (/kairos)
+2. Visitor clicks "Pre-order KAIROS Today" at bottom of page.
+   - GA4: cta_click (cta_name: "preorder_kairos", cta_location: "kairos_final_cta")
+   - Clarity: clarity("event", "cta_click")
+   - Meta Pixel: CtaClick
+
+Journey 3: Suraksha Kavach Mobile App Exploration
+1. Visitor lands on /suraksha-kavach and clicks "Coming on Play Store soon" in hero.
+   - GA4: app_download_intent (platform: "google_play", status: "coming_soon", source_location: "suraksha_kavach_hero")
+   - Clarity: clarity("event", "app_download_intent")
+   - Meta Pixel: AppDownloadIntent
+
+Journey 4: Vendor & Partner Onboarding
+1. Visitor views /vendor and clicks "Become a Vendor Partner".
+   - GA4: cta_click (cta_name: "become_vendor_partner", cta_location: "vendor_final_cta")
+   - Clarity: clarity("event", "cta_click")
+   - Meta Pixel: CtaClick
+
+Journey 5: Blog & Thought Leadership Engagement
+1. Visitor explores /blogs and clicks an article card.
+   - GA4: select_content (content_type: "article", item_id: slug, item_name: title)
+   - Clarity: clarity("event", "select_content")
+   - Meta Pixel: ViewContent (with content_ids: [slug])
+
+================================================================================
+7. EVENT COVERAGE MATRIX
+================================================================================
+
+| User Action                           | Component / File               | GA4 Event           | Clarity Event       | Meta Pixel Event   | Currently Implemented? |
+|---------------------------------------|--------------------------------|---------------------|---------------------|--------------------|------------------------|
+| Initial page load                     | app/layout.tsx, meta-pixel.tsx | page_view           | Session Start       | PageView           | YES                    |
+| Client-side route navigation          | Browser History / meta-pixel   | page_view (auto)    | Route Change        | PageView (manual)  | YES                    |
+| Contact form submitted successfully   | components/cta.tsx             | generate_lead       | generate_lead       | Lead (Standard)    | YES                    |
+| Contact form submission failed        | components/cta.tsx             | form_error          | form_error          | FormError (Custom) | YES                    |
+| Navbar desktop/mobile "Contact Us"    | components/navbar.tsx          | cta_click           | cta_click           | CtaClick (Custom)  | YES                    |
+| Homepage Suraksha Kavach CTA          | components/suraksha-kavach-sec | cta_click           | cta_click           | CtaClick (Custom)  | YES                    |
+| Homepage Kairos CTA                   | components/kairos-section.tsx  | cta_click           | cta_click           | CtaClick (Custom)  | YES                    |
+| Homepage Hero "Explore Kavach"        | components/home-client.tsx     | —                   | —                   | —                  | NO (Untracked Link)    |
+| Homepage Hero "View KAIROS"           | components/home-client.tsx     | —                   | —                   | —                  | NO (Untracked Link)    |
+| Kairos "Pre-order KAIROS Today"       | components/kairos-page-client  | cta_click           | cta_click           | CtaClick (Custom)  | YES                    |
+| Kairos "Become a Vendor" card         | components/kairos-page-client  | cta_click           | cta_click           | CtaClick (Custom)  | YES                    |
+| Kairos "Secure Your Space Today"      | components/kairos-page-client  | —                   | —                   | —                  | NO (Untracked router)  |
+| Kairos "Request Demo"                 | components/kairos-page-client  | —                   | —                   | —                  | NO (Untracked router)  |
+| Kairos "JOIN THE WAITLIST"            | components/kairos-page-client  | —                   | —                   | —                  | NO (Unwired button)    |
+| Vendor page Hero "Become a Partner"   | components/vendor-page-client  | cta_click           | cta_click           | CtaClick (Custom)  | YES                    |
+| Vendor page Model "Become a Partner"  | components/vendor-page-client  | cta_click           | cta_click           | CtaClick (Custom)  | YES                    |
+| Vendor page Final CTA                 | components/vendor-page-client  | cta_click           | cta_click           | CtaClick (Custom)  | YES                    |
+| Suraksha Play Store Hero Teaser       | components/suraksha-hero-button| app_download_intent | app_download_intent | AppDownloadIntent  | YES                    |
+| Suraksha Play Store Steps Button      | components/cta-steps.tsx       | app_download_intent | app_download_intent | AppDownloadIntent  | YES                    |
+| Blog Card Click                       | components/blog/blog-card.tsx  | select_content      | select_content      | ViewContent        | YES                    |
+| Featured Blog Card Click              | components/blog/featured-card  | select_content      | select_content      | ViewContent        | YES                    |
+| Homepage FAQ Accordion Expand         | components/faq.tsx             | faq_toggle          | faq_toggle          | FaqToggle (Custom) | YES                    |
+| Vendor Page FAQ Accordion Expand      | components/vendor-page-client  | faq_toggle          | faq_toggle          | FaqToggle (Custom) | YES                    |
+| CTA Section Social Links              | components/cta.tsx             | social_link_click   | social_link_click   | SocialLinkClick    | YES                    |
+| Footer Social Links                   | components/footer.tsx          | social_link_click   | social_link_click   | SocialLinkClick    | YES                    |
+| Admin Login Submission                | app/admin/login/page.tsx       | —                   | —                   | —                  | NO (Excluded by design)|
+
+================================================================================
+8. PRACTICAL TESTING & VERIFICATION GUIDE
+================================================================================
+
+8.1 Verifying Google Analytics 4 (GA4)
+1. Open Chrome and go to https://analytics.google.com/.
+2. Select the KavachX GA4 property (Measurement ID: G-NM0FYHXDER).
+3. Click Reports -> Realtime.
+4. In another window, navigate through KavachX (e.g., https://kavachx.io or http://localhost:3000).
+5. Verify active user counter increments and event count reflects interactions.
+6. Click navbar "Contact Us"; verify cta_click appears in Realtime.
+7. Submit contact message; verify generate_lead appears in Realtime.
+
+8.2 Verifying Microsoft Clarity
+1. Open https://clarity.microsoft.com/ and select project ydfm0q7tlk.
+2. Click Recordings -> Filter by date "Today".
+3. Open any active session replay to review cursor movement and page navigation.
+4. Click Heatmaps -> Select URLs (e.g. / or /kairos) to view click density.
+5. Check Dashboard for Dead Clicks and Rage Clicks.
+
+8.3 Verifying Meta Events Manager
+1. Go to https://business.facebook.com/events_manager2 -> Pixel ID 1686673549111473.
+2. Select Test Events tab.
+3. Enter https://kavachx.io under "Test Browser Events" and click Open Website.
+4. Verify PageView, CtaClick, and Lead events stream into the live tester log.
+
+================================================================================
+9. BROWSER-LEVEL DEVTOOLS VERIFICATION
+================================================================================
+
+9.1 Network Tab Filter Strings (Chrome DevTools F12 -> Network -> Preserve Log)
+1. Google Analytics 4:
+   - Filter: collect?v=2
+   - Expect: HTTP POST/GET to https://www.google-analytics.com/g/collect?v=2... with status 204 or 200.
+   - Query String: Look for en=generate_lead, en=cta_click, or en=page_view.
+2. Microsoft Clarity:
+   - Filter: clarity.ms
+   - Expect: Tag script https://www.clarity.ms/tag/ydfm0q7tlk (status 200) and batches to https://*.clarity.ms/collect (status 200).
+3. Meta Pixel:
+   - Filter: facebook.net or tr?id=
+   - Expect: Base script https://connect.facebook.net/en_US/fbevents.js (status 200) and beacon requests https://www.facebook.com/tr/?id=1686673549111473&ev=PageView... (status 200).
+
+9.2 Console JavaScript Verification
+Execute in DevTools Console:
+  console.log("GA4 dataLayer:", window.dataLayer);
+  console.log("GA4 gtag type:", typeof window.gtag);
+  console.log("Meta fbq type:", typeof window.fbq);
+  console.log("Meta Pixel version:", window.fbq?.version);
+  console.log("Meta Pixel loaded:", window.fbq?.loaded);
+  console.log("Clarity type:", typeof window.clarity);
+
+Expected:
+- window.dataLayer is Array
+- typeof window.gtag === "function"
+- typeof window.fbq === "function", window.fbq.loaded === true, version === "2.0"
+- typeof window.clarity === "function"
+
+================================================================================
+10. PRODUCTION VS. LOCAL ENVIRONMENT ANALYSIS
+================================================================================
+
+10.1 Environment Differentiation
+- Local: Loaded from .env.local during npm run dev.
+- Production/Vercel: Environment variables must be added in Vercel Project Settings -> Environment Variables.
+- Build-time inlining: In Next.js, all NEXT_PUBLIC_ variables are compiled directly into client-side JS bundles during npm run build. If a key is updated in Vercel, a FULL REDEPLOYMENT is strictly required.
+
+10.2 Production Verification Checklist
+- [ ] Vercel Dashboard -> Settings -> Environment Variables contains:
+      NEXT_PUBLIC_GA_MEASUREMENT_ID = G-NM0FYHXDER
+      NEXT_PUBLIC_CLARITY_PROJECT_ID = ydfm0q7tlk
+      NEXT_PUBLIC_META_PIXEL_ID = 1686673549111473
+- [ ] Ensure no trailing spaces or misspellings in keys.
+- [ ] Ensure Content Security Policy (CSP) headers do not block google-analytics.com, googletagmanager.com, clarity.ms, or facebook.net.
+
+================================================================================
+11. PRIVACY & DATA INTEGRITY AUDIT
+================================================================================
+
+11.1 Contact Form Payload Audit
+Audited handler in components/cta.tsx:
+  const res = await sendMsgAction(formData);
+  if (res.success) {
+    trackEvent({
+      name: "generate_lead",
+      params: { form_name: "contact_form", status: "success" }
+    });
+  }
+
+Data Transmitted to Analytics:
+- form_name: "contact_form"
+- status: "success"
+
+PII Verification:
+- Visitor Name: NOT TRANSMITTED
+- Visitor Email: NOT TRANSMITTED
+- Visitor Phone Number: NOT TRANSMITTED
+- Message Text: NOT TRANSMITTED
+Finding: ZERO PII is sent to Google, Microsoft, or Meta. The implementation fully complies with PII transmission policies.
+
+11.2 Clarity Input Masking
+By default, Clarity automatically masks all form fields (<input>, <textarea>, <select>). Keystrokes typed into the contact form are never visible in session replays.
+
+11.3 Consent Mechanism Status
+- Current State: No Cookie Consent Banner or CMP currently exists in the repository.
+- Impact: All three analytics scripts execute unconditionally upon initial page load.
+- Regulatory Implication: For deployment targeting EU/UK (GDPR/ePrivacy) or California (CCPA), a consent banner supporting Google Consent Mode v2 and Meta consent state should be implemented before paid ad traffic is directed to the site.
+
+================================================================================
+12. DUPLICATE TRACKING AUDIT
+================================================================================
+
+1. GA4 Page Views: LOW RISK. No manual page_view calls exist. GA4 Enhanced Measurement tracks browser history changes without double-firing.
+2. Meta Pixel Page Views: LOW RISK. Script tag omits fbq('track', 'PageView'). <MetaPixelTracker /> uses lastTrackedUrl ref guard to prevent React Strict Mode duplicate fires.
+3. Microsoft Clarity Initialization: LOW RISK. components/clarity-analytics.tsx uses module-level isInitialized guard to prevent double-mounts.
+4. Form Submission Duplicate Guard: LOW RISK. Submit button is disabled while isPending || form.state.isSubmitting is active; event fires strictly inside if (res.success) block.
+
+================================================================================
+13. GAP ANALYSIS: WHAT IS MISSING
+================================================================================
+
+HIGH PRIORITY:
+1. Cookie Consent Banner & Consent Mode v2:
+   - Gap: No banner exists; scripts fire unconditionally.
+   - Recommendation: Implement consent banner supporting Google Consent Mode v2 and Meta fbq('consent', 'grant').
+2. Untracked Hero Conversion CTAs:
+   - Gap: components/home-client.tsx lines 227 and 253 ("Explore Kavach" and "View KAIROS") lack trackEvent calls.
+   - Recommendation: Attach cta_click tracking to both hero links.
+3. Untracked KAIROS Action Buttons:
+   - Gap: In components/kairos-page-client.tsx:
+     - Line 192: "Secure Your Space Today" calls router.push without tracking.
+     - Line 477: "Request Demo" calls router.push without tracking.
+     - Line 943: "JOIN THE WAITLIST" has no onClick handler.
+   - Recommendation: Add trackEvent("cta_click") to these high-intent buttons.
+4. Meta Conversions API (CAPI) Server-Side Tracking:
+   - Gap: Meta Pixel is 100% browser-based; ad blockers block 25-40% of client calls.
+   - Recommendation: In lib/mail.action.ts, trigger server-side Meta CAPI Lead event upon email dispatch.
+
+MEDIUM PRIORITY:
+5. UTM Parameter Capture & Persistence:
+   - Gap: Does not capture utm_source, utm_medium, utm_campaign query parameters into lead inquiries.
+   - Recommendation: Store UTMs in sessionStorage and append to sendMsgAction email metadata.
+6. Scroll Depth Milestone Tracking:
+   - Gap: Long landing pages (/kairos, /vendor) lack 25%, 50%, 75%, 100% milestone events in GA4.
+   - Recommendation: Enable GA4 Enhanced Measurement scroll tracking or custom observer.
+
+LOW PRIORITY:
+7. Clarity Custom Tags:
+   - Gap: No clarity("set", key, value) tags configured.
+8. Outbound External Vendor Link Tracking:
+   - Gap: External links to partners are not explicitly tracked with an outbound link event.
+
+================================================================================
+14. FINAL EXECUTIVE SUMMARY
+================================================================================
+
+1. Architecture Quality: KavachX features a centralized, type-safe analytics hub in lib/analytics.ts routing to GA4, Meta Pixel, and Microsoft Clarity concurrently.
+2. Current Verified Counts:
+   - 7 Custom Application Events: generate_lead, form_error, cta_click, select_content, app_download_intent, social_link_click, faq_toggle.
+   - 3 Active Analytics Platforms: GA4 (G-NM0FYHXDER), Microsoft Clarity (ydfm0q7tlk), Meta Pixel (1686673549111473).
+3. Core Conversion Actions (Key Events):
+   - Macro Conversion: generate_lead (contact form submission) -> GA4 Primary Key Event, Meta Standard Lead, Clarity generate_lead.
+   - Micro Conversions: cta_click (high-intent buttons) and app_download_intent (Play Store teaser clicks).
+4. Data Privacy & Integrity: Fully zero-PII compliant. No visitor names, emails, phone numbers, or messages are passed to any third-party analytics payload. Clarity automatically masks contact inputs.
+5. Key Future Action Items: Wire up untracked hero and demo buttons, integrate a Cookie Consent Management Platform, and implement Meta Conversions API (CAPI) on the server.
+================================================================================

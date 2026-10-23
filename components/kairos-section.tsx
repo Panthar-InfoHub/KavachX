@@ -6,9 +6,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { TestimonialStrip } from "./testimonial-strip";
+import { trackEvent } from "@/lib/analytics";
+import { usePreBooking } from "@/components/pre-booking-context";
 
 export function KairosSection() {
   const containerRef = useRef<HTMLDivElement>(null);
+  const { openPreBooking } = usePreBooking();
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -30,23 +33,49 @@ export function KairosSection() {
         <p className="text-sm md:text-base text-gray-600 mb-8 max-w-2xl font-medium leading-relaxed">
           Distance may challenge connections, but with the Kavach Kairos for CCTV, you can keep an eye on your loved ones and favorite spots effortlessly. Our technology ensures you stay linked, no matter the miles.
         </p>
-        <Link href="/kairos" className="group inline-flex h-14 w-full sm:w-auto items-center justify-between gap-4 rounded-full bg-black pl-8 pr-2 text-[15px] font-medium text-white transition-all hover:bg-slate-800 active:scale-[0.98]">
-          Check More
-          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white text-black transition-transform group-hover:scale-[1.05]">
-            <ArrowRight className="h-4 w-4 -rotate-45 transition-transform group-hover:rotate-0" />
-          </div>
-        </Link>
+        <div className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
+
+          <Link
+            href="/kairos"
+            onClick={() => trackEvent({
+              name: "cta_click",
+              params: {
+                cta_name: "check_more_kairos",
+                cta_location: "home_kairos_section",
+                destination: "/kairos",
+              },
+            })}
+            className="group inline-flex h-14 w-full sm:w-auto items-center justify-between gap-4 rounded-full bg-black pl-8 pr-2 text-[15px] font-medium text-white transition-all hover:bg-slate-800 active:scale-[0.98]"
+          >
+            Check More
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white text-black transition-transform group-hover:scale-[1.05]">
+              <ArrowRight className="h-4 w-4 -rotate-45 transition-transform group-hover:rotate-0" />
+            </div>
+          </Link>
+        </div>
       </div>
 
       {/* Product Image Stage and Animated Background Text */}
-      <div className="relative w-full max-w-7xl mx-auto h-[350px] md:h-[500px] flex justify-center items-center mt-10">
+      <div className="relative w-full max-w-7xl mx-auto h-[400px] sm:h-[450px] md:h-[500px] flex justify-center items-center mt-6 md:mt-10">
         <motion.div
           style={{ y: backgroundY }}
           className="absolute inset-0 flex justify-center items-center pointer-events-none z-0 px-4"
         >
-          <span className="text-[7vw] md:text-[8vw] font-black text-transparent bg-clip-text bg-linear-to-b from-[#e6e6e6] to-[#ffffff00] leading-none m-0 p-0 text-center translate-y-[-20%] select-none tracking-tight whitespace-nowrap">
+          {/* Desktop View: Single horizontal line */}
+          <span className="hidden md:block text-[7vw] md:text-[8vw] font-black text-transparent bg-clip-text bg-gradient-to-b from-[#e6e6e6] to-[#ffffff00] leading-none m-0 p-0 text-center translate-y-[-20%] select-none tracking-tight whitespace-nowrap">
             Launching Soon
           </span>
+
+          {/* Mobile View: Launching on top, Soon on bottom - perfectly sized for 100% visibility */}
+          <div className="md:hidden flex flex-col justify-between items-center w-full h-full py-2 px-1 select-none">
+            <span className="text-[8vw]  font-black text-transparent bg-clip-text bg-gradient-to-b from-slate-400 via-slate-300/80 to-transparent leading-none tracking-wider uppercase text-center w-full">
+              LAUNCHING
+            </span>
+            <span className="text-[8vw] mb-24 font-black text-transparent bg-clip-text bg-gradient-to-b from-slate-400 via-slate-300/80 to-transparent leading-none tracking-widest uppercase text-center w-full pb-2">
+              SOON
+            </span>
+          </div>
+          
         </motion.div>
 
         {/* The Edge Box Image */}
@@ -55,7 +84,7 @@ export function KairosSection() {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
           viewport={{ once: true, margin: "-100px" }}
-          className="relative z-10 w-full max-w-2xl h-[280px] md:h-[400px] flex flex-col items-center justify-center text-center p-8 drop-shadow-2xl"
+          className="relative z-10 w-full max-w-2xl h-[220px] sm:h-[300px] md:h-[400px] flex flex-col items-center justify-center text-center p-4 md:p-8 drop-shadow-2xl"
         >
           <Image
             src="/images/edgebox.png"

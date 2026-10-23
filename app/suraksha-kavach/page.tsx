@@ -7,10 +7,12 @@ import Image from "next/image";
 import { SchemaMarkup } from "@/components/seo/schema-markup";
 import { Metadata } from "next";
 import { Testimonials } from "@/components/testimonial";
+import { SurakshaHeroButton } from "@/components/suraksha-hero-button";
+import Faq from "@/components/faq";
 
 export const metadata: Metadata = {
   title: "Suraksha Kavach | Safety App with SOS, Crash & Voice Alerts",
-  description: "Suraksha Kavach by Kavach X – India's smartest safety app with offline SOS, crash detection, voice commands & live location sharing. Download now.",
+  description: "Suraksha Kavach by KavachX – India's smartest safety app with offline SOS, crash detection, voice commands & live location sharing. Download now.",
   keywords: [
     "suraksha kavach app",
     "SOS safety app India",
@@ -23,8 +25,17 @@ export const metadata: Metadata = {
   ],
   openGraph: {
     title: "Suraksha Kavach | Safety App with SOS, Crash & Voice Alerts",
-    description: "Suraksha Kavach by Kavach X – India's smartest safety app with offline SOS, crash detection, voice commands & live location sharing. Download now.",
-    url: "/suraksha-kavach",
+    description: "Suraksha Kavach by KavachX – India's smartest safety app with offline SOS, crash detection, voice commands & live location sharing. Download now.",
+    url: "https://kavachx.io/suraksha-kavach",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Suraksha Kavach | Safety App with SOS, Crash & Voice Alerts",
+    description: "Suraksha Kavach by KavachX – India's smartest safety app with offline SOS, crash detection, voice commands & live location sharing. Download now.",
+  },
+  alternates: {
+    canonical: "https://kavachx.io/suraksha-kavach",
   },
 };
 
@@ -49,18 +60,26 @@ export default function SurakshaKavachPage() {
         "mainEntity": [
           {
             "@type": "Question",
-            "name": "What is Suraksha Kavach?",
+            "name": "What is Suraksha Kavach and how does it keep me safe?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Suraksha Kavach is India's smartest safety app by Kavach X, offering comprehensive protection with SOS alerts, crash detection, and real-time location tracking."
+              "text": "Suraksha Kavach is a smart safety app by Kavach X that protects you in emergencies. With one tap, it alerts your trusted contacts, shares your location, and activates safety features like SOS alerts and crash detection. Your personal safety shield is always on and ready."
             }
           },
           {
             "@type": "Question",
-            "name": "Does it work offline?",
+            "name": "Does Suraksha Kavach work without an internet connection?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Yes, Suraksha Kavach includes offline SOS capabilities to ensure your safety even without an internet connection."
+              "text": "Yes. Suraksha Kavach is built with offline functionality so your safety is never dependent on a strong internet signal. Even in low-connectivity or no-network areas, the app can still send alerts and share your location with your emergency contacts — because emergencies don't wait for Wi-Fi."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How does the crash detection feature work?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Suraksha Kavach uses intelligent sensors to automatically detect sudden impact or abnormal movement patterns associated with a road accident. When a crash is detected, the app immediately triggers an SOS alert and shares your real-time location with your pre-set emergency contacts — without you needing to do anything. It acts fast, so help can reach you even if you're unable to respond."
             }
           }
         ]
@@ -81,9 +100,7 @@ export default function SurakshaKavachPage() {
           <p className="text-gray-600 max-w-lg text-sm md:text-[15px] mb-8 leading-relaxed">
             We focus on providing features like drive and crash detection, in-app SOS, and voice commands to enhance your safety.
           </p>
-          <button className="bg-[#00A3FF] hover:bg-[#008bdd] text-white px-8 py-3 rounded-full text-sm font-semibold transition-colors duration-200 shadow-md">
-            Try Kavach for Free
-          </button>
+          <SurakshaHeroButton />
         </div>
 
         {/* Phone Showcase */}
@@ -137,6 +154,7 @@ export default function SurakshaKavachPage() {
         <FeaturesBentoGrid />
         <CtaSteps />
         <Testimonials />
+        <Faq />
       </div>
     </LenisDiv>
   );

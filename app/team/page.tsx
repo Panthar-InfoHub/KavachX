@@ -2,12 +2,12 @@ import { Metadata } from "next";
 import TeamClient from "./team-client";
 
 export const metadata: Metadata = {
-  title: "Our Team | Kavach X",
-  description: "Meet the passionate engineers, designers, and safety advocates building India's most intelligent personal safety platform.",
+  title: "Our Team | KavachX",
+  description: "Meet the passionate engineers, designers, and safety advocates building KavachX's enterprise safety infrastructure and the KAIROS AI edge box.",
   openGraph: {
-    title: "Our Team | Kavach X",
-    description: "Meet the passionate engineers, designers, and safety advocates building India's most intelligent personal safety platform.",
-    url: "/team",
+    title: "Our Team | KavachX",
+    description: "Meet the passionate engineers, designers, and safety advocates building KavachX's enterprise safety infrastructure and the KAIROS AI edge box.",
+    url: "https://kavachx.io/team",
   },
 };
 

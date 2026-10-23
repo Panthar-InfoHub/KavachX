@@ -1,32 +1,80 @@
-"use server"
-import nodemailer from "nodemailer"
-/**
- * Sends a refined, minimalist inquiry notification to the portfolio owner.
- * Aligned with the "Korean Minimalist" & "Soft-Technical" aesthetic.
- */
+"use server";
+
+import { after } from "next/server";
+import connectDB from "@/lib/mongodb";
+import ContactInquiry from "@/models/ContactInquiry";
+import { escapeHtml, getAdminRecipient, getTransporter, sendMailSafe } from "@/lib/mailer";
+
+const SEND_FAILED_MESSAGE = "We couldn't send your message right now. Please try again.";
+
 export const sendMsgAction = async ({
-    data
+    data,
 }: {
     data: {
         name: string;
         email: string;
         phone?: string;
         message?: string;
-    }
+    };
 }) => {
     try {
-        const transporter = nodemailer.createTransport({
-            service: 'gmail',
-            auth: {
-                user: process.env.EMAIL_USER,
-                pass: process.env.EMAIL_PASS,
-            },
-        });
+        const name = data.name?.trim();
+        const email = data.email?.trim().toLowerCase();
+        const phone = data.phone?.trim() || "";
+        const message = data.message?.trim();
 
-        const timestamp = new Date().toLocaleString('en-US', {
-            timeZone: 'Asia/Kolkata',
-            dateStyle: 'medium',
-            timeStyle: 'short'
+        // 1. Strict Server-side validation
+        if (!name) {
+            return { success: false, message: "Please enter your name." };
+        }
+        if (!email) {
+            return { success: false, message: "Please enter your email address." };
+        }
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            return { success: false, message: "Please enter a valid email address." };
+        }
+        if (!message) {
+            return { success: false, message: "Please enter a message." };
+        }
+
+        // 2. Save inquiry to MongoDB database
+        let dbSaved = false;
+        try {
+            await connectDB();
+            await ContactInquiry.create({
+                name,
+                email,
+                phone,
+                message,
+                status: "NEW",
+            });
+            dbSaved = true;
+        } catch (dbError) {
+            console.error("❌ MongoDB Save Error in sendMsgAction:", dbError);
+        }
+
+        // 3. Send Email Notifications via Nodemailer
+        if (!getTransporter()) {
+            console.warn("⚠️ EMAIL_USER or EMAIL_PASS missing in .env! Email dispatch skipped.");
+            // Without email, the inquiry only survives if it was saved to the DB
+            return dbSaved
+                ? { message: "Inquiry sent successfully.", success: true }
+                : { message: SEND_FAILED_MESSAGE, success: false };
+        }
+
+        // Escape every user-supplied value before it goes into email HTML
+        const safe = {
+            name: escapeHtml(name),
+            email: escapeHtml(email),
+            phone: escapeHtml(phone),
+            message: escapeHtml(message),
+        };
+
+        const timestamp = new Date().toLocaleString("en-IN", {
+            timeZone: "Asia/Kolkata",
+            dateStyle: "medium",
+            timeStyle: "short",
         });
 
         const commonStyles = `
@@ -126,22 +174,22 @@ export const sendMsgAction = async ({
                     <div class="body">
                         <div class="field">
                             <span class="label">Name</span>
-                            <div class="value">${data.name}</div>
+                            <div class="value">${safe.name}</div>
                         </div>
                         <div class="field">
                             <span class="label">Email Address</span>
-                            <div class="value"><a href="mailto:${data.email}" style="color: #000; text-decoration: underline;">${data.email}</a></div>
+                            <div class="value"><a href="mailto:${safe.email}" style="color: #000; text-decoration: underline;">${safe.email}</a></div>
                         </div>
-                        ${data.phone ? `
+                        ${safe.phone ? `
                         <div class="field">
                             <span class="label">Phone Number</span>
-                            <div class="value">${data.phone}</div>
+                            <div class="value">${safe.phone}</div>
                         </div>
-                        ` : ''}
+                        ` : ""}
                         <div class="field" style="margin-bottom: 0;">
                             <span class="label">Message</span>
                             <div class="message-box">
-                                ${data.message || 'No message provided.'}
+                                ${safe.message}
                             </div>
                         </div>
                     </div>
@@ -168,7 +216,7 @@ export const sendMsgAction = async ({
                     </div>
                     <div class="body" style="text-align: center;">
                         <div class="value" style="margin-bottom: 32px;">
-                            Hi ${data.name},<br><br>
+                            Hi ${safe.name},<br><br>
                             Thank you for contacting Kavach X. We have received your inquiry and our team is currently reviewing it.
                         </div>
                         <div class="message-box" style="text-align: left; background-color: #000; color: #fff; border: none;">
@@ -188,33 +236,45 @@ export const sendMsgAction = async ({
         </html>
         `;
 
-        // Send Notification to Owner
         const notificationConfig = {
             from: process.env.EMAIL_USER,
-            to: process.env.EMAIL_USER,
-            replyTo: data.email,
-            subject: `New Contact Inquiry: ${data.name}`,
-            html: notificationHtml
+            to: getAdminRecipient(),
+            replyTo: email,
+            subject: `New Contact Inquiry: ${name}`,
+            html: notificationHtml,
         };
 
-        // Send Confirmation to Sender
         const confirmationConfig = {
             from: process.env.EMAIL_USER,
-            to: data.email,
+            to: email,
             subject: `Thank you for contacting Kavach X`,
-            html: confirmationHtml
+            html: confirmationHtml,
         };
 
-        // Run both parallel
-        await Promise.all([
-            transporter.sendMail(notificationConfig),
-            transporter.sendMail(confirmationConfig)
-        ]);
+        if (dbSaved) {
+            // Inquiry is safe in the DB: send both emails after the response so the form stays instant.
+            // after() keeps the Vercel function alive until both sends finish.
+            after(async () => {
+                await Promise.all([
+                    sendMailSafe("[contact] admin notification", notificationConfig),
+                    sendMailSafe("[contact] user confirmation", confirmationConfig),
+                ]);
+            });
+            return { message: "Inquiry sent successfully.", success: true };
+        }
 
-        return { message: "Inquiry sent successfully.", success: true }
+        // DB save failed: the admin email is now the only copy of this inquiry, so wait for it
+        const adminSent = await sendMailSafe("[contact] admin notification (DB save failed)", notificationConfig);
+        if (!adminSent) {
+            return { message: SEND_FAILED_MESSAGE, success: false };
+        }
 
-    } catch (error) {
-        console.error("Error while sending portfolio mail ==> ", error)
-        return { message: "Connection error. Please try again later.", status: "ERROR" }
+        after(async () => {
+            await sendMailSafe("[contact] user confirmation", confirmationConfig);
+        });
+        return { message: "Inquiry sent successfully.", success: true };
+    } catch (error: any) {
+        console.error("Error while sending contact inquiry mail ==> ", error);
+        return { message: error?.message || "Connection error. Please try again later.", success: false };
     }
-}
+};

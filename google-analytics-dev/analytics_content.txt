@@ -1,0 +1,48 @@
+Visitor
+   │
+   ▼
+Landing page
+   │
+   ├── cta_click
+   │
+   ▼
+Explore content
+   │
+   ├── blog_view
+   ├── vendor_view
+   └── vendor_search
+   │
+   ▼
+Intent
+   │
+   ├── contact_form_start
+   └── demo_request
+   │
+   ▼
+Conversion
+   │
+   └── contact_form_submit
+
+
+##NOW IMPLEMENTING MICROSOFT CLARITY
+
+                    KAVACHX
+                       │
+          ┌────────────┴────────────┐
+          │                         │
+          ▼                         ▼
+       GA4                       Clarity
+          │                         │
+          │                         ├── Session recordings
+          │                         ├── Heatmaps
+          │                         ├── Rage/dead clicks
+          │                         └── UX behavior
+          │
+          ├── Users
+          ├── Sessions
+          ├── Traffic
+          ├── Events
+          └── Conversions
+                       │
+                       ▼
+                Better decisions

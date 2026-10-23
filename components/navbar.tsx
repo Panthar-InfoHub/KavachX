@@ -7,6 +7,9 @@ import { NavbarConfig } from "@/types/navbar";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { trackEvent } from "@/lib/analytics";
+import { usePreBooking } from "@/components/pre-booking-context";
 
 const NAVBAR_CONFIG: NavbarConfig = {
     logo: <Image src="/images/logo.png" alt="KavachX Logo" width={140} height={40} className="h-8 w-auto object-contain" />,
@@ -17,31 +20,27 @@ const NAVBAR_CONFIG: NavbarConfig = {
     menu: [
         {
             label: "Suraksha Kavach",
-            href: "suraksha-kavach"
-            //   dropdown: [
-            //     {
-            //       heading: "Account",
-            //       links: [
-            //         { text: "Profile", href: "#" },
-            //         { text: "Security", href: "#" },
-            //       ],
-            //     },
-            //     {
-            //       heading: "Product",
-            //       links: [
-            //         { text: "Dashboard", href: "#" },
-            //         { text: "Templates", href: "#" },
-            //       ],
-            //     },
-            //   ],
+            href: "/suraksha-kavach"
         },
         {
             label: "Kairos",
-            href: "kairos"
+            href: "/kairos"
+        },
+        {
+            label: "Blogs",
+            href: "/blogs"
         },
         {
             label: "Team",
-            href: "team"
+            href: "/team"
+        },
+        {
+            label: "Become a Vendor",
+            href: "/vendor"
+        },
+        {
+            label: "Achievements",
+            href: "/achievements"
         },
         {
             label: "Resources",
@@ -50,7 +49,7 @@ const NAVBAR_CONFIG: NavbarConfig = {
                     heading: "Policy",
                     links: [
                         { text: "Privacy Policy", href: "#" },
-                        { text: "Help Center", href: "#" },
+                        // { text: "Help Center", href: "#" },
                     ],
                 },
             ],
@@ -60,12 +59,18 @@ const NAVBAR_CONFIG: NavbarConfig = {
 
 /* =========================
    🔥 NAVBAR COMPONENT
-========================= */
+======================== */
 
 type AnimationDirection = "right-to-left" | "left-to-right";
 
 export const Navbar: React.FC = () => {
+    const pathname = usePathname();
+    const { openPreBooking } = usePreBooking();
     const config = NAVBAR_CONFIG;
+
+    if (pathname?.startsWith("/admin")) {
+        return null;
+    }
 
     const [activeMenuItemIndex, setActiveMenuItemIndex] = useState<number | null>(
         null
@@ -80,6 +85,52 @@ export const Navbar: React.FC = () => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [mobileActiveDropdownIndex, setMobileActiveDropdownIndex] =
         useState<number | null>(null);
+
+    const [isNavVisible, setIsNavVisible] = useState(true);
+    const lastScrollY = useRef(0);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            const currentScrollY = window.scrollY;
+
+            // Always keep visible if mobile menu or dropdown is open
+            if (isMobileMenuOpen || isDropdownOpen) {
+                setIsNavVisible(true);
+                return;
+            }
+
+            // At top of page -> always show navbar
+            if (currentScrollY <= 20) {
+                setIsNavVisible(true);
+                lastScrollY.current = currentScrollY;
+                return;
+            }
+
+            // Scroll direction check:
+            // If scrolling down by more than 5px -> hide navbar
+            // If scrolling up by more than 5px -> show navbar
+            const diff = currentScrollY - lastScrollY.current;
+            if (Math.abs(diff) > 5) {
+                if (diff > 0) {
+                    setIsNavVisible(false);
+                } else {
+                    setIsNavVisible(true);
+                }
+                lastScrollY.current = currentScrollY;
+            }
+        };
+
+        window.addEventListener("scroll", handleScroll, { passive: true });
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, [isMobileMenuOpen, isDropdownOpen]);
+
+    // Reset all menu states when route changes
+    useEffect(() => {
+        setIsMobileMenuOpen(false);
+        setIsDropdownOpen(false);
+        setActiveMenuItemIndex(null);
+        setMobileActiveDropdownIndex(null);
+    }, [pathname]);
 
     useEffect(() => {
         if (
@@ -151,7 +202,12 @@ export const Navbar: React.FC = () => {
     };
 
     return (
-        <motion.nav className="relative w-full z-50 font-syne bg-black border-none text-white">
+        <motion.nav
+            initial={{ y: 0 }}
+            animate={{ y: isNavVisible ? "0%" : "-100%" }}
+            transition={{ duration: 0.35, ease: "easeInOut" }}
+            className="fixed top-0 left-0 right-0 w-full z-[100] font-syne bg-black/90 backdrop-blur-md border-b border-white/10 text-white"
+        >
             <div className="flex items-center justify-between h-16 max-w-7xl  mx-auto px-4">
                 {/* Logo */}
                 <div className="relative max-w-32 h-full w-full flex justify-center items-center">
@@ -162,7 +218,7 @@ export const Navbar: React.FC = () => {
 
                 {/* Desktop Menu */}
                 <ul
-                    className="hidden md:flex items-center gap-8 mx-10"
+                    className="hidden xl:flex items-center gap-6 xl:gap-8 mx-4 xl:mx-10 shrink-0"
                     onMouseLeave={closeDropdown}
                 >
                     {config.menu.map((item, index) => (
@@ -173,7 +229,7 @@ export const Navbar: React.FC = () => {
                         >
                             <Link
                                 href={item.href || "#"}
-                                className="text-sm text-white/80 hover:text-white transition"
+                                className="text-sm text-white/80 hover:text-white transition whitespace-nowrap"
                             >
                                 {item.label}
                             </Link>
@@ -189,33 +245,30 @@ export const Navbar: React.FC = () => {
                 </ul>
 
                 {/* CTA */}
-                <div className="hidden md:flex items-center gap-4">
+                <div className="hidden xl:flex items-center gap-4 shrink-0">
                     {
                         config.cta.one && (
-                            <a
+                            <Link
                                 href={config.cta.one?.href}
-                                className={cn("text-sm text-white/70  transition", config.cta.one?.variant === "primary" ? "bg-white text-black px-4 py-1.5 rounded-full font-medium" : "")}
+                                onClick={() => trackEvent({
+                                    name: "cta_click",
+                                    params: {
+                                        cta_name: "contact_us",
+                                        cta_location: "navbar_desktop",
+                                        destination: config.cta.one?.href || "/contact",
+                                    },
+                                })}
+                                className={cn("text-sm text-white/70 transition whitespace-nowrap", config.cta.one?.variant === "primary" ? "bg-white text-black px-4 py-1.5 rounded-full font-medium whitespace-nowrap shrink-0" : "")}
                             >
                                 {config.cta.one?.text}
-                            </a>
-                        )
-                    }
-                    {
-                        config.cta.two && (
-                            <a
-                                href={config.cta.two?.href}
-                                className={cn("text-sm text-white/70  transition", config.cta.two?.variant === "primary" ? "bg-white text-black px-4 py-1.5 rounded-full font-medium" : "")}
-
-                            >
-                                {config.cta.two?.text}
-                            </a>
+                            </Link>
                         )
                     }
                 </div>
 
                 {/* Mobile Toggle */}
                 <button
-                    className="md:hidden text-2xl z-[70] relative w-10 h-10 flex items-center justify-center text-white"
+                    className="xl:hidden text-2xl z-[70] relative w-10 h-10 flex items-center justify-center text-white"
                     onClick={toggleMobileMenu}
                     aria-label="Toggle Menu"
                 >
@@ -226,7 +279,7 @@ export const Navbar: React.FC = () => {
             {/* Mobile Menu Overlay */}
             <AnimatePresence>
                 {isMobileMenuOpen && (
-                    <div className="fixed inset-0 z-[120] md:hidden">
+                    <div className="fixed inset-0 z-[120] xl:hidden">
                         {/* Backdrop Blur */}
                         <motion.div
                             initial={{ opacity: 0 }}
@@ -259,15 +312,19 @@ export const Navbar: React.FC = () => {
                                             className="flex items-center justify-between group cursor-pointer"
                                             onClick={() => item.dropdown && toggleMobileDropdown(index)}
                                         >
-                                            <a
+                                            <Link
                                                 href={item.href || "#"}
                                                 className="text-2xl font-syne font-bold text-white hover:text-white/70 transition"
                                                 onClick={(e) => {
-                                                    if (item.dropdown) e.preventDefault();
+                                                    if (item.dropdown) {
+                                                        e.preventDefault();
+                                                    } else {
+                                                        setIsMobileMenuOpen(false);
+                                                    }
                                                 }}
                                             >
                                                 {item.label}
-                                            </a>
+                                            </Link>
                                             {item.dropdown && (
                                                 <span className={cn("text-xl transition-transform", mobileActiveDropdownIndex === index ? "rotate-180" : "")}>
                                                     ↓
@@ -305,12 +362,20 @@ export const Navbar: React.FC = () => {
 
                             <div className="mt-auto pt-8 border-t border-white/10 mb-4">
                                 {config.cta.one && (
-                                    <a
+                                    <Link
                                         href={config.cta.one.href}
+                                        onClick={() => trackEvent({
+                                            name: "cta_click",
+                                            params: {
+                                                cta_name: "contact_us",
+                                                cta_location: "navbar_mobile",
+                                                destination: config.cta.one?.href || "/contact",
+                                            },
+                                        })}
                                         className="block w-full text-center bg-white text-black py-4 rounded-full font-bold uppercase tracking-widest text-sm"
                                     >
                                         {config.cta.one.text}
-                                    </a>
+                                    </Link>
                                 )}
                             </div>
                         </motion.div>
@@ -322,7 +387,7 @@ export const Navbar: React.FC = () => {
             <AnimatePresence>
                 {isDropdownOpen && activeMenuItemIndex !== null && (
                     <motion.div
-                        className="hidden md:block absolute top-16 left-0 right-0 bg-black/95 border-t border-white/10"
+                        className="hidden xl:block absolute top-16 left-0 right-0 bg-black/95 border-t border-white/10"
                         variants={containerVariants}
                         initial="closed"
                         animate="open"
