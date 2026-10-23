@@ -1,7 +1,8 @@
 "use server";
 
-import nodemailer from "nodemailer";
+import { after } from "next/server";
 import connectDB from "@/lib/mongodb";
+import { escapeHtml, getAdminRecipient, getTransporter, sendMailSafe } from "@/lib/mailer";
 import PreBooking from "@/models/PreBooking";
 
 export interface PreBookingFormData {
@@ -62,15 +63,19 @@ export async function submitPreBookingAction(data: PreBookingFormData) {
     });
 
     // 3. Send Email Notifications if email credentials exist
-    if (process.env.EMAIL_USER && process.env.EMAIL_PASS) {
+    if (getTransporter()) {
       try {
-        const transporter = nodemailer.createTransport({
-          service: "gmail",
-          auth: {
-            user: process.env.EMAIL_USER,
-            pass: process.env.EMAIL_PASS,
-          },
-        });
+        // Escape every user-supplied value before it goes into email HTML
+        const safe = {
+          fullName: escapeHtml(fullName),
+          phone: escapeHtml(phone),
+          email: escapeHtml(email),
+          propertyType: escapeHtml(propertyType),
+          cameraCount: escapeHtml(cameraCount),
+          detectionFeatures: detectionFeatures.map((f) => escapeHtml(f)),
+          primaryInterest: escapeHtml(primaryInterest),
+          deploymentTimeline: escapeHtml(deploymentTimeline),
+        };
 
         const timestamp = new Date().toLocaleString("en-IN", {
           timeZone: "Asia/Kolkata",
@@ -187,37 +192,37 @@ export async function submitPreBookingAction(data: PreBookingFormData) {
                   <div class="grid">
                     <div class="item">
                       <div class="label">Full Name</div>
-                      <div class="value">${fullName}</div>
+                      <div class="value">${safe.fullName}</div>
                     </div>
                     <div class="item">
                       <div class="label">Phone / WhatsApp</div>
-                      <div class="value"><a href="tel:${phone}" style="color: #60a5fa; text-decoration: none;">${phone}</a></div>
+                      <div class="value"><a href="tel:${safe.phone}" style="color: #60a5fa; text-decoration: none;">${safe.phone}</a></div>
                     </div>
                     <div class="item">
                       <div class="label">Email Address</div>
-                      <div class="value"><a href="mailto:${email}" style="color: #60a5fa; text-decoration: none;">${email}</a></div>
+                      <div class="value"><a href="mailto:${safe.email}" style="color: #60a5fa; text-decoration: none;">${safe.email}</a></div>
                     </div>
                     <div class="item">
                       <div class="label">Property / Business Type</div>
-                      <div class="value">${propertyType}</div>
+                      <div class="value">${safe.propertyType}</div>
                     </div>
                     <div class="item">
                       <div class="label">Currently Installed Cameras</div>
-                      <div class="value">${cameraCount}</div>
+                      <div class="value">${safe.cameraCount}</div>
                     </div>
                     <div class="item">
                       <div class="label">Required AI Detections</div>
                       <div class="value">
-                        ${detectionFeatures.map((f) => `<span class="tag">${f}</span>`).join("")}
+                        ${safe.detectionFeatures.map((f) => `<span class="tag">${f}</span>`).join("")}
                       </div>
                     </div>
                     <div class="item">
                       <div class="label">Primary Focus / Interest</div>
-                      <div class="value">${primaryInterest}</div>
+                      <div class="value">${safe.primaryInterest}</div>
                     </div>
                     <div class="item">
                       <div class="label">Expected Deployment Timeline</div>
-                      <div class="value">${deploymentTimeline}</div>
+                      <div class="value">${safe.deploymentTimeline}</div>
                     </div>
                   </div>
                 </div>
@@ -246,26 +251,26 @@ export async function submitPreBookingAction(data: PreBookingFormData) {
                 <div class="body" style="text-align: center;">
                   <h2 style="font-size: 22px; color: #ffffff; margin-bottom: 12px;">Thank you for pre-booking KavachX!</h2>
                   <p style="font-size: 15px; color: #a1a1aa; line-height: 1.6; margin-bottom: 24px;">
-                    Hi <strong>${fullName}</strong>,<br>
+                    Hi <strong>${safe.fullName}</strong>,<br>
                     We have successfully received your pre-booking request. Transform your existing CCTV cameras into an AI-surveillance security system — without replacing your cameras.
                   </p>
                   
                   <div style="background-color: #09090b; border: 1px solid #27272a; border-radius: 8px; padding: 20px; text-align: left; margin-bottom: 24px;">
                     <div style="font-size: 13px; font-weight: 700; color: #ffffff; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px;">Summary of your request</div>
                     <div style="font-size: 14px; color: #d4d4d8; line-height: 1.8;">
-                      • <strong>Property Type:</strong> ${propertyType}<br>
-                      • <strong>Cameras:</strong> ${cameraCount}<br>
-                      • <strong>Timeline:</strong> ${deploymentTimeline}<br>
-                      • <strong>Detections Selected:</strong> ${detectionFeatures.join(", ")}
+                      • <strong>Property Type:</strong> ${safe.propertyType}<br>
+                      • <strong>Cameras:</strong> ${safe.cameraCount}<br>
+                      • <strong>Timeline:</strong> ${safe.deploymentTimeline}<br>
+                      • <strong>Detections Selected:</strong> ${safe.detectionFeatures.join(", ")}
                     </div>
                   </div>
 
                   <div style="background-color: #18181b; border: 1px solid #3f3f46; border-radius: 8px; padding: 16px; color: #e4e4e7; font-size: 14px;">
-                    ⚡ <strong>Next Steps:</strong> Our security solutions team will contact you shortly via <strong>${phone}</strong> or <strong>${email}</strong> to assist with onboarding and custom deployment.
+                    ⚡ <strong>Next Steps:</strong> Our security solutions team will contact you shortly via <strong>${safe.phone}</strong> or <strong>${safe.email}</strong> to assist with onboarding and custom deployment.
                   </div>
                 </div>
                 <div class="footer">
-                  KavachX AI Surveillance System • <a href="https://kavachx.com" style="color: #71717a;">www.kavachx.com</a>
+                  KavachX AI Surveillance System • <a href="https://kavachx.io" style="color: #71717a;">www.kavachx.io</a>
                 </div>
               </div>
             </div>
@@ -273,28 +278,27 @@ export async function submitPreBookingAction(data: PreBookingFormData) {
           </html>
         `;
 
-        const adminRecipient = process.env.ADMIN_EMAIL || "connect@kavachx.io";
-
-        // Dispatch email notifications asynchronously in background so form response is instantaneous
-        Promise.allSettled([
-          transporter.sendMail({
-            from: process.env.EMAIL_USER,
-            to: adminRecipient,
-            replyTo: email,
-            subject: `New Pre-Booking Request from ${fullName}`,
-            html: adminEmailHtml,
-          }),
-          transporter.sendMail({
-            from: process.env.EMAIL_USER,
-            to: email,
-            subject: `Pre-Booking Received - KavachX AI Surveillance`,
-            html: customerEmailHtml,
-          }),
-        ]).catch((mailError) => {
-          console.error("❌ Nodemailer async error in pre-booking action:", mailError);
+        // Send after the response is returned so the form stays instant.
+        // after() keeps the Vercel function alive until both sends finish.
+        after(async () => {
+          await Promise.all([
+            sendMailSafe("[pre-booking] admin notification", {
+              from: process.env.EMAIL_USER,
+              to: getAdminRecipient(),
+              replyTo: email,
+              subject: `New Pre-Booking Request from ${fullName}`,
+              html: adminEmailHtml,
+            }),
+            sendMailSafe("[pre-booking] customer confirmation", {
+              from: process.env.EMAIL_USER,
+              to: email,
+              subject: `Pre-Booking Received - KavachX AI Surveillance`,
+              html: customerEmailHtml,
+            }),
+          ]);
         });
       } catch (mailError) {
-        console.error("❌ Nodemailer error in pre-booking action:", mailError);
+        console.error("❌ Failed to schedule pre-booking emails:", mailError);
         // We still return success since the database record was saved
       }
     } else {

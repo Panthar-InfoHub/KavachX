@@ -39,7 +39,7 @@ export default function VendorProgramPage() {
         "@type": "WebPage",
         "name": "Vendor Partner Program | Kavach X",
         "description": "Join the Kavach X Vendor Partner Network. Distribute state-of-the-art AI security solutions, build a recurring revenue opportunity with KAIROS.",
-        "url": "https://kavachx.com/vendor",
+        "url": "https://kavachx.io/vendor",
         "publisher": {
           "@type": "Organization",
           "name": "Kavach X"

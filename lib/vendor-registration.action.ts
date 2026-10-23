@@ -1,7 +1,8 @@
 "use server";
 
-import nodemailer from "nodemailer";
+import { after } from "next/server";
 import connectDB from "@/lib/mongodb";
+import { escapeHtml, getAdminRecipient, getTransporter, sendMailSafe } from "@/lib/mailer";
 import VendorRegistration from "@/models/VendorRegistration";
 
 export interface VendorFormData {
@@ -91,15 +92,26 @@ export async function submitVendorRegistrationAction(data: VendorFormData) {
     });
 
     // 3. Send Email Notifications
-    if (process.env.EMAIL_USER && process.env.EMAIL_PASS) {
+    if (getTransporter()) {
       try {
-        const transporter = nodemailer.createTransport({
-          service: "gmail",
-          auth: {
-            user: process.env.EMAIL_USER,
-            pass: process.env.EMAIL_PASS,
-          },
-        });
+        // Escape every user-supplied value before it goes into email HTML
+        const safe = {
+          contactPersonName: escapeHtml(contactPersonName),
+          designation: escapeHtml(designation),
+          companyName: escapeHtml(companyName),
+          phone: escapeHtml(phone),
+          email: escapeHtml(email),
+          businessType: escapeHtml(businessType),
+          city: escapeHtml(city),
+          state: escapeHtml(state),
+          districts: escapeHtml(districts),
+          productsDistributed: productsDistributed.map((p) => escapeHtml(p)),
+          primaryCustomers: primaryCustomers.map((c) => escapeHtml(c)),
+          monthlyCustomers: escapeHtml(monthlyCustomers),
+          partnershipType: escapeHtml(partnershipType),
+          interestedSolutions: interestedSolutions.map((s) => escapeHtml(s)),
+          businessOverview: escapeHtml(businessOverview),
+        };
 
         const timestamp = new Date().toLocaleString("en-IN", {
           timeZone: "Asia/Kolkata",
@@ -216,51 +228,51 @@ export async function submitVendorRegistrationAction(data: VendorFormData) {
                   <div class="grid">
                     <div class="item">
                       <div class="label">Contact Person & Designation</div>
-                      <div class="value">${contactPersonName} (${designation})</div>
+                      <div class="value">${safe.contactPersonName} (${safe.designation})</div>
                     </div>
                     <div class="item">
                       <div class="label">Company / Business Name</div>
-                      <div class="value">${companyName}</div>
+                      <div class="value">${safe.companyName}</div>
                     </div>
                     <div class="item">
                       <div class="label">Contact Number</div>
-                      <div class="value"><a href="tel:${phone}" style="color: #60a5fa; text-decoration: none;">${phone}</a></div>
+                      <div class="value"><a href="tel:${safe.phone}" style="color: #60a5fa; text-decoration: none;">${safe.phone}</a></div>
                     </div>
                     <div class="item">
                       <div class="label">Business Email</div>
-                      <div class="value"><a href="mailto:${email}" style="color: #60a5fa; text-decoration: none;">${email}</a></div>
+                      <div class="value"><a href="mailto:${safe.email}" style="color: #60a5fa; text-decoration: none;">${safe.email}</a></div>
                     </div>
                     <div class="item">
                       <div class="label">Business Type</div>
-                      <div class="value">${businessType}</div>
+                      <div class="value">${safe.businessType}</div>
                     </div>
                     <div class="item">
                       <div class="label">Operating Location</div>
-                      <div class="value">${city}, ${state} ${districts ? `(${districts})` : ""}</div>
+                      <div class="value">${safe.city}, ${safe.state} ${safe.districts ? `(${safe.districts})` : ""}</div>
                     </div>
                     <div class="item">
                       <div class="label">Products Currently Distributed</div>
-                      <div class="value">${productsDistributed.map((p) => `<span class="tag">${p}</span>`).join("")}</div>
+                      <div class="value">${safe.productsDistributed.map((p) => `<span class="tag">${p}</span>`).join("")}</div>
                     </div>
                     <div class="item">
                       <div class="label">Primary Customer Segments</div>
-                      <div class="value">${primaryCustomers.map((c) => `<span class="tag">${c}</span>`).join("")}</div>
+                      <div class="value">${safe.primaryCustomers.map((c) => `<span class="tag">${c}</span>`).join("")}</div>
                     </div>
                     <div class="item">
                       <div class="label">Monthly Customers Served</div>
-                      <div class="value">${monthlyCustomers}</div>
+                      <div class="value">${safe.monthlyCustomers}</div>
                     </div>
                     <div class="item">
                       <div class="label">Interested Partnership Type</div>
-                      <div class="value">${partnershipType}</div>
+                      <div class="value">${safe.partnershipType}</div>
                     </div>
                     <div class="item">
                       <div class="label">Interested KavachX Solutions</div>
-                      <div class="value">${interestedSolutions.map((s) => `<span class="tag">${s}</span>`).join("")}</div>
+                      <div class="value">${safe.interestedSolutions.map((s) => `<span class="tag">${s}</span>`).join("")}</div>
                     </div>
                     <div class="item">
                       <div class="label">Business & Interest Overview</div>
-                      <div class="value" style="white-space: pre-wrap; font-size: 14px; color: #d4d4d8;">${businessOverview}</div>
+                      <div class="value" style="white-space: pre-wrap; font-size: 14px; color: #d4d4d8;">${safe.businessOverview}</div>
                     </div>
                   </div>
                 </div>
@@ -289,26 +301,26 @@ export async function submitVendorRegistrationAction(data: VendorFormData) {
                 <div class="body" style="text-align: center;">
                   <h2 style="font-size: 22px; color: #ffffff; margin-bottom: 12px;">Thank you for registering with KavachX!</h2>
                   <p style="font-size: 15px; color: #a1a1aa; line-height: 1.6; margin-bottom: 24px;">
-                    Hi <strong>${contactPersonName}</strong>,<br>
-                    We have successfully received your KavachX Vendor & Channel Partner Registration for <strong>${companyName}</strong>.
+                    Hi <strong>${safe.contactPersonName}</strong>,<br>
+                    We have successfully received your KavachX Vendor & Channel Partner Registration for <strong>${safe.companyName}</strong>.
                   </p>
                   
                   <div style="background-color: #09090b; border: 1px solid #27272a; border-radius: 8px; padding: 20px; text-align: left; margin-bottom: 24px;">
                     <div style="font-size: 13px; font-weight: 700; color: #ffffff; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px;">Registration Summary</div>
                     <div style="font-size: 14px; color: #d4d4d8; line-height: 1.8;">
-                      • <strong>Company:</strong> ${companyName}<br>
-                      • <strong>Location:</strong> ${city}, ${state}<br>
-                      • <strong>Partnership Type:</strong> ${partnershipType}<br>
-                      • <strong>Solutions Interested:</strong> ${interestedSolutions.join(", ")}
+                      • <strong>Company:</strong> ${safe.companyName}<br>
+                      • <strong>Location:</strong> ${safe.city}, ${safe.state}<br>
+                      • <strong>Partnership Type:</strong> ${safe.partnershipType}<br>
+                      • <strong>Solutions Interested:</strong> ${safe.interestedSolutions.join(", ")}
                     </div>
                   </div>
 
                   <div style="background-color: #18181b; border: 1px solid #3f3f46; border-radius: 8px; padding: 16px; color: #e4e4e7; font-size: 14px;">
-                    🤝 <strong>Next Steps:</strong> Our Partner Relations team will review your application and contact you at <strong>${phone}</strong> / <strong>${email}</strong> regarding channel opportunities and onboarding.
+                    🤝 <strong>Next Steps:</strong> Our Partner Relations team will review your application and contact you at <strong>${safe.phone}</strong> / <strong>${safe.email}</strong> regarding channel opportunities and onboarding.
                   </div>
                 </div>
                 <div class="footer">
-                  KavachX AI Surveillance Network • <a href="https://kavachx.com" style="color: #71717a;">www.kavachx.com</a>
+                  KavachX AI Surveillance Network • <a href="https://kavachx.io" style="color: #71717a;">www.kavachx.io</a>
                 </div>
               </div>
             </div>
@@ -316,28 +328,28 @@ export async function submitVendorRegistrationAction(data: VendorFormData) {
           </html>
         `;
 
-        const adminRecipient = process.env.ADMIN_EMAIL || "connect@kavachx.io";
-
-        // Dispatch email notifications asynchronously in background so form response is instantaneous
-        Promise.allSettled([
-          transporter.sendMail({
-            from: process.env.EMAIL_USER,
-            to: adminRecipient,
-            replyTo: email,
-            subject: `🤝 New Vendor Partner Registration: ${companyName} (${contactPersonName})`,
-            html: adminEmailHtml,
-          }),
-          transporter.sendMail({
-            from: process.env.EMAIL_USER,
-            to: email,
-            subject: `KavachX Vendor Partner Application Received - ${companyName}`,
-            html: vendorEmailHtml,
-          }),
-        ]).catch((mailError) => {
-          console.error("❌ Nodemailer async error in vendor registration action:", mailError);
+        // Send after the response is returned so the form stays instant.
+        // after() keeps the Vercel function alive until both sends finish.
+        after(async () => {
+          await Promise.all([
+            sendMailSafe("[vendor] admin notification", {
+              from: process.env.EMAIL_USER,
+              to: getAdminRecipient(),
+              replyTo: email,
+              subject: `🤝 New Vendor Partner Registration: ${companyName} (${contactPersonName})`,
+              html: adminEmailHtml,
+            }),
+            sendMailSafe("[vendor] vendor confirmation", {
+              from: process.env.EMAIL_USER,
+              to: email,
+              subject: `KavachX Vendor Partner Application Received - ${companyName}`,
+              html: vendorEmailHtml,
+            }),
+          ]);
         });
       } catch (mailError) {
-        console.error("❌ Nodemailer error in vendor registration action:", mailError);
+        console.error("❌ Failed to schedule vendor registration emails:", mailError);
+        // We still return success since the database record was saved
       }
     } else {
       console.warn(

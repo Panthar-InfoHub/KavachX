@@ -6,15 +6,16 @@ import { Marquee } from "@/components/ui/marquee";
 import FounderVision from "@/components/founder-vision";
 
 const teamMembers = [
-    {
-        image: "/team/core_team/ayano.png",
-        name: "Gagan",
-        role: "Tech Lead",
-    },
+  
     {
         image: "/team/core_team/Pulkit.webp",
         name: "Pulkit",
         role: "Full Stack Developer",
+    },
+    {
+        image: "/team/core_team/ayano.png",
+        name: "Gagan",
+        role: "Tech Lead",
     },
     {
         image: "/team/core_team/Sharad.webp",
